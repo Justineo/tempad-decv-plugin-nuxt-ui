@@ -17,6 +17,7 @@ import { Carousel } from './carousel'
 import { Checkbox } from './checkbox'
 import { Chip } from './chip'
 import { Collapsible } from './collapsible'
+import { ColorPicker } from './color-picker'
 import { CommandPalette } from './command-palette'
 import { Drawer } from './drawer'
 import { DropdownMenu } from './dropdown-menu'
@@ -68,6 +69,7 @@ const componentMap: Record<string, RenderFn> = {
   Checkbox,
   Chip,
   Collapsible,
+  ColorPicker,
   CommandPalette,
   Drawer,
   DropdownMenu,
