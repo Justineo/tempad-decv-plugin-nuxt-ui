@@ -73,7 +73,11 @@ export function Toast(component: DesignComponent<ToastProperties>) {
         name: BUTTON_NAMES,
       }) || []
     : []
-  const actions = actionButtons.map((button) => renderButtonItem(button))
+  const actions = actionButtons.map((button) =>
+    renderButtonItem(button, {
+      size: 'xs',
+    }),
+  )
 
   return h(
     'UToast',

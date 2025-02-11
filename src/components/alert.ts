@@ -72,7 +72,11 @@ export function Alert(component: DesignComponent<AlertProperties>) {
         name: BUTTON_NAMES,
       }) || []
     : []
-  const actions = actionButtons.map((button) => renderButtonItem(button))
+  const actions = actionButtons.map((button) =>
+    renderButtonItem(button, {
+      size: 'xs',
+    }),
+  )
 
   return h(
     'UAlert',
