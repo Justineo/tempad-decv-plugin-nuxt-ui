@@ -35,7 +35,7 @@ import { PinInput } from './pin-input'
 import { Popover } from './popover'
 import { Progress } from './progress'
 import { RadioGroup } from './radio-group'
-import { Select } from './select'
+import { Select, SELECT_NAMES } from './select'
 import { SelectMenu } from './select-menu'
 import { Separator } from './separator'
 import { Skeleton } from './skeleton'
@@ -87,7 +87,7 @@ const componentMap: Record<string, RenderFn> = {
   Popover,
   Progress,
   RadioGroup,
-  Select,
+  ...mapComponentNames(SELECT_NAMES, Select),
   SelectMenu,
   Separator,
   Skeleton,
