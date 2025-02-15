@@ -14,13 +14,11 @@ export function AvatarGroup(component: DesignComponent<AvatarGroupProperties>) {
 
   const { size } = cleanPropNames(properties)
 
-  const children = findChildren<DesignComponent<AvatarProperties>>(
-    component,
-    (child) =>
-      child.type === 'INSTANCE' &&
-      child.name === 'Avatar' &&
-      child.visible === true,
-  )
+  const children = findChildren<DesignComponent<AvatarProperties>>(component, {
+    type: 'INSTANCE',
+    name: 'Avatar',
+    visible: true,
+  })
 
   const avatars = children.map((child) => Avatar(child))
 

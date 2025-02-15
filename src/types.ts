@@ -57,6 +57,7 @@ import type {
   ToastProps,
   TooltipProps,
 } from '@nuxt/ui'
+import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
 
 type TrimEmoji<S extends string> = S extends `${infer _Emoji} ${infer Name}`
   ? Name
@@ -80,15 +81,15 @@ export type CleanPropName<
     ? Extract<M[K], string>
     : LowerFirst<Camelize<TrimEmoji<K & string>>>]: T[K]
 }
-
 interface ButtonGroupProps {
   size?: 'md' | 'xs' | 'sm' | 'lg' | 'xl'
   orientation?: 'vertical' | 'horizontal'
 }
-
 interface IconProps {
   name: string
 }
+
+export type RenderFn = (component: DesignComponent<any>) => DevComponent<any>
 
 export interface ComponentPropsMap {
   UAccordion: AccordionProps<AccordionItem>

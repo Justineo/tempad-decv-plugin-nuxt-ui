@@ -45,23 +45,31 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
     items.push(
       ...links.map((link) => ({
         label:
-          findChild<TextNode>(link, { type: 'TEXT', name: 'Label' })
-            ?.characters || undefined,
+          findChild<TextNode>(link, {
+            type: 'TEXT',
+            name: 'Label',
+            visible: true,
+          })?.characters || undefined,
       })),
     )
   } else {
     const linkFrames = findChildren<FrameNode>(component, {
       name: /Link \d+/,
+      visible: true,
     })
     items.push(
       ...linkFrames.map((linkFrame, index) => {
         const link = findChild<DesignComponent<LinkProperties>>(linkFrame, {
           type: 'INSTANCE',
           name: 'Link',
+          visible: true,
         })
         const label = link
-          ? findChild<TextNode>(link, { type: 'TEXT', name: 'Label' })
-              ?.characters
+          ? findChild<TextNode>(link, {
+              type: 'TEXT',
+              name: 'Label',
+              visible: true,
+            })?.characters
           : undefined
 
         return {

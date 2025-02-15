@@ -27,6 +27,7 @@ export function Avatar(
 
   const altText = findChild<TextNode>(component, {
     type: 'TEXT',
+    visible: true,
   })?.characters
 
   const Avatar = h(

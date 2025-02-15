@@ -49,6 +49,7 @@ export function Alert(component: DesignComponent<AlertProperties>) {
   const button = findChild<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',
     name: BUTTON_NAMES,
+    visible: true,
   })
   const close =
     closeButton && button
@@ -64,6 +65,7 @@ export function Alert(component: DesignComponent<AlertProperties>) {
     ? findOne<FrameNode>(component, {
         type: 'FRAME',
         name: 'Actions',
+        visible: true,
       })
     : null
   const actionButtons: DesignComponent<ButtonProperties>[] = actionSection

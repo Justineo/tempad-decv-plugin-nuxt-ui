@@ -50,6 +50,7 @@ export function Toast(component: DesignComponent<ToastProperties>) {
     {
       type: 'INSTANCE',
       name: BUTTON_NAMES,
+      visible: true,
     },
   )
   const close = button
@@ -65,12 +66,14 @@ export function Toast(component: DesignComponent<ToastProperties>) {
     ? findOne<FrameNode>(component, {
         type: 'FRAME',
         name: 'Actions',
+        visible: true,
       })
     : null
   const actionButtons: DesignComponent<ButtonProperties>[] = actionSection
     ? findChildren<DesignComponent<ButtonProperties>>(actionSection, {
         type: 'INSTANCE',
         name: BUTTON_NAMES,
+        visible: true,
       }) || []
     : []
   const actions = actionButtons.map((button) =>

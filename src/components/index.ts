@@ -1,8 +1,6 @@
-import type {
-  DesignComponent,
-  DevComponent,
-  TransformOptions,
-} from '@tempad-dev/plugins'
+import type { TransformOptions } from '@tempad-dev/plugins'
+import type { RenderFn } from '../types'
+import { createTransformComponent, mapComponentNames } from '../utils'
 import { Accordion } from './accordion'
 import { Alert } from './alert'
 import { Avatar } from './avatar'
@@ -48,13 +46,7 @@ import { Textarea } from './textarea'
 import { Toast } from './toast'
 import { Tooltip } from './tooltip'
 
-type RenderFn = (component: DesignComponent<any>) => DevComponent<any>
-
-function mapComponentNames(names: readonly string[], component: RenderFn) {
-  return names.reduce((acc, name) => ({ ...acc, [name]: component }), {})
-}
-
-const componentMap: Record<string, RenderFn> = {
+export const componentMap: Record<string, RenderFn> = {
   Accordion,
   Alert,
   Avatar,
@@ -101,23 +93,5 @@ const componentMap: Record<string, RenderFn> = {
   Tooltip,
 }
 
-export const transformComponent: TransformOptions['transformComponent'] = ({
-  component,
-}) => {
-  try {
-    if (
-      component.children.length === 1 &&
-      component.children[0].type === 'VECTOR' &&
-      component.children[0].name === 'Vector'
-    ) {
-      // only child is a vector, assume it's an icon
-      return Icon(component)
-    }
-
-    const render = componentMap[component.name.replaceAll(' ', '')]
-    return render ? render(component) : ''
-  } catch (e: unknown) {
-    console.error(e)
-    return ''
-  }
-}
+export const transformComponent: TransformOptions['transformComponent'] =
+  createTransformComponent(componentMap)

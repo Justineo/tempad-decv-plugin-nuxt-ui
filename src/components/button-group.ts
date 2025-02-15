@@ -30,13 +30,13 @@ export function ButtonGroup(component: DesignComponent<ButtonGroupProperties>) {
   } else {
     const input = findChild<DesignComponent<InputProperties>>(component, {
       type: 'INSTANCE',
-      visible: true,
       name: INPUT_NAMES,
+      visible: true,
     })
     const button = findChild<DesignComponent<ButtonProperties>>(component, {
       type: 'INSTANCE',
-      visible: true,
       name: BUTTON_NAMES,
+      visible: true,
     })
     if (input) {
       children.push(Input(input))

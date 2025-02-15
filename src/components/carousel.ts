@@ -27,6 +27,7 @@ export function Carousel(component: DesignComponent<CarouselProperties>) {
     const container = findChild<FrameNode>(component, {
       type: 'FRAME',
       name: 'Carousel + prev/next',
+      visible: true,
     })!
     const [prevButton, nextButton] = findChildren<
       DesignComponent<ButtonProperties>

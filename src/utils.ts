@@ -1,9 +1,10 @@
-import type { DevComponent } from '@tempad-dev/plugins'
-import type { CleanPropName, ComponentPropsMap } from './types'
+import type { DevComponent, TransformOptions } from '@tempad-dev/plugins'
+import type { CleanPropName, ComponentPropsMap, RenderFn } from './types'
 
 import { mapKeys } from '@s-libs/micro-dash'
 
 import { h as createComponent } from '@tempad-dev/plugins'
+import { Icon } from './components/icon'
 
 export function cleanPropNames<
   T extends Record<string, unknown>,
@@ -107,4 +108,34 @@ export function getFirst<T extends object, K extends keyof T>(
   key: K,
 ): T[K] | undefined {
   return items.find((item) => item[key] != null)?.[key]
+}
+
+export function mapComponentNames(
+  names: readonly string[],
+  component: RenderFn,
+) {
+  return names.reduce((acc, name) => ({ ...acc, [name]: component }), {})
+}
+
+export function createTransformComponent(
+  componentMap: Record<string, RenderFn>,
+): TransformOptions['transformComponent'] {
+  return ({ component }) => {
+    try {
+      if (
+        component.children.length === 1 &&
+        component.children[0].type === 'VECTOR' &&
+        component.children[0].name === 'Vector'
+      ) {
+        // only child is a vector, assume it's an icon
+        return Icon(component)
+      }
+
+      const render = componentMap[component.name.replaceAll(' ', '')]
+      return render ? render(component) : ''
+    } catch (e: unknown) {
+      console.error(e)
+      return ''
+    }
+  }
 }

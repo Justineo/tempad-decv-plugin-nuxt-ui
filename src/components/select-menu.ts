@@ -68,7 +68,9 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
     ? findChildren<FrameNode | DesignComponent<SelectMenuItemProperties>>(
         container,
         (node) =>
-          (node.type === 'FRAME' && node.name === 'Title') ||
+          (node.type === 'FRAME' &&
+            node.name === 'Title' &&
+            node.visible === true) ||
           (node.type === 'INSTANCE' &&
             node.name === 'SelectMenuItem' &&
             node.visible === true),
@@ -76,6 +78,7 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
         if (item.type === 'FRAME') {
           const text = findChild<TextNode>(item, {
             type: 'TEXT',
+            visible: true,
           })
           return {
             label: text?.characters,
