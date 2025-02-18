@@ -6,7 +6,7 @@ import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
 
-const BUTTON_COLOR_MAP = {
+const BUTTON_COLOR_MAP: Record<string, ButtonProps['color']> = {
   ButtonPrimary: 'primary',
   ButtonSecondary: 'secondary',
   ButtonSuccess: 'success',
@@ -14,36 +14,32 @@ const BUTTON_COLOR_MAP = {
   ButtonWarning: 'warning',
   ButtonError: 'error',
   ButtonNeutral: 'neutral',
-} as const satisfies Record<string, ButtonProps['color']>
+}
 
 type ButtonName = keyof typeof BUTTON_COLOR_MAP
 
 export const BUTTON_NAMES = Object.keys(BUTTON_COLOR_MAP) as ButtonName[]
 
 export type ButtonProperties = {
+  '👁️ Label': boolean
+  '👁️ AvatarTrailing': boolean
+  '↳ IconTrailingName': DesignComponent<IconProperties>
+  '👁️ IconTrailing': boolean
+  '👁️ AvatarLeading': boolean
+  '👁️ IconLeading': boolean
+  '↳ IconLeadingName': DesignComponent<IconProperties>
+  '𝐓 LabelSlot': string
   '◆ Variant': 'Solid' | 'Outline' | 'Soft' | 'Subtle' | 'Ghost' | 'Link'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Disabled' | 'Focus' | 'Hover'
   '◆ Slot': 'Icon' | 'Avatar'
   '👁️ Square': 'False' | 'True'
-  '👁️ Label'?: boolean
-  '𝐓 LabelSlot'?: string
-  '👁️ IconLeading'?: boolean
-  '↳ IconLeadingName'?: DesignComponent<IconProperties>
-  '👁️ IconTrailing'?: boolean
-  '↳ IconTrailingName'?: DesignComponent<IconProperties>
-  '👁️ AvatarLeading'?: boolean
-  '👁️ AvatarTrailing'?: boolean
 }
 
 export function Button(
   component: DesignComponent<ButtonProperties>,
   defaults: Partial<ButtonProps> = {},
 ) {
-  const { name, properties } = component
-
-  const color = BUTTON_COLOR_MAP[name as ButtonName]
-
   const {
     variant,
     size,
@@ -55,7 +51,9 @@ export function Button(
     iconTrailing,
     iconTrailingName,
     avatarLeading,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
+
+  const color = BUTTON_COLOR_MAP[component.name]
 
   const icon =
     slot === 'Icon' && iconLeading
@@ -69,7 +67,6 @@ export function Button(
 
   const label = findOne<TextNode>(component, {
     type: 'TEXT',
-    visible: true,
   })?.characters
 
   return h(

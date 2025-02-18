@@ -1,12 +1,16 @@
 import { defineBuildConfig } from 'unbuild'
 
-export default defineBuildConfig({
-  entries: ['src/nuxt-ui'],
-  clean: true,
-  rollup: {
-    inlineDependencies: true,
-    esbuild: {
-      minify: true,
+const entries = ['src/nuxt-ui', 'src/nuxt-ui-pro']
+
+export default defineBuildConfig(
+  entries.map((entry) => ({
+    entries: [entry],
+    clean: true,
+    rollup: {
+      inlineDependencies: true,
+      esbuild: {
+        minify: true,
+      },
     },
-  },
-})
+  })),
+)

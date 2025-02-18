@@ -46,7 +46,7 @@ import { Textarea } from './textarea'
 import { Toast } from './toast'
 import { Tooltip } from './tooltip'
 
-export const componentMap: Record<string, RenderFn> = {
+export const COMPONENT_MAP: Record<string, RenderFn> = {
   Accordion,
   Alert,
   Avatar,
@@ -94,4 +94,4 @@ export const componentMap: Record<string, RenderFn> = {
 }
 
 export const transformComponent: TransformOptions['transformComponent'] =
-  createTransformComponent(componentMap)
+  createTransformComponent(COMPONENT_MAP)

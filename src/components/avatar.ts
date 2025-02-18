@@ -6,28 +6,27 @@ import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getIconName } from './icon'
 
 export type AvatarProperties = {
-  '◆ Variant': 'Image' | 'Icon' | 'Alt'
+  '🙂 IconName': DesignComponent<IconProperties>
   '📏 Size': '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+  '◆ Variant': 'Image' | 'Icon' | 'Alt'
   '◆ ChipPosition':
-    | 'None'
     | 'Bottom-left'
     | 'Bottom-right'
+    | 'None'
     | 'Top-left'
     | 'Top-right'
-  '🙂 IconName'?: DesignComponent<IconProperties>
 }
 
 export function Avatar(
   component: DesignComponent<AvatarProperties>,
   defaults: Partial<AvatarProps> = {},
 ) {
-  const { properties } = component
-
-  const { variant, size, iconName, chipPosition } = cleanPropNames(properties)
+  const { variant, size, iconName, chipPosition } = cleanPropNames(
+    component.properties,
+  )
 
   const altText = findChild<TextNode>(component, {
     type: 'TEXT',
-    visible: true,
   })?.characters
 
   const Avatar = h(

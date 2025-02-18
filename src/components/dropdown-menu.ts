@@ -1,4 +1,4 @@
-import type { DropdownMenuItem, DropdownMenuProps } from '@nuxt/ui'
+import type { ButtonProps, DropdownMenuItem, DropdownMenuProps } from '@nuxt/ui'
 import type {
   DesignComponent,
   DevComponent,
@@ -7,7 +7,7 @@ import type {
 import type { AvatarProperties } from './avatar'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
-import { findChild, findChildren } from '@tempad-dev/plugins'
+import { findChild, findChildren, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick } from '../utils'
 import { Avatar, getRandomAvatar } from './avatar'
 import { Button, BUTTON_NAMES } from './button'
@@ -15,13 +15,13 @@ import { getIconName } from './icon'
 import { getKbdItems } from './kbd'
 
 export type DropdownMenuItemProperties = {
+  '🙂 IconTrailingName': DesignComponent<IconProperties>
+  '🙂 IconLeadingName': DesignComponent<IconProperties>
+  '𝐓 Label': string
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Hover' | 'Disabled' | 'Selected'
   '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None'
   '◆ TrailingSlot': 'Icon' | 'Kbd' | 'None'
-  '𝐓 Label': string
-  '🙂 IconLeadingName'?: DesignComponent<IconProperties>
-  '🙂 IconTrailingName'?: DesignComponent<IconProperties>
 }
 
 export function renderDropdownMenuItem(
@@ -61,11 +61,11 @@ export function renderDropdownMenuItem(
 }
 
 export type DropdownMenuProperties = {
+  '👁️ Open': boolean
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Variant': 'Avatar' | 'Button'
   '⇅ Alignment': 'Bottom-start' | 'Bottom-end' | 'Right' | 'Top-start' | 'Left'
   '👁️ Arrow': 'True' | 'False'
-  '👁️ Open': boolean
 }
 
 const SIDE_MAP = {
@@ -78,10 +78,13 @@ const SIDE_MAP = {
 
 export function DropdownMenu(
   component: DesignComponent<DropdownMenuProperties>,
+  overrides: {
+    button?: Partial<ButtonProps>
+  } = {},
 ) {
-  const { properties } = component
-
-  const { size, variant, alignment, arrow } = cleanPropNames(properties)
+  const { size, variant, alignment, arrow } = cleanPropNames(
+    component.properties,
+  )
 
   const content: DropdownMenuProps<DropdownMenuItem>['content'] = pick(
     {
@@ -92,27 +95,17 @@ export function DropdownMenu(
     },
   )
 
-  const container = findChild<FrameNode>(component, {
-    type: 'FRAME',
-    name: 'DropdownMenu',
-    visible: true,
-  })
+  const containers = queryAll<FrameNode>(component, [
+    { query: 'child', type: 'FRAME', name: 'DropdownMenu' },
+    { query: 'children', type: 'FRAME', name: /^Container/ },
+  ])
 
-  const itemContainers = container
-    ? findChildren<FrameNode>(container, {
-        type: 'FRAME',
-        name: /^Container/,
-        visible: true,
-      })
-    : []
-
-  const items = itemContainers.map((itemContainer) => {
+  const items = containers.map((container) => {
     const menuItems = findChildren<DesignComponent<DropdownMenuItemProperties>>(
-      itemContainer,
+      container,
       {
         type: 'INSTANCE',
         name: 'DropdownMenuItem',
-        visible: true,
       },
     )
 
@@ -122,35 +115,42 @@ export function DropdownMenu(
   const children: DevComponent['children'] = []
 
   if (variant === 'Button') {
-    const container = findChild<FrameNode>(component, {
-      type: 'FRAME',
-      name: 'Button + arrow',
-      visible: true,
-    })
+    const container =
+      arrow === 'True'
+        ? findChild<FrameNode>(component, {
+            type: 'FRAME',
+            name: 'Button + arrow',
+          })
+        : component
 
     const button = container
       ? findChild<DesignComponent<ButtonProperties>>(container, {
           type: 'INSTANCE',
           name: BUTTON_NAMES,
-          visible: true,
         })
       : undefined
 
     if (button) {
-      children.push(Button(button))
+      const buttonChild = Button(button)
+      buttonChild.props = {
+        ...buttonChild.props,
+        ...overrides.button,
+      }
+      children.push(buttonChild)
     }
   } else if (variant === 'Avatar') {
-    const container = findChild<FrameNode>(component, {
-      type: 'FRAME',
-      name: 'Avatar + arrow',
-      visible: true,
-    })
+    const container =
+      arrow === 'True'
+        ? findChild<FrameNode>(component, {
+            type: 'FRAME',
+            name: 'Avatar + arrow',
+          })
+        : component
 
     const avatar = container
       ? findChild<DesignComponent<AvatarProperties>>(container, {
           type: 'INSTANCE',
           name: 'Avatar',
-          visible: true,
         })
       : undefined
 

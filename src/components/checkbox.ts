@@ -5,19 +5,17 @@ import { ui } from './config'
 import { getIconName } from './icon'
 
 export type CheckboxProperties = {
+  '🙂 Icon': DesignComponent<IconProperties>
+  '𝐓 Label': string
+  '↳ DescriptionSlot': string
+  '👁️ Description': boolean
+  '👁️ Required': boolean
   '🎨 Color': 'Neutral' | 'Primary' | 'Error'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Checked' | 'Focus' | 'Disabled'
-  '𝐓 Label': string
-  '👁️ Description': boolean
-  '↳ DescriptionSlot'?: string
-  '👁️ Required': boolean
-  '🙂 Icon': DesignComponent<IconProperties>
 }
 
 export function Checkbox(component: DesignComponent<CheckboxProperties>) {
-  const { properties } = component
-
   const {
     color,
     size,
@@ -27,7 +25,7 @@ export function Checkbox(component: DesignComponent<CheckboxProperties>) {
     descriptionSlot,
     required,
     icon,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
   return h(
     'UCheckbox',

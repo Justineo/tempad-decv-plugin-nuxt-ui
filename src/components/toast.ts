@@ -1,6 +1,7 @@
 import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
-import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
+import type { IconProperties } from './icon'
+import { findChild, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
@@ -8,6 +9,9 @@ import { ui } from './config'
 import { getIconName } from './icon'
 
 export type ToastProperties = {
+  '🙂 LeadingIconName': DesignComponent<IconProperties>
+  '𝐓 Description': string
+  '𝐓 Title': string
   '🎨 Color':
     | 'Primary'
     | 'Neutral'
@@ -17,40 +21,32 @@ export type ToastProperties = {
     | 'Warning'
     | 'Error'
   '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None'
-  '𝐓 Description'?: string
+  '👁️ Description': 'False' | 'True'
   '👁️ Actions': 'False' | 'True'
   '◆ Progress': '0' | '100'
-  '𝐓 Title': string
-  '👁️ Description': 'False' | 'True'
-  '🙂 LeadingIconName'?: DesignComponent
 }
 
 export function Toast(component: DesignComponent<ToastProperties>) {
-  const { properties } = component
-
   const {
     color,
     leadingSlot,
     description,
-    actions: showActions,
     title,
     showDescription,
     leadingIconName,
-  } = cleanPropNames(properties, {
+  } = cleanPropNames(component.properties, {
     '👁️ Description': 'showDescription',
   })
 
   const content = findChild<FrameNode>(component, {
     type: 'FRAME',
     name: 'Content',
-    visible: true,
   })
   const button = findChild<DesignComponent<ButtonProperties>>(
     content || component,
     {
       type: 'INSTANCE',
       name: BUTTON_NAMES,
-      visible: true,
     },
   )
   const close = button
@@ -62,21 +58,10 @@ export function Toast(component: DesignComponent<ToastProperties>) {
     : false
   const closeIcon = close ? close.icon : undefined
 
-  const actionSection = showActions
-    ? findOne<FrameNode>(component, {
-        type: 'FRAME',
-        name: 'Actions',
-        visible: true,
-      })
-    : null
-  const actionButtons: DesignComponent<ButtonProperties>[] = actionSection
-    ? findChildren<DesignComponent<ButtonProperties>>(actionSection, {
-        type: 'INSTANCE',
-        name: BUTTON_NAMES,
-        visible: true,
-      }) || []
-    : []
-  const actions = actionButtons.map((button) =>
+  const actions = queryAll<DesignComponent<ButtonProperties>>(component, [
+    { query: 'one', type: 'FRAME', name: 'Actions' },
+    { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
+  ]).map((button) =>
     renderButtonItem(button, {
       size: 'xs',
     }),

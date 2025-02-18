@@ -1,50 +1,50 @@
 import type { CarouselProps } from '@nuxt/ui'
-import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
+import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
-import { findChild, findChildren } from '@tempad-dev/plugins'
+import { queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h } from '../utils'
-import { renderButtonItem } from './button'
+import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
 
 export type CarouselProperties = {
+  '👁️ Prev/Next': boolean
+  '👁️ Pagination': boolean
   '◆ Variant': 'Default' | 'Fade' | 'Single'
   '⇅ DotsPosition': 'Bottom' | 'Top'
   '⇅ Prev/Next Position': 'Bottom' | 'Center' | 'Top'
-  '👁️ Pagination': boolean
-  '👁️ Prev/Next': boolean
 }
 
 export function Carousel(component: DesignComponent<CarouselProperties>) {
-  const { properties } = component
-
-  const { variant, pagination, prevNext } = cleanPropNames(properties)
+  const { variant, pagination, prevNext } = cleanPropNames(component.properties)
 
   let arrowProps: Pick<
     CarouselProps<unknown>,
     'prev' | 'prevIcon' | 'next' | 'nextIcon'
   > = {}
   if (prevNext) {
-    const container = findChild<FrameNode>(component, {
-      type: 'FRAME',
-      name: 'Carousel + prev/next',
-      visible: true,
-    })!
-    const [prevButton, nextButton] = findChildren<
+    const [prevButton, nextButton] = queryAll<
       DesignComponent<ButtonProperties>
-    >(container, { type: 'INSTANCE', visible: true })
+    >(component, [
+      { query: 'child', type: 'FRAME', name: 'Carousel + prev/next' },
+      { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
+    ])
     const defaults = {
       size: 'md',
       color: 'neutral',
       variant: 'link',
     } as const
-    const { icon: prevIcon, ...prev } = renderButtonItem(prevButton, {
-      ...defaults,
-      icon: ui.icons.arrowLeft,
-    })
-    const { icon: nextIcon, ...next } = renderButtonItem(nextButton, {
-      ...defaults,
-      icon: ui.icons.arrowRight,
-    })
+    const { icon: prevIcon, ...prev } = prevButton
+      ? renderButtonItem(prevButton, {
+          ...defaults,
+          icon: ui.icons.arrowLeft,
+        })
+      : {}
+    const { icon: nextIcon, ...next } = nextButton
+      ? renderButtonItem(nextButton, {
+          ...defaults,
+          icon: ui.icons.arrowRight,
+        })
+      : {}
 
     arrowProps = {
       prev,

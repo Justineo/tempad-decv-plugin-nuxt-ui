@@ -1,10 +1,6 @@
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-} from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
-import { findChildren, findOne } from '@tempad-dev/plugins'
+import { queryAll } from '@tempad-dev/plugins'
 import {
   cleanPropNames,
   h,
@@ -15,20 +11,18 @@ import {
 import { Button, BUTTON_NAMES } from './button'
 
 export type DrawerProperties = {
+  '◆ ContainerSlot': DesignComponent
+  '👁️ Heading': boolean
+  '↳ Description': string
+  '👁️ Description': boolean
+  '👁️ Handle': boolean
+  '𝐓 Title': string
+  '👁️ Buttons': boolean
   '⇅ Direction': 'Bottom' | 'Top' | 'Right' | 'Left'
   '👁️ Overlay': 'True' | 'False'
-  '👁️ Handle': boolean
-  '👁️ Heading': boolean
-  '𝐓 Title': string
-  '👁️ Description': boolean
-  '↳ Description'?: string
-  '◆ ContainerSlot': DesignComponent
-  '👁️ Buttons': boolean
 }
 
 export function Drawer(component: DesignComponent<DrawerProperties>) {
-  const { properties } = component
-
   const {
     direction,
     overlay,
@@ -38,7 +32,7 @@ export function Drawer(component: DesignComponent<DrawerProperties>) {
     showDescription,
     description,
     buttons: showButtons,
-  } = cleanPropNames(properties, {
+  } = cleanPropNames(component.properties, {
     '👁️ Description': 'showDescription',
   })
 
@@ -47,18 +41,11 @@ export function Drawer(component: DesignComponent<DrawerProperties>) {
   ]
 
   if (showButtons) {
-    const buttonsContainer = findOne<FrameNode>(component, {
-      type: 'FRAME',
-      name: 'Buttons',
-      visible: true,
-    })
-    const buttons = buttonsContainer
-      ? findChildren<DesignComponent<ButtonProperties>>(buttonsContainer, {
-          type: 'INSTANCE',
-          name: BUTTON_NAMES,
-          visible: true,
-        })
-      : []
+    const buttons = queryAll<DesignComponent<ButtonProperties>>(component, [
+      { query: 'one', type: 'FRAME', name: 'Buttons' },
+      { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
+    ])
+
     if (buttons.length > 0) {
       const buttonComponents = buttons.map((button) => {
         const buttonComponent = Button(button)

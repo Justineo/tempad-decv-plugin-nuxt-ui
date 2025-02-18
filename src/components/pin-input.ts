@@ -4,16 +4,16 @@ import { findChildren } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
 export type PinInputItemProperties = {
+  '👁️ Completed': boolean
+  '↳ CompletedText': string
+  '👁️ Placeholder': boolean
+  '👁️ Mask': boolean
+  '↳ PlaceholderText': string
   '🎨 Color': 'Neutral' | 'Primary' | 'Error'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Variant': 'Outline' | 'Soft' | 'Subtle' | 'Ghost' | 'None'
   '🚦State': 'Default' | 'Disabled' | 'Focus (or hover)'
   '✧  Highlight': 'False' | 'True'
-  '👁️ Placeholder': boolean
-  '↳ PlaceholderText'?: string
-  '👁️ Completed': boolean
-  '↳ CompletedText'?: string
-  '👁️ Mask': boolean
 }
 
 type PinInputItem = Pick<
@@ -31,8 +31,6 @@ type PinInputItem = Pick<
 export function renderPinInputItem(
   item: DesignComponent<PinInputItemProperties>,
 ): PinInputItem {
-  const { properties } = item
-
   const {
     color,
     variant,
@@ -43,7 +41,7 @@ export function renderPinInputItem(
     completed,
     completedText,
     mask,
-  } = cleanPropNames(properties, {
+  } = cleanPropNames(item.properties, {
     '🚦State': 'state',
   })
 
@@ -63,14 +61,11 @@ export type PinInputProperties = {
 }
 
 export function PinInput(component: DesignComponent<PinInputProperties>) {
-  const { properties } = component
-
   const items: PinInputItem[] = findChildren<
     DesignComponent<PinInputItemProperties>
   >(component, {
     type: 'INSTANCE',
     name: 'PinInputItem',
-    visible: true,
   }).map(renderPinInputItem)
 
   const type: PinInputProps['type'] = items.some(
@@ -84,8 +79,8 @@ export function PinInput(component: DesignComponent<PinInputProperties>) {
   )?.placeholder
   const mask: PinInputProps['mask'] = items.some((item) => item.mask)
 
-  const { size } = cleanPropNames(properties)
-  const { color, variant, highlight, disabled } = items[0]
+  const { size } = cleanPropNames(component.properties)
+  const { color, variant, highlight, disabled } = items[0]!
 
   return h(
     'UPinInput',

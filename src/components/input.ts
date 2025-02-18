@@ -5,40 +5,38 @@ import { cleanPropNames, h, renderSlot, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
 
-const INPUT_VARIANT_MAP = {
+const INPUT_VARIANT_MAP: Record<string, InputProps['variant']> = {
   InputOutline: 'outline',
   InputSoft: 'soft',
   InputNone: 'none',
   InputGhost: 'ghost',
   InputSubtle: 'subtle',
-} as const satisfies Record<string, InputProps['variant']>
+}
 
 type InputName = keyof typeof INPUT_VARIANT_MAP
 
 export const INPUT_NAMES = Object.keys(INPUT_VARIANT_MAP) as InputName[]
 
 export type InputProperties = {
+  '𝐓 Span': string
+  '🙂 IconTrailingName': DesignComponent<IconProperties>
+  '🙂 IconLeadingName': DesignComponent<IconProperties>
+  '👁️ Completed': boolean
+  '↳ CompletedLabel': string
+  '👁️ Placeholder': boolean
+  '↳ PlaceholderLabel': string
   '🎨 Color': 'Neutral' | 'Primary' | 'Error'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  '🚦 State': 'Default' | 'Hover (focus)' | 'Disabled' | 'Focus'
+  '🚦 State': 'Default' | 'Disabled' | 'Focus'
   '◆ LeadingSlot': 'Icon' | 'Span' | 'Avatar' | 'None'
-  '◆ TrailingSlot': 'Icon' | 'Span' | 'None'
-  '👁️ Placeholder': boolean
-  '↳ PlaceholderLabel'?: string
-  '👁️ Completed': boolean
-  '↳ CompletedLabel'?: string
-  '🙂 IconLeadingName'?: DesignComponent<IconProperties>
-  '🙂 IconTrailingName'?: DesignComponent<IconProperties>
-  '𝐓 Span'?: string
+  '◆ TrailingSlot': 'Icon' | 'None' | 'Span'
 }
 
 export function Input(
   component: DesignComponent<InputProperties>,
   defaults: Partial<InputProps> = {},
 ) {
-  const { name, properties } = component
-
-  const variant = INPUT_VARIANT_MAP[name as InputName]
+  const variant = INPUT_VARIANT_MAP[component.name]
 
   const {
     color,
@@ -53,7 +51,7 @@ export function Input(
     iconLeadingName,
     iconTrailingName,
     span,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
   const icon =
     leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined

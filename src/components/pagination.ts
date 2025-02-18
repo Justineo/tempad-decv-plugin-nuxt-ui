@@ -1,8 +1,9 @@
 import type { ButtonProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
-import { cleanPropNames, h } from '../utils'
-import { renderButtonItem } from './button'
+import { findChildren } from '@tempad-dev/plugins'
+import { cleanPropNames, h, isInteger } from '../utils'
+import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
 
 export type PaginationProperties = {
@@ -25,19 +26,26 @@ function parseKey(
 }
 
 export function Pagination(component: DesignComponent<PaginationProperties>) {
-  const { properties } = component
+  const { size } = cleanPropNames(component.properties)
 
-  const { size } = cleanPropNames(properties)
+  const items = findChildren<DesignComponent<ButtonProperties>>(component, {
+    type: 'INSTANCE',
+    name: BUTTON_NAMES,
+  }).map((button) => renderButtonItem(button))
 
-  const buttons = component.children as DesignComponent<ButtonProperties>[]
-  const items = buttons.map((button) => renderButtonItem(button))
-  // Remove middle buttons so that buttons now only contains the control buttons
-  buttons.splice(2, buttons.length - 4)
-  const showControls = buttons.some((control) => control.visible)
+  let controls: Partial<ButtonProps>[] = []
+  if (items.length >= 5) {
+    controls = [...items]
+    controls.splice(2, items.length - 4)
+    controls = controls.every((control) => !isInteger(control.label || ''))
+      ? controls
+      : []
+  }
 
-  const pages = items.splice(2, items.length - 4)
+  const showControls = controls.length === 4
+  const [first, prev, next, last] = controls
 
-  const [first, prev, next, last] = items
+  const pages = showControls ? items.splice(2, items.length - 4) : items
 
   const ellipsis = pages.find(
     ({ icon, label }) => icon && !/^\d+$/.test(label || ''),
@@ -66,10 +74,10 @@ export function Pagination(component: DesignComponent<PaginationProperties>) {
       size,
       showControls,
       disabled: pages.every((page) => page.disabled),
-      firstIcon: first.icon,
-      prevIcon: prev.icon,
-      nextIcon: next.icon,
-      lastIcon: last.icon,
+      firstIcon: first?.icon,
+      prevIcon: prev?.icon,
+      nextIcon: next?.icon,
+      lastIcon: last?.icon,
       ellipsisIcon: ellipsis?.icon,
     },
     {

@@ -6,21 +6,19 @@ import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
 
 export type InputNumberProperties = {
+  '👁️ Completed': boolean
+  '↳ CompletedText': string
+  '↳ PlaceholderText': string
+  '👁️ Placeholder': boolean
   '🎨 Color': 'Neutral' | 'Primary' | 'Error'
   '◆ Variant': 'Ghost' | 'None' | 'Outline' | 'Soft' | 'Subtle'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
   '🚦 State': 'Default' | 'Focus (or hover)' | 'Disabled'
   '✧ Highlight': 'False' | 'True'
-  '👁️ Placeholder': boolean
-  '↳ PlaceholderText'?: string
-  '👁️ Completed': boolean
-  '↳ CompletedText'?: string
 }
 
 export function InputNumber(component: DesignComponent<InputNumberProperties>) {
-  const { properties } = component
-
   const {
     color,
     variant,
@@ -30,23 +28,24 @@ export function InputNumber(component: DesignComponent<InputNumberProperties>) {
     highlight,
     placeholder,
     placeholderText,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
-  const buttons = findChildren<DesignComponent<ButtonProperties>>(component, {
-    type: 'INSTANCE',
-    name: BUTTON_NAMES,
-    visible: true,
-  })
-
-  const [dec, inc] = buttons.map((button) =>
+  const [dec, inc] = findChildren<DesignComponent<ButtonProperties>>(
+    component,
+    {
+      type: 'INSTANCE',
+      name: BUTTON_NAMES,
+    },
+  ).map((button) =>
     renderButtonItem(button, {
       variant: 'link',
       square: true,
+      size,
     }),
   )
 
-  const { icon: decrementIcon, ...decrement } = dec
-  const { icon: incrementIcon, ...increment } = inc
+  const { icon: decrementIcon, ...decrement } = dec || {}
+  const { icon: incrementIcon, ...increment } = inc || {}
 
   return h(
     'UInputNumber',

@@ -15,12 +15,12 @@ import { getIconName } from './icon'
 export type AccordionProperties = {}
 
 export type CollapsiblePanelProperties = {
-  '◆ State': 'Closed' | 'Disable' | 'Focus' | 'Open'
+  '🙂 IconTrailingName': DesignComponent<IconProperties>
   '𝐓 Label': string
   '𝐓 Description': string
   '👁️ IconLeading': boolean
-  '🙂 IconLeadingName'?: DesignComponent<IconProperties>
-  '🙂 IconTrailingName'?: DesignComponent<IconProperties>
+  '↳ IconLeadingName': DesignComponent<IconProperties>
+  '◆ State': 'Closed' | 'Disable' | 'Focus' | 'Open'
 }
 
 export function Accordion(component: DesignComponent<AccordionProperties>) {

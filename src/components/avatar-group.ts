@@ -6,21 +6,16 @@ import { cleanPropNames, h } from '../utils'
 import { Avatar } from './avatar'
 
 export type AvatarGroupProperties = {
-  '📏 Size': '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
+  Size: '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
 }
 
 export function AvatarGroup(component: DesignComponent<AvatarGroupProperties>) {
-  const { properties } = component
+  const { size } = cleanPropNames(component.properties)
 
-  const { size } = cleanPropNames(properties)
-
-  const children = findChildren<DesignComponent<AvatarProperties>>(component, {
+  const avatars = findChildren<DesignComponent<AvatarProperties>>(component, {
     type: 'INSTANCE',
     name: 'Avatar',
-    visible: true,
-  })
-
-  const avatars = children.map((child) => Avatar(child))
+  }).map((child) => Avatar(child))
 
   avatars.forEach((avatar) => {
     if ('size' in avatar.props) {

@@ -13,17 +13,15 @@ import {
 import { Button, BUTTON_NAMES } from './button'
 
 export type PopoverProperties = {
+  '👁️ IsOpen': boolean
+  '◆ Slot': DesignComponent
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '⇅ Position': 'Bottom' | 'Left' | 'Right' | 'Top'
   '👁️ Arrow': 'False' | 'True'
-  '◆ Slot': DesignComponent
-  '👁️ IsOpen': boolean
 }
 
 export function Popover(component: DesignComponent<PopoverProperties>) {
-  const { properties } = component
-
-  const { position, arrow } = cleanPropNames(properties)
+  const { position, arrow } = cleanPropNames(component.properties)
 
   const content: PopoverProps['content'] = pick(
     {
@@ -41,7 +39,6 @@ export function Popover(component: DesignComponent<PopoverProperties>) {
   const trigger = findChild<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',
     name: BUTTON_NAMES,
-    visible: true,
   })
 
   if (trigger) {

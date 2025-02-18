@@ -7,9 +7,7 @@ export type ColorPickerProperties = {
 }
 
 export function ColorPicker(component: DesignComponent<ColorPickerProperties>) {
-  const { properties } = component
-
-  const { size, state } = cleanPropNames(properties)
+  const { size, state } = cleanPropNames(component.properties)
 
   return h(
     'UColorPicker',
@@ -18,6 +16,7 @@ export function ColorPicker(component: DesignComponent<ColorPickerProperties>) {
       disabled: state === 'Disabled',
     },
     {
+      size: 'md',
       disabled: false,
     },
   )

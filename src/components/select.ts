@@ -6,38 +6,36 @@ import { getRandomAvatar } from './avatar'
 import { ui } from './config'
 import { getIconName } from './icon'
 
-const SELECT_VARIANT_MAP = {
+const SELECT_VARIANT_MAP: Record<string, SelectProps<SelectItem>['variant']> = {
   SelectOutline: 'outline',
   SelectSoft: 'soft',
   SelectNone: 'none',
   SelectGhost: 'ghost',
   SelectSubtle: 'subtle',
-} as const satisfies Record<string, SelectProps<SelectItem>['variant']>
+}
 
 type SelectName = keyof typeof SELECT_VARIANT_MAP
 
 export const SELECT_NAMES = Object.keys(SELECT_VARIANT_MAP) as SelectName[]
 
 export type SelectProperties = {
+  '🙂 IconTrailingName': DesignComponent<IconProperties>
+  '🙂 IconLeadingName': DesignComponent<IconProperties>
+  '👁️ Completed': boolean
+  '↳ CompletedLabel': string
+  '👁️ Placeholder': boolean
+  '↳ PlaceholderLabel': string
   '🎨 Color': 'Neutral' | 'Primary' | 'Error'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Focus' | 'Disabled'
-  '◆ LeadingSlot': 'Icon' | 'Avatar' | 'None'
-  '👁️ Placeholder': boolean
-  '↳ PlaceholderLabel'?: string
-  '👁️ Completed': boolean
-  '↳ CompletedLabel'?: string
-  '🙂 IconLeadingName'?: DesignComponent<IconProperties>
-  '🙂 IconTrailingName'?: DesignComponent<IconProperties>
+  '◆ LeadingSlot': 'Icon' | 'Avatar' | 'None' | 'Span'
 }
 
 export function Select(
   component: DesignComponent<SelectProperties>,
   defaults: Partial<SelectProps<SelectItem>> = {},
 ) {
-  const { name, properties } = component
-
-  const variant = SELECT_VARIANT_MAP[name as SelectName]
+  const variant = SELECT_VARIANT_MAP[component.name]
 
   const {
     color,
@@ -48,7 +46,7 @@ export function Select(
     placeholderLabel,
     iconLeadingName,
     iconTrailingName,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
   const icon =
     leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined

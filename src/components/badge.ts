@@ -5,6 +5,11 @@ import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getIconName } from './icon'
 
 export type BadgeProperties = {
+  '𝐓  Label': string
+  '↳ IconTrailingName': DesignComponent<IconProperties>
+  '👁️ IconTrailing': boolean
+  '↳ IconLeadingName': DesignComponent<IconProperties>
+  '👁️ IconLeading': boolean
   '🎨 Color':
     | 'Neutral'
     | 'Primary'
@@ -14,21 +19,14 @@ export type BadgeProperties = {
     | 'Warning'
     | 'Error'
   '◆ Variant': 'Outline' | 'Soft' | 'Solid' | 'Subtle'
-  '📏 Size': 'xs' | 'sm' | 'md'
+  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '👁️ RoundedFull': 'False' | 'True'
-  '𝐓 Label': string
-  '👁️ IconLeading': boolean
-  '↳ IconLeadingName'?: DesignComponent<IconProperties>
-  '👁️ IconTrailing': boolean
-  '↳ IconTrailingName'?: DesignComponent<IconProperties>
 }
 
 export function Badge(
   component: DesignComponent<BadgeProperties>,
   defaults: Partial<BadgeProps> = {},
 ) {
-  const { properties } = component
-
   const {
     color,
     variant,
@@ -39,7 +37,7 @@ export function Badge(
     iconLeadingName,
     iconTrailing,
     iconTrailingName,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
   const iconProps: Partial<BadgeProps> =
     iconLeading && iconTrailing

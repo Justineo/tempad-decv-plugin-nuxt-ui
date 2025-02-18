@@ -14,19 +14,19 @@ import { getIconName } from './icon'
 import { Input, INPUT_NAMES } from './input'
 
 export type InputMenuItemProperties = {
+  '🙂 IconName': DesignComponent<IconProperties>
+  '𝐓  Label': string
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Selected' | 'Hover' | 'Disabled'
   '◆ LeadingSlot': 'Avatar' | 'Dot' | 'Icon' | 'None'
-  '𝐓  Label': string
-  '🙂 IconName'?: DesignComponent<IconProperties>
 }
 
 export function renderInputMenuItem(
   item: DesignComponent<InputMenuItemProperties>,
 ): InputMenuItem {
-  const { properties } = item
-
-  const { state, leadingSlot, label, iconName } = cleanPropNames(properties)
+  const { state, leadingSlot, label, iconName } = cleanPropNames(
+    item.properties,
+  )
 
   return pick(
     {
@@ -39,24 +39,22 @@ export function renderInputMenuItem(
     },
     {
       disabled: false,
+      selected: false,
     },
   )
 }
 
 export type InputMenuProperties = {
-  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '👁️ isOpen': boolean
+  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
 export function InputMenu(component: DesignComponent<InputMenuProperties>) {
-  const { properties } = component
-
-  const { size } = cleanPropNames(properties)
+  const { size } = cleanPropNames(component.properties)
 
   const container = findChild<FrameNode>(component, {
     type: 'FRAME',
     name: 'InputMenu',
-    visible: true,
   })
 
   const items: InputMenuItem[] = container
@@ -84,7 +82,6 @@ export function InputMenu(component: DesignComponent<InputMenuProperties>) {
   const input = findChild<DesignComponent<InputProperties>>(component, {
     type: 'INSTANCE',
     name: INPUT_NAMES,
-    visible: true,
   })
 
   const inputProps = input ? Input(input).props : {}

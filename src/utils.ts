@@ -1,8 +1,12 @@
-import type { DevComponent, TransformOptions } from '@tempad-dev/plugins'
+import type {
+  DesignNode,
+  DevComponent,
+  TransformOptions,
+} from '@tempad-dev/plugins'
+
 import type { CleanPropName, ComponentPropsMap, RenderFn } from './types'
 
 import { mapKeys } from '@s-libs/micro-dash'
-
 import { h as createComponent } from '@tempad-dev/plugins'
 import { Icon } from './components/icon'
 
@@ -27,13 +31,26 @@ export function cleanPropNames<
 export function renderSlot(
   name: string,
   children: DevComponent['children'],
+): DevComponent
+export function renderSlot(
+  name: string,
+  props: string,
+  children: DevComponent['children'],
+): DevComponent
+export function renderSlot(
+  name: string,
+  propsOrChildren: string | DevComponent['children'],
+  children?: DevComponent['children'],
 ): DevComponent {
+  const props = children ? (propsOrChildren as string) : null
+  const slotChildren = children ?? (propsOrChildren as DevComponent['children'])
+
   return createComponent(
     'template',
     {
-      [`#${name}`]: true,
+      [`#${name}`]: props ?? true,
     },
-    children,
+    slotChildren,
   )
 }
 
@@ -98,7 +115,7 @@ export function h<K extends keyof ComponentPropsMap>(
 export function shuffle<T>(array: T[]): T[] {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[array[i], array[j]] = [array[j], array[i]]
+    ;[array[i], array[j]] = [array[j]!, array[i]!]
   }
   return array
 }
@@ -117,16 +134,21 @@ export function mapComponentNames(
   return names.reduce((acc, name) => ({ ...acc, [name]: component }), {})
 }
 
+export function isIcon(node: DesignNode): boolean {
+  return (
+    node.type === 'INSTANCE' &&
+    node.children.length === 1 &&
+    node.children[0]!.type === 'VECTOR' &&
+    node.children[0]!.name === 'Vector'
+  )
+}
+
 export function createTransformComponent(
   componentMap: Record<string, RenderFn>,
 ): TransformOptions['transformComponent'] {
   return ({ component }) => {
     try {
-      if (
-        component.children.length === 1 &&
-        component.children[0].type === 'VECTOR' &&
-        component.children[0].name === 'Vector'
-      ) {
+      if (isIcon(component)) {
         // only child is a vector, assume it's an icon
         return Icon(component)
       }
@@ -138,4 +160,8 @@ export function createTransformComponent(
       return ''
     }
   }
+}
+
+export function isInteger(input: string | number): boolean {
+  return /^\d+$/.test(String(input))
 }

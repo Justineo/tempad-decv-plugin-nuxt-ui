@@ -3,7 +3,7 @@ import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
-import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
+import { findChild, findChildren, findOne, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
@@ -13,21 +13,19 @@ import { Input, INPUT_NAMES } from './input'
 import { getKbdItems } from './kbd'
 
 export type CommandPaletteItemProperties = {
+  '👁️ Description': boolean
+  '𝐓 Label': string
+  '🙂 IconTrailingName': DesignComponent<IconProperties>
+  '↳ DescriptionSlot': string
+  '🙂 IconLeadingName': DesignComponent<IconProperties>
   '🚦 State': 'Default' | 'Disabled' | 'Hover'
   '◆ LeadingSlot': 'Icon' | 'Avatar' | 'None'
   '◆ TrailingSlot': 'None' | 'Icon' | 'Kbd'
-  '👁️ Description': boolean
-  '𝐓 Label': string
-  '↳ DescriptionSlot'?: string
-  '🙂 IconLeadingName'?: DesignComponent<IconProperties>
-  '🙂 IconTrailingName'?: DesignComponent<IconProperties>
 }
 
 export function renderCommandPaletteItem(
   item: DesignComponent<CommandPaletteItemProperties>,
 ): CommandPaletteItem {
-  const { properties } = item
-
   const {
     state,
     leadingSlot,
@@ -37,7 +35,7 @@ export function renderCommandPaletteItem(
     descriptionSlot,
     iconLeadingName,
     iconTrailingName,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(item.properties)
 
   return pick(
     {
@@ -58,7 +56,7 @@ export function renderCommandPaletteItem(
 }
 
 export type CommandPaletteProperties = {
-  '◆ Open': 'Drawer' | 'Modal'
+  '◆ Open': 'Drawer' | 'Modal' | 'Default'
 }
 
 export function CommandPalette(
@@ -67,42 +65,30 @@ export function CommandPalette(
   const input = findOne<DesignComponent<InputProperties>>(component, {
     type: 'INSTANCE',
     name: INPUT_NAMES,
-    visible: true,
   })
 
   const inputComponent = input ? Input(input) : undefined
 
   const { icon, placeholder, disabled } = inputComponent?.props || {}
 
-  const container = findChild<FrameNode>(component, {
-    type: 'FRAME',
-    name: 'CommandPalette',
-    visible: true,
-  })
-
-  const itemContainers = container
-    ? findChildren<FrameNode>(container, {
-        type: 'FRAME',
-        name: /^Container/,
-        visible: true,
-      })
-    : []
+  const containers = queryAll<FrameNode>(component, [
+    { query: 'child', type: 'FRAME', name: 'CommandPalette' },
+    { query: 'children', type: 'FRAME', name: /^Container/ },
+  ])
 
   let activeCount = 0
 
-  const groups = itemContainers.map((itemContainer) => {
-    const title = findChild<TextNode>(itemContainer, {
+  const groups = containers.map((container) => {
+    const title = findChild<TextNode>(container, {
       type: 'TEXT',
       name: 'Title',
-      visible: true,
     })?.characters
 
     const items = findChildren<DesignComponent<CommandPaletteItemProperties>>(
-      itemContainer,
+      container,
       {
         type: 'INSTANCE',
         name: 'CommandPaletteItem',
-        visible: true,
       },
     ).map((item) => {
       const menuItem = renderCommandPaletteItem(item)
@@ -123,7 +109,6 @@ export function CommandPalette(
   const closeButton = findOne<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',
     name: BUTTON_NAMES,
-    visible: true,
   })
 
   const buttonProps = closeButton

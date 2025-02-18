@@ -3,31 +3,29 @@ import type {
   NavigationMenuItem,
   NavigationMenuProps,
 } from '@nuxt/ui'
-import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
+import type { DesignComponent } from '@tempad-dev/plugins'
 import type { BadgeProperties } from './badge'
 import type { IconProperties } from './icon'
 import { omit } from '@s-libs/micro-dash'
-import { findAll, findChild, findChildren } from '@tempad-dev/plugins'
+import { findAll, findChildren, queryOne } from '@tempad-dev/plugins'
 import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 import { renderBadgeItem } from './badge'
 import { getIconName } from './icon'
 
 export type NavigationMenuDropdownItemProperties = {
-  '🚦 State': 'Active' | 'Default' | 'Focused' | 'Hover'
-  '👁️ Icon': boolean
-  '↳ IconName'?: DesignComponent<IconProperties>
-  '𝐓 Title': string
   '👁️ Description': boolean
-  '↳ DescriptionSlot'?: string
+  '↳ DescriptionSlot': string
+  '𝐓 Title': string
+  '👁️ Icon': boolean
+  '↳ IconName': DesignComponent<IconProperties>
+  '🚦 State': 'Active' | 'Default' | 'Focused' | 'Hover'
 }
 
 export function renderNavigationMenuDropdownItem(
   item: DesignComponent<NavigationMenuDropdownItemProperties>,
 ): NavigationMenuChildItem {
-  const { properties } = item
-
   const { icon, iconName, title, description, descriptionSlot } =
-    cleanPropNames(properties)
+    cleanPropNames(item.properties)
 
   return {
     label: title,
@@ -37,17 +35,19 @@ export function renderNavigationMenuDropdownItem(
 }
 
 export type NavigationMenuItemProperties = {
+  '↳ IconLeadingName': DesignComponent<IconProperties>
+  '𝐓 Label': string
+  '👁️ Children': boolean
+  '👁️ Badge': boolean
+  '👁️ IconTrailing': boolean
+  '👁️ IconLeading': boolean
   '🎨 Color': 'Neutral' | 'Primary'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
   '◆ Variant': 'Link' | 'Pill'
   '🚦 State': 'Default' | 'Hover' | 'Disabled' | 'Focus'
   '👁️ Active': 'False' | 'True'
   '👁️ Highlight': 'False' | 'True'
-  '👁️ IconLeading': boolean
-  '↳ IconLeadingName'?: DesignComponent<IconProperties>
-  '👁️ IconTrailing': boolean
-  '👁️ Badge': boolean
-  '𝐓 Label': string
+  '👁️ External': 'False' | 'True'
 }
 
 type NavigationMenuItemExtra = Pick<
@@ -58,8 +58,6 @@ type NavigationMenuItemExtra = Pick<
 export function renderNavigationMenuItem(
   item: DesignComponent<NavigationMenuItemProperties>,
 ): NavigationMenuItem & NavigationMenuItemExtra {
-  const { properties } = item
-
   const {
     color,
     variant,
@@ -71,22 +69,12 @@ export function renderNavigationMenuItem(
     iconTrailing,
     badge: showBadge,
     label,
-  } = cleanPropNames(properties)
-
-  const container = showBadge
-    ? findChild<FrameNode>(item, {
-        type: 'FRAME',
-        name: 'Container',
-        visible: true,
-      })
-    : undefined
-
-  const badgeNode = container
-    ? findChild<DesignComponent<BadgeProperties>>(container, {
-        type: 'INSTANCE',
-        name: 'Badge',
-        visible: true,
-      })
+  } = cleanPropNames(item.properties)
+  const badgeNode = showBadge
+    ? queryOne<DesignComponent<BadgeProperties>>(item, [
+        { query: 'child', type: 'FRAME', name: 'Container' },
+        { query: 'child', type: 'INSTANCE', name: 'Badge' },
+      ])
     : undefined
 
   const badgeItem = badgeNode
@@ -112,7 +100,6 @@ export function renderNavigationMenuItem(
     ? findAll<DesignComponent<NavigationMenuDropdownItemProperties>>(item, {
         type: 'INSTANCE',
         name: 'NavigationMenu(DropdownItem)',
-        visible: true,
       }).map(renderNavigationMenuDropdownItem)
     : undefined
 
@@ -147,16 +134,13 @@ export type NavigationMenuProperties = {
 export function NavigationMenu(
   component: DesignComponent<NavigationMenuProperties>,
 ) {
-  const { properties } = component
-
-  const { orientation, highlight } = cleanPropNames(properties)
+  const { orientation, highlight } = cleanPropNames(component.properties)
 
   const items = findChildren<DesignComponent<NavigationMenuItemProperties>>(
     component,
     {
       type: 'INSTANCE',
       name: 'NavigationMenuItem',
-      visible: true,
     },
   ).map(renderNavigationMenuItem)
 

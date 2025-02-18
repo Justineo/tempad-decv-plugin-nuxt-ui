@@ -4,6 +4,14 @@ import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getIconName } from './icon'
 
 export type SwitchProperties = {
+  '𝐓 Description': string
+  '↳ Description': boolean
+  '𝐓 Title': string
+  '👁️ Required': boolean
+  '👁️ ActiveIcon': boolean
+  '↳ ActiveIconName': DesignComponent<IconProperties>
+  '👁️ DefaultIcon': boolean
+  '↳ DefaultIconName': DesignComponent<IconProperties>
   '🎨 Color':
     | 'Error'
     | 'Neutral'
@@ -14,19 +22,9 @@ export type SwitchProperties = {
     | 'Warning'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Active' | 'Default' | 'Disabled' | 'Focus'
-  '𝐓 Title': string
-  '↳ Description': boolean
-  '𝐓 Description'?: string
-  '👁️ DefaultIcon': boolean
-  '↳ DefaultIconName'?: DesignComponent<IconProperties>
-  '👁️ ActiveIcon': boolean
-  '↳ ActiveIconName'?: DesignComponent<IconProperties>
-  '👁️ Required': boolean
 }
 
 export function Switch(component: DesignComponent<SwitchProperties>) {
-  const { properties } = component
-
   const {
     color,
     size,
@@ -39,7 +37,7 @@ export function Switch(component: DesignComponent<SwitchProperties>) {
     activeIcon,
     activeIconName,
     required,
-  } = cleanPropNames(properties, {
+  } = cleanPropNames(component.properties, {
     '↳ Description': 'showDescription',
   })
 

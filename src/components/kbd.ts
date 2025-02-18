@@ -1,6 +1,6 @@
 import type { KbdProps } from '@nuxt/ui'
-import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
-import { findChild, findChildren } from '@tempad-dev/plugins'
+import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
+import { findChild, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick, toLowerCase } from '../utils'
 
 export const kbdGlyphsMap: Record<string, string> = {
@@ -47,13 +47,10 @@ export type KbdProperties = {
 }
 
 export function Kbd(component: DesignComponent<KbdProperties>) {
-  const { properties } = component
-
-  const { size, variant } = cleanPropNames(properties)
+  const { size, variant } = cleanPropNames(component.properties)
 
   const text = findChild<TextNode>(component, {
     type: 'TEXT',
-    visible: true,
   })?.characters
 
   return h(
@@ -83,29 +80,18 @@ export function getKbdItems(
   menuItem: DesignComponent,
   defaults: Partial<KbdProps> = {},
 ): string[] | KbdProps[] | undefined {
-  const kbdsContainer = findChild<FrameNode>(menuItem, {
-    type: 'FRAME',
-    name: 'Kbd',
-    visible: true,
-  })
+  const kbds = queryAll<DesignComponent<KbdProperties>>(menuItem, [
+    { query: 'child', type: 'FRAME', name: 'Kbd' },
+    { query: 'children', type: 'INSTANCE', name: 'Kbd' },
+  ]).map((kbd) => renderKbdItem(kbd, defaults))
 
-  if (kbdsContainer) {
-    const kbds = findChildren<DesignComponent<KbdProperties>>(kbdsContainer, {
-      type: 'INSTANCE',
-      name: 'Kbd',
-      visible: true,
-    }).map((kbd) => renderKbdItem(kbd, defaults))
-
-    if (kbds.length === 0) {
-      return undefined
-    }
-
-    if (kbds.every((kbd) => Object.keys(kbd).length === 1 && kbd.value)) {
-      return kbds.map((kbd) => kbd.value!)
-    }
-
-    return kbds
+  if (kbds.length === 0) {
+    return undefined
   }
 
-  return undefined
+  if (kbds.every((kbd) => Object.keys(kbd).length === 1 && kbd.value)) {
+    return kbds.map((kbd) => kbd.value!)
+  }
+
+  return kbds.length > 0 ? kbds : undefined
 }

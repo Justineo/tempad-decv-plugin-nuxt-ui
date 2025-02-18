@@ -2,21 +2,19 @@ import type { DesignComponent } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
 export type TextareaProperties = {
+  '↳ PlaceholderSlot': string
+  '👁️ Placeholder': boolean
+  '↳ CompletedLabel': string
+  '👁️ Completed': boolean
   '🎨 Color': 'Error' | 'Neutral' | 'Primary'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Variant': 'Outline' | 'Soft' | 'Subtle' | 'Ghost' | 'None'
   '🚦 State': 'Default' | 'Hover' | 'Focus' | 'Disabled'
-  '👁️ Placeholder': boolean
-  '↳ PlaceholderSlot'?: string
-  '👁️ Completed': boolean
-  '↳ CompletedLabel'?: string
 }
 
 export function Textarea(component: DesignComponent<TextareaProperties>) {
-  const { properties } = component
-
   const { color, size, variant, state, placeholder, placeholderSlot } =
-    cleanPropNames(properties)
+    cleanPropNames(component.properties)
 
   return h(
     'UTextarea',

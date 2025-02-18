@@ -1,7 +1,7 @@
-import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
+import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
-import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
+import { findChild, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
@@ -9,6 +9,11 @@ import { ui } from './config'
 import { getIconName } from './icon'
 
 export type AlertProperties = {
+  '𝐓 Title': string
+  '👁️ Icon': boolean
+  '↳ IconName': DesignComponent<IconProperties>
+  '𝐓 Description': string
+  '👁️ CloseButton': boolean
   '🎨 Color':
     | 'Neutral'
     | 'Primary'
@@ -20,17 +25,10 @@ export type AlertProperties = {
   '◆ Variant': 'Solid' | 'Outline' | 'Soft' | 'Subtle'
   '◆ LeadingSlot': 'Avatar' | 'Icon'
   '👁️ Description': 'True' | 'False'
-  '👁️ Action': 'True' | 'False'
-  '𝐓 Title': string
-  '𝐓 Description'?: string
-  '👁️ CloseButton': boolean
-  '👁️ Icon': boolean
-  '↳ IconName'?: DesignComponent<IconProperties>
+  '👁️ Action': 'False' | 'True'
 }
 
 export function Alert(component: DesignComponent<AlertProperties>) {
-  const { properties } = component
-
   const {
     color,
     variant,
@@ -42,14 +40,13 @@ export function Alert(component: DesignComponent<AlertProperties>) {
     closeButton,
     icon,
     iconName,
-  } = cleanPropNames(properties, {
+  } = cleanPropNames(component.properties, {
     '👁️ Description': 'showDescription',
   })
 
   const button = findChild<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',
     name: BUTTON_NAMES,
-    visible: true,
   })
   const close =
     closeButton && button
@@ -61,24 +58,17 @@ export function Alert(component: DesignComponent<AlertProperties>) {
       : false
   const closeIcon = close ? close.icon : undefined
 
-  const actionSection = action
-    ? findOne<FrameNode>(component, {
-        type: 'FRAME',
-        name: 'Actions',
-        visible: true,
-      })
-    : null
-  const actionButtons: DesignComponent<ButtonProperties>[] = actionSection
-    ? findChildren<DesignComponent<ButtonProperties>>(actionSection, {
-        type: 'INSTANCE',
-        name: BUTTON_NAMES,
-      }) || []
-    : []
-  const actions = actionButtons.map((button) =>
-    renderButtonItem(button, {
-      size: 'xs',
-    }),
-  )
+  const actions =
+    action === 'True'
+      ? queryAll<DesignComponent<ButtonProperties>>(component, [
+          { query: 'one', type: 'FRAME', name: 'Actions' },
+          { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
+        ]).map((button) =>
+          renderButtonItem(button, {
+            size: 'xs',
+          }),
+        )
+      : []
 
   return h(
     'UAlert',

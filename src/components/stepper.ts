@@ -45,6 +45,13 @@ export function getStepperItem(
 }
 
 export type StepperProperties = {
+  '↳ Description3': string
+  '↳ Description2': string
+  '𝐓 Title3': string
+  '👁️ Description': boolean
+  '↳ Description1': string
+  '𝐓 Title2': string
+  '𝐓 Title1': string
   '🎨 Color':
     | 'Primary'
     | 'Neutral'
@@ -56,24 +63,16 @@ export type StepperProperties = {
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Step': '1' | '2' | '3'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
-  '𝐓 Title1': string
-  '𝐓 Title2': string
-  '𝐓 Title3': string
-  '👁️ Description': boolean
-  '↳ Description1'?: string
-  '↳ Description2'?: string
-  '↳ Description3'?: string
 }
 
 export function Stepper(component: DesignComponent<StepperProperties>) {
-  const { properties } = component
-
-  const { color, size, step, orientation } = cleanPropNames(properties)
+  const { color, size, step, orientation } = cleanPropNames(
+    component.properties,
+  )
 
   const stepContainers = findChildren<FrameNode>(component, {
     type: 'FRAME',
     name: /^Step/,
-    visible: true,
   })
 
   const items = stepContainers
@@ -83,18 +82,15 @@ export function Stepper(component: DesignComponent<StepperProperties>) {
         {
           type: 'INSTANCE',
           name: 'Stepper_Item',
-          visible: true,
         },
       )
       const titleAndDesc = findChild<FrameNode>(stepContainer, {
         type: 'FRAME',
         name: 'Title + description',
-        visible: true,
       })
       const [title, description] = titleAndDesc
         ? findChildren<TextNode>(titleAndDesc, {
             type: 'TEXT',
-            visible: true,
           })
         : []
 

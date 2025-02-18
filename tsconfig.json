@@ -8,6 +8,7 @@
     "typeRoots": ["node_modules/@types", "node_modules/@figma"],
     "strict": true,
     "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
     "noEmit": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,

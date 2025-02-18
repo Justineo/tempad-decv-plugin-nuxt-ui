@@ -18,46 +18,39 @@ import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
 
 export type SlideoverProperties = {
+  '◆ FooterSlot': DesignComponent
+  '◆ BodySlot': DesignComponent
   '◆ Variant': 'Bottom' | 'Top' | 'Left' | 'Right'
   '👁️ Overlay': 'True' | 'False'
-  '◆ BodySlot': DesignComponent
-  '◆ FooterSlot': DesignComponent
 }
 
 export function Slideover(component: DesignComponent<SlideoverProperties>) {
-  const { properties } = component
-
-  const { variant, overlay } = cleanPropNames(properties)
+  const { variant, overlay } = cleanPropNames(component.properties)
 
   const header = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Header',
-    visible: true,
   })
 
   const body = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Body',
-    visible: true,
   })
 
   const footer = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Footer',
-    visible: true,
   })
 
   const titleAndDesc = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Title and description',
-    visible: true,
   })
 
   const closeButton = header
     ? findChild<DesignComponent<ButtonProperties>>(header, {
         type: 'INSTANCE',
         name: BUTTON_NAMES,
-        visible: true,
       })
     : undefined
   const closeProps = closeButton
@@ -73,7 +66,6 @@ export function Slideover(component: DesignComponent<SlideoverProperties>) {
   const [title, desc] = titleAndDesc
     ? findChildren<TextNode>(titleAndDesc, {
         type: 'TEXT',
-        visible: true,
       })
     : []
 

@@ -3,26 +3,23 @@ import { findOne } from '@tempad-dev/plugins'
 import { h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, renderSlot } from '../utils'
 
 export type CardProperties = {
-  '❖ HeaderSlot': DesignComponent
   '❖ BodySlot': DesignComponent
   '❖ FooterSlot': DesignComponent
+  '❖ HeaderSlot': DesignComponent
 }
 
 export function Card(component: DesignComponent<CardProperties>) {
   const header = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Header',
-    visible: true,
   })
   const body = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Body',
-    visible: true,
   })
   const footer = findOne<FrameNode>(component, {
     type: 'FRAME',
     name: 'Footer',
-    visible: true,
   })
 
   return h('UCard', {}, {}, [

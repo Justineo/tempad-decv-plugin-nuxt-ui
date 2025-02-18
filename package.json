@@ -31,7 +31,7 @@
     "@figma/plugin-typings": "^1.107.0",
     "@nuxt/ui": "3.0.0-alpha.11",
     "@s-libs/micro-dash": "^18.0.0",
-    "@tempad-dev/plugins": "^0.4.10",
+    "@tempad-dev/plugins": "^0.5.0",
     "@types/node": "^22.13.4",
     "eslint": "^9.20.1",
     "eslint-plugin-de-morgan": "^1.0.1",

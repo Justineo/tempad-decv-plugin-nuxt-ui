@@ -2,19 +2,17 @@ import type { DesignComponent } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
 export type SliderProperties = {
+  '👁️ Indicator2': boolean
   '🎨 Color': 'Error' | 'Neutral' | 'Primary'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
   '🚦 State': 'Default' | 'Disabled'
   '◆ IndicatorPosition': '0' | '25' | '50' | '75' | '100'
-  '👁️ Indicator2': boolean
 }
 
 export function Slider(component: DesignComponent<SliderProperties>) {
-  const { properties } = component
-
   const { color, size, orientation, state, indicatorPosition, indicator2 } =
-    cleanPropNames(properties)
+    cleanPropNames(component.properties)
 
   const value = Number(indicatorPosition)
 

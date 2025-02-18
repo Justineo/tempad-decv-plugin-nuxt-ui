@@ -8,7 +8,7 @@ import type {
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import type { SelectProperties } from './select'
-import { findChild, findChildren } from '@tempad-dev/plugins'
+import { findChild, findChildren, queryOne } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
@@ -45,22 +45,20 @@ export function renderSelectMenuItem(
 }
 
 export type SelectMenuProperties = {
+  '👁️ IsOpen': boolean
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  '👁️ isOpen': boolean
 }
 
 export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
   const menu = findChild<FrameNode>(component, {
     type: 'FRAME',
     name: 'SelectMenu',
-    visible: true,
   })
 
   const container = menu
     ? findChild<FrameNode>(menu, {
         type: 'FRAME',
         name: 'Container',
-        visible: true,
       })
     : undefined
 
@@ -78,7 +76,6 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
         if (item.type === 'FRAME') {
           const text = findChild<TextNode>(item, {
             type: 'TEXT',
-            visible: true,
           })
           return {
             label: text?.characters,
@@ -95,23 +92,21 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
   const select = findChild<DesignComponent<SelectProperties>>(component, {
     type: 'INSTANCE',
     name: SELECT_NAMES,
-    visible: true,
   })
 
-  const input = menu
-    ? findChild<DesignComponent>(menu, {
-        type: 'INSTANCE',
-        name: 'Input',
-        visible: true,
-      })
-    : undefined
-
-  const search = input
-    ? findChild<DesignComponent<InputProperties>>(input, {
-        type: 'INSTANCE',
-        name: INPUT_NAMES,
-        visible: true,
-      })
+  const search = menu
+    ? queryOne<DesignComponent<InputProperties>>(menu, [
+        {
+          query: 'child',
+          type: 'INSTANCE',
+          name: 'Input',
+        },
+        {
+          query: 'child',
+          type: 'INSTANCE',
+          name: INPUT_NAMES,
+        },
+      ])
     : undefined
 
   const { content, ...selectProps } = select ? Select(select).props : {}

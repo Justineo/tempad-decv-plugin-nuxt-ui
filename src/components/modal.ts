@@ -8,19 +8,17 @@ import {
 } from '../utils'
 
 export type ModalProperties = {
-  '👁️  Background': 'False' | 'True'
-  '👁️ Header': boolean
-  '↳  HeaderSlot'?: DesignComponent
-  '👁️ Body': boolean
-  '↳  BodySlot'?: DesignComponent
   '👁️ Footer': boolean
-  '↳  FooterSlot'?: DesignComponent
+  '↳  BodySlot': DesignComponent
+  '👁️ Header': boolean
+  '👁️ Body': boolean
+  '↳  FooterSlot': DesignComponent
+  '↳  HeaderSlot': DesignComponent
+  '👁️  Background': 'False' | 'True'
 }
 
 export function Modal(component: DesignComponent<ModalProperties>) {
-  const { properties } = component
-
-  const { header, body, footer } = cleanPropNames(properties)
+  const { header, body, footer } = cleanPropNames(component.properties)
 
   return h('UModal', {}, {}, [
     ...(header ? [renderSlot('header', [LOREM_IPSUM_TITLE])] : []),

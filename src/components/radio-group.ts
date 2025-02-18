@@ -4,6 +4,9 @@ import { findAll } from '@tempad-dev/plugins'
 import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 
 export type RadioProperties = {
+  '𝐓 Label': string
+  '👁️ Description': boolean
+  '↳ DescriptionSlot': string
   '🎨 Color':
     | 'Neutral'
     | 'Error'
@@ -14,9 +17,6 @@ export type RadioProperties = {
     | 'Warning'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Disabled' | 'Focus' | 'Selected'
-  '𝐓 Label': string
-  '👁️ Description': boolean
-  '↳ DescriptionSlot'?: string
 }
 
 type RadioGroupItemExtra = Pick<RadioGroupProps<RadioGroupItem>, 'color'>
@@ -24,10 +24,9 @@ type RadioGroupItemExtra = Pick<RadioGroupProps<RadioGroupItem>, 'color'>
 export function renderRadioItem(
   item: DesignComponent<RadioProperties>,
 ): RadioGroupItem & RadioGroupItemExtra {
-  const { properties } = item
-
-  const { color, state, label, description, descriptionSlot } =
-    cleanPropNames(properties)
+  const { color, state, label, description, descriptionSlot } = cleanPropNames(
+    item.properties,
+  )
 
   return pick(
     {
@@ -45,21 +44,18 @@ export function renderRadioItem(
 }
 
 export type RadioGroupProperties = {
-  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  '⇅ Align': 'Horizontal' | 'Vertical'
   '𝐓 Legend': string
   '👁️ Required': boolean
+  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  '⇅ Align': 'Horizontal' | 'Vertical'
 }
 
 export function RadioGroup(component: DesignComponent<RadioGroupProperties>) {
-  const { properties } = component
-
-  const { size, align, legend, required } = cleanPropNames(properties)
+  const { size, align, legend, required } = cleanPropNames(component.properties)
 
   const items = findAll<DesignComponent<RadioProperties>>(component, {
     type: 'INSTANCE',
     name: 'Radio',
-    visible: true,
   }).map(renderRadioItem)
 
   const color = getFirst(items, 'color')

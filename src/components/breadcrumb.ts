@@ -1,83 +1,110 @@
 import type { BreadcrumbItem } from '@nuxt/ui'
-import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
+import type {
+  DesignComponent,
+  DevComponent,
+  FrameNode,
+  TextNode,
+} from '@tempad-dev/plugins'
+import type { DropdownMenuProperties } from './dropdown-menu'
 import type { IconProperties } from './icon'
-import type { LinkProperties } from './link'
-import { findChild, findChildren } from '@tempad-dev/plugins'
-import { cleanPropNames, h, renderSlot } from '../utils'
+import { findChild, findChildren, queryOne } from '@tempad-dev/plugins'
+import { cleanPropNames, h, isIcon, renderSlot } from '../utils'
 import { ui } from './config'
+import { DropdownMenu } from './dropdown-menu'
 import { getIconName } from './icon'
 
 export type BreadcrumbProperties = {
+  '🙂 IconName3': DesignComponent<IconProperties>
+  '🙂 IconName2': DesignComponent<IconProperties>
+  '🙂 IconName1': DesignComponent<IconProperties>
+  '𝐓 SeparatorSlot': string
+  '🙂 SeparatorIconName': DesignComponent<IconProperties>
   '◆ LeadingSlot': 'Icon' | 'None' | 'Span'
   '◆ Divider': 'Icon' | 'Span'
   '👁️ Background': 'False' | 'True'
   '👁️ DropdownMenu': 'True' | 'False'
-  '🙂 SeparatorIconName'?: DesignComponent<IconProperties>
-  '𝐓 SeparatorSlot'?: string
-  '🙂 IconName1'?: DesignComponent<IconProperties>
-  '🙂 IconName2'?: DesignComponent<IconProperties>
-  '🙂 IconName3'?: DesignComponent<IconProperties>
 }
 
 export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
-  const { properties } = component
+  const { leadingSlot, divider, separatorIconName, separatorSlot } =
+    cleanPropNames(component.properties)
 
-  const {
-    leadingSlot,
-    divider,
-    separatorIconName,
-    separatorSlot,
-    iconName1,
-    iconName2,
-    iconName3,
-  } = cleanPropNames(properties)
-
-  const icons = [iconName1, iconName2, iconName3]
+  const itemNodes = findChildren<
+    TextNode | FrameNode | DesignComponent<DropdownMenuProperties>
+  >(component, {
+    name: /^Link|^DropdownMenu/,
+  })
 
   const items: BreadcrumbItem[] = []
+  const children: DevComponent['children'] = []
 
-  if (leadingSlot === 'None' || leadingSlot === 'Span') {
-    const links = findChildren<DesignComponent<LinkProperties>>(component, {
-      type: 'INSTANCE',
-      name: 'Link',
-      visible: true,
-    })
-    items.push(
-      ...links.map((link) => ({
-        label:
-          findChild<TextNode>(link, {
+  itemNodes.forEach((node) => {
+    const { type, name } = node
+    if (type === 'FRAME' && name.startsWith('Link')) {
+      const label =
+        queryOne<TextNode>(node, [
+          {
+            query: 'child',
+            type: 'INSTANCE',
+            name: 'Link',
+          },
+          {
+            query: 'child',
             type: 'TEXT',
             name: 'Label',
-            visible: true,
-          })?.characters || undefined,
-      })),
-    )
-  } else {
-    const linkFrames = findChildren<FrameNode>(component, {
-      name: /Link \d+/,
-      visible: true,
-    })
-    items.push(
-      ...linkFrames.map((linkFrame, index) => {
-        const link = findChild<DesignComponent<LinkProperties>>(linkFrame, {
-          type: 'INSTANCE',
-          name: 'Link',
-          visible: true,
-        })
-        const label = link
-          ? findChild<TextNode>(link, {
-              type: 'TEXT',
-              name: 'Label',
-              visible: true,
-            })?.characters
+          },
+        ])?.characters || undefined
+
+      const icon =
+        leadingSlot === 'Icon' && isIcon(node.children[0])
+          ? getIconName(node.children[0].name)
           : undefined
 
-        return {
-          label,
-          icon: getIconName(icons[index]?.name),
-        }
-      }),
-    )
+      items.push({
+        label,
+        icon,
+      })
+    } else if (type === 'INSTANCE' && name === 'Link') {
+      items.push({
+        label:
+          findChild<TextNode>(node, {
+            type: 'TEXT',
+            name: 'Label',
+          })?.characters || undefined,
+      })
+    } else if (type === 'INSTANCE' && name === 'DropdownMenu') {
+      const menu = DropdownMenu(node, {
+        button: {
+          icon: undefined,
+          ':icon': 'item.icon',
+        },
+      })
+
+      if (!menu) {
+        items.push({
+          icon: ui.icons.ellipsis,
+        })
+
+        return
+      }
+
+      const { items: menuItems, ...props } = menu.props
+      menu.props = props
+      // @ts-expect-error `:items` is not a valid prop but we need to override it here
+      menu.props[':items'] = 'item.children'
+
+      items.push({
+        icon: ui.icons.ellipsis,
+        slot: 'dropdown',
+        children: menuItems,
+      })
+
+      children.push(renderSlot('dropdown', '{ item }', [menu]))
+    }
+  })
+
+  if (divider === 'Span' && separatorSlot) {
+    children.push(renderSlot('separator', [separatorSlot]))
   }
 
   return h(
@@ -90,8 +117,6 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
     {
       separatorIcon: ui.icons.chevronRight,
     },
-    divider === 'Span' && separatorSlot
-      ? [renderSlot('separator', [separatorSlot])]
-      : [],
+    children,
   )
 }

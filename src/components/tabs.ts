@@ -16,25 +16,24 @@ import { Badge } from './badge'
 import { getIconName } from './icon'
 
 export type TabsItemProperties = {
+  '↳ IconName': DesignComponent<IconProperties>
+  '👁️ Icon': boolean
+  '👁️ Avatar': boolean
+  '𝐓 Label': string
+  '👁️ Badge': boolean
   '🎨 Color': 'Neutral' | 'Primary'
   '◆ Variant': 'Pill' | 'Link (Horizontal)' | 'Link (Vertical)'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Hover' | 'Selected' | 'Focus' | 'Disabled'
   '◆ LeadingSlot': 'Avatar' | 'Icon'
-  '👁️ Avatar': boolean
-  '👁️ Icon': boolean
-  '↳ IconName'?: DesignComponent<IconProperties>
-  '𝐓 Label': string
-  '👁️ Badge': boolean
 }
 
 export function renderTabsItem(
   item: DesignComponent<TabsItemProperties>,
 ): TabsItem {
-  const { properties } = item
-
-  const { state, leadingSlot, avatar, icon, iconName, label } =
-    cleanPropNames(properties)
+  const { state, leadingSlot, avatar, icon, iconName, label } = cleanPropNames(
+    item.properties,
+  )
 
   return pick(
     {
@@ -61,9 +60,7 @@ export type TabsProperties = {
 }
 
 export function Tabs(component: DesignComponent<TabsProperties>) {
-  const { properties } = component
-
-  const { color, size, variant, align } = cleanPropNames(properties)
+  const { color, size, variant, align } = cleanPropNames(component.properties)
 
   const children: DevComponent['children'] = []
   const items: TabsItem[] = []
@@ -71,14 +68,12 @@ export function Tabs(component: DesignComponent<TabsProperties>) {
   findChildren<DesignComponent<TabsItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'Tab',
-    visible: true,
   }).forEach((tab) => {
     const item = renderTabsItem(tab)
 
     const badge = findChild<DesignComponent<BadgeProperties>>(tab, {
       type: 'INSTANCE',
       name: 'Badge',
-      visible: true,
     })
     const badgeComponent = badge ? Badge(badge) : undefined
 

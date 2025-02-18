@@ -1,19 +1,22 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
+import { findChild } from '@tempad-dev/plugins'
 import { cleanPropNames, h } from '../utils'
-import { Button } from './button'
+import { Button, BUTTON_NAMES } from './button'
 
 export type CollapsibleProperties = {
-  '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  '❖ Slot': DesignComponent
   '👁️ Open': boolean
+  '◆ Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
 export function Collapsible(component: DesignComponent<CollapsibleProperties>) {
-  const { properties } = component
+  const { open } = cleanPropNames(component.properties)
 
-  const { open } = cleanPropNames(properties)
-
-  const button = component.children[0] as DesignComponent<ButtonProperties>
+  const button = findChild<DesignComponent<ButtonProperties>>(component, {
+    type: 'INSTANCE',
+    name: BUTTON_NAMES,
+  })
 
   return h(
     'UCollapsible',
@@ -23,6 +26,6 @@ export function Collapsible(component: DesignComponent<CollapsibleProperties>) {
     {
       open: false,
     },
-    [Button(button)],
+    button ? [Button(button)] : [],
   )
 }

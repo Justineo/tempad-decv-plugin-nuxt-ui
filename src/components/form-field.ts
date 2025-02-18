@@ -9,22 +9,20 @@ import { InputNumber } from './input-number'
 import { PinInput } from './pin-input'
 
 export type FormFieldProperties = {
+  '👁️ Description': boolean
+  '👁️ Help': boolean
+  '👁️ Hint': boolean
+  '👁️ Required': boolean
+  '↳ HintSlot': string
+  '↳ DescriptionSlot': string
+  '↳ HelpSlot': string
+  '𝐓 Label': string
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Input': 'Input' | 'InputNumber' | 'PinInput'
   '👁️ Error': 'False' | 'True'
-  '𝐓 Label': string
-  '👁️ Required': boolean
-  '👁️ Hint': boolean
-  '↳ HintSlot'?: string
-  '👁️ Help': boolean
-  '↳ HelpSlot': string
-  '👁️ Description': boolean
-  '↳ DescriptionSlot': string
 }
 
 export function FormField(component: DesignComponent<FormFieldProperties>) {
-  const { properties } = component
-
   const {
     size,
     input,
@@ -37,7 +35,7 @@ export function FormField(component: DesignComponent<FormFieldProperties>) {
     helpSlot,
     description,
     descriptionSlot,
-  } = cleanPropNames(properties)
+  } = cleanPropNames(component.properties)
 
   const children: DevComponent['children'] = []
 
@@ -45,7 +43,6 @@ export function FormField(component: DesignComponent<FormFieldProperties>) {
     const i = findOne<DesignComponent<InputProperties>>(component, {
       type: 'INSTANCE',
       name: INPUT_NAMES,
-      visible: true,
     })
 
     if (i) {
@@ -55,7 +52,6 @@ export function FormField(component: DesignComponent<FormFieldProperties>) {
     const i = findOne<DesignComponent<InputNumberProperties>>(component, {
       type: 'INSTANCE',
       name: 'InputNumber',
-      visible: true,
     })
 
     if (i) {
@@ -65,7 +61,6 @@ export function FormField(component: DesignComponent<FormFieldProperties>) {
     const i = findOne<DesignComponent<PinInputProperties>>(component, {
       type: 'INSTANCE',
       name: 'PinInput',
-      visible: true,
     })
 
     if (i) {
@@ -78,8 +73,8 @@ export function FormField(component: DesignComponent<FormFieldProperties>) {
     {
       label,
       description: (description && descriptionSlot) || undefined,
-      help: (help && helpSlot) || undefined,
-      error: error === 'True' ? helpSlot || true : false,
+      help: (error === 'False' && help && helpSlot) || undefined,
+      error: error === 'True' && (helpSlot || true),
       hint: (hint && hintSlot) || undefined,
       size,
       required,
