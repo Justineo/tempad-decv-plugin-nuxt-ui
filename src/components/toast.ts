@@ -73,7 +73,7 @@ export function Toast(component: DesignComponent<ToastProperties>) {
       title,
       description: (showDescription && description) || undefined,
       icon:
-        leadingSlot === 'Icon' ? getIconName(leadingIconName?.name) : undefined,
+        leadingSlot === 'Icon' ? getIconName(leadingIconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       color: toLowerCase(color),
       close,

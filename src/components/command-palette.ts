@@ -42,10 +42,10 @@ export function renderCommandPaletteItem(
       label,
       suffix: (description && descriptionSlot) || undefined,
       icon:
-        leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined,
+        leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       kbds: trailingSlot === 'Kbd' ? getKbdItems(item) : undefined,
-      active: trailingSlot === 'Icon' && iconTrailingName?.name === 'check',
+      active: trailingSlot === 'Icon' && iconTrailingName.name === 'check',
       disabled: state === 'Disabled',
     },
     {

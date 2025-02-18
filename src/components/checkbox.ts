@@ -34,7 +34,7 @@ export function Checkbox(component: DesignComponent<CheckboxProperties>) {
       description: description ? descriptionSlot : undefined,
       color: toLowerCase(color),
       size,
-      icon: getIconName(icon?.name),
+      icon: getIconName(icon.name),
       disabled: state === 'Disabled',
       required,
     },

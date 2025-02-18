@@ -56,8 +56,8 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
         ])?.characters || undefined
 
       const icon =
-        leadingSlot === 'Icon' && isIcon(node.children[0])
-          ? getIconName(node.children[0].name)
+        leadingSlot === 'Icon' && isIcon(node.children[0]!)
+          ? getIconName(node.children[0]!.name)
           : undefined
 
       items.push({
@@ -112,7 +112,7 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
     {
       items,
       separatorIcon:
-        divider === 'Icon' ? getIconName(separatorIconName?.name) : undefined,
+        divider === 'Icon' ? getIconName(separatorIconName.name) : undefined,
     },
     {
       separatorIcon: ui.icons.chevronRight,

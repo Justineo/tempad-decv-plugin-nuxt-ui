@@ -31,7 +31,7 @@ export function renderInputMenuItem(
   return pick(
     {
       label,
-      icon: leadingSlot === 'Icon' ? getIconName(iconName?.name) : undefined,
+      icon: leadingSlot === 'Icon' ? getIconName(iconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       chip: leadingSlot === 'Dot' ? { color: 'primary' } : undefined,
       disabled: state === 'Disabled',

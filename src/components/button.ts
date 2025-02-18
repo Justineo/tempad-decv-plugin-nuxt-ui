@@ -57,10 +57,10 @@ export function Button(
 
   const icon =
     slot === 'Icon' && iconLeading
-      ? getIconName(iconLeadingName?.name)
+      ? getIconName(iconLeadingName.name)
       : undefined
   const trailingIcon = iconTrailing
-    ? getIconName(iconTrailingName?.name)
+    ? getIconName(iconTrailingName.name)
     : undefined
   const avatar =
     slot === 'Avatar' && avatarLeading ? getRandomAvatar() : undefined
@@ -98,13 +98,13 @@ export function renderButtonItem(
   defaults: Partial<ButtonProps> = {},
 ): Partial<ButtonProps> {
   const { props, children } = Button(button, defaults)
+  const label = children
+    .map((child) => (typeof child === 'string' ? child : undefined))
+    .filter(Boolean)
+    .join('')
 
   return {
-    label:
-      children
-        .map((child) => (typeof child === 'string' ? child : undefined))
-        .filter(Boolean)
-        .join('') || undefined,
+    ...(label ? { label } : {}),
     ...props,
   }
 }

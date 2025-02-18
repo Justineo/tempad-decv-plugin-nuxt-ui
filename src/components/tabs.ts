@@ -39,9 +39,7 @@ export function renderTabsItem(
     {
       label,
       icon:
-        leadingSlot === 'Icon' && icon
-          ? getIconName(iconName?.name)
-          : undefined,
+        leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
       avatar:
         leadingSlot === 'Avatar' && avatar ? getRandomAvatar() : undefined,
       disabled: state === 'Disabled',

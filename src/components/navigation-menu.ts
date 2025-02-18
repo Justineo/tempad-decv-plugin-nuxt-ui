@@ -30,7 +30,7 @@ export function renderNavigationMenuDropdownItem(
   return {
     label: title,
     description: (description && descriptionSlot) || undefined,
-    icon: icon ? getIconName(iconName?.name) : undefined,
+    icon: icon ? getIconName(iconName.name) : undefined,
   }
 }
 
@@ -106,7 +106,7 @@ export function renderNavigationMenuItem(
   return pick(
     {
       label,
-      icon: iconLeading ? getIconName(iconLeadingName?.name) : undefined,
+      icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
       badge,
       children,
       active: active === 'True',

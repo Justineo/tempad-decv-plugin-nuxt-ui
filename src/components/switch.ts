@@ -48,10 +48,8 @@ export function Switch(component: DesignComponent<SwitchProperties>) {
       description: (showDescription && description) || undefined,
       color: toLowerCase(color),
       size,
-      checkedIcon: defaultIcon ? getIconName(activeIconName?.name) : undefined,
-      uncheckedIcon: activeIcon
-        ? getIconName(defaultIconName?.name)
-        : undefined,
+      checkedIcon: defaultIcon ? getIconName(activeIconName.name) : undefined,
+      uncheckedIcon: activeIcon ? getIconName(defaultIconName.name) : undefined,
       disabled: state === 'Disabled',
       required,
     },

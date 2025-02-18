@@ -16,11 +16,11 @@ import { Input, INPUT_NAMES } from './input'
 import { Select, SELECT_NAMES } from './select'
 
 export type SelectMenuItemProperties = {
+  '🙂 IconName': DesignComponent<IconProperties>
+  '𝐓  Label': string
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Selected' | 'Hover' | 'Disabled'
-  '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None'
-  '🙂 IconName'?: DesignComponent<IconProperties>
-  '𝐓  Label': string
+  '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None' | 'Span'
 }
 
 export function renderSelectMenuItem(
@@ -33,7 +33,7 @@ export function renderSelectMenuItem(
   return pick(
     {
       label,
-      icon: leadingSlot === 'Icon' ? getIconName(iconName?.name) : undefined,
+      icon: leadingSlot === 'Icon' ? getIconName(iconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       disabled: state === 'Disabled',
       selected: state === 'Selected',

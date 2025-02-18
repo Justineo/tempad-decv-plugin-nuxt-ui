@@ -32,7 +32,7 @@ export function Avatar(
   const Avatar = h(
     'UAvatar',
     {
-      icon: variant === 'Icon' ? getIconName(iconName?.name) : undefined,
+      icon: variant === 'Icon' ? getIconName(iconName.name) : undefined,
       alt: variant === 'Alt' ? altText : undefined,
       ...(variant === 'Image' ? getRandomAvatar() : {}),
       size,
@@ -87,7 +87,7 @@ export function getAvatar(username: (typeof USERNAMES)[number]): AvatarItem {
 }
 
 export function getRandomAvatar(): AvatarItem {
-  return getAvatar(USERNAMES[Math.floor(Math.random() * USERNAMES.length)])
+  return getAvatar(USERNAMES[Math.floor(Math.random() * USERNAMES.length)]!)
 }
 
 export function renderAvatarItem(

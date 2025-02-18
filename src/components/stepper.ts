@@ -1,9 +1,12 @@
 import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
+import type { IconProperties } from './icon'
 import { findChild, findChildren } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick, toLowerCase } from '../utils'
 import { getIconName } from './icon'
 
 export type StepperItemProperties = {
+  '𝐓 Span': string
+  '🙂 IconName': DesignComponent<IconProperties>
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🎨 Color':
     | 'Primary'
@@ -20,8 +23,6 @@ export type StepperItemProperties = {
     | 'Default'
     | 'Default + focus'
     | 'Disabled'
-  '🙂 IconName'?: DesignComponent
-  '𝐓 Span'?: string
 }
 
 export function getStepperItem(
@@ -35,7 +36,7 @@ export function getStepperItem(
 
   return pick(
     {
-      icon: variant === 'Icon' ? getIconName(iconName?.name) : undefined,
+      icon: variant === 'Icon' ? getIconName(iconName.name) : undefined,
       disabled: state === 'Disabled',
     },
     {

@@ -49,8 +49,8 @@ export function Select(
   } = cleanPropNames(component.properties)
 
   const icon =
-    leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined
-  const trailingIcon = getIconName(iconTrailingName?.name)
+    leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
+  const trailingIcon = getIconName(iconTrailingName.name)
 
   const avatar = leadingSlot === 'Avatar' ? getRandomAvatar() : undefined
 

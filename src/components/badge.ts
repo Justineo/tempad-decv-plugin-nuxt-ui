@@ -42,14 +42,14 @@ export function Badge(
   const iconProps: Partial<BadgeProps> =
     iconLeading && iconTrailing
       ? {
-          leadingIcon: getIconName(iconLeadingName?.name),
-          trailingIcon: getIconName(iconTrailingName?.name),
+          leadingIcon: getIconName(iconLeadingName.name),
+          trailingIcon: getIconName(iconTrailingName.name),
         }
       : {
           icon: iconLeading
-            ? getIconName(iconLeadingName?.name)
+            ? getIconName(iconLeadingName.name)
             : iconTrailing
-              ? getIconName(iconTrailingName?.name)
+              ? getIconName(iconTrailingName.name)
               : undefined,
           trailing: iconTrailing,
         }

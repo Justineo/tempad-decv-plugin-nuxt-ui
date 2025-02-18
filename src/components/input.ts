@@ -54,9 +54,9 @@ export function Input(
   } = cleanPropNames(component.properties)
 
   const icon =
-    leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined
+    leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
   const trailingIcon =
-    trailingSlot === 'Icon' ? getIconName(iconTrailingName?.name) : undefined
+    trailingSlot === 'Icon' ? getIconName(iconTrailingName.name) : undefined
 
   const avatar = leadingSlot === 'Avatar' ? getRandomAvatar() : undefined
 

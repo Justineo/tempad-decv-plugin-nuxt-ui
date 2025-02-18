@@ -76,9 +76,7 @@ export function Alert(component: DesignComponent<AlertProperties>) {
       title,
       description: (showDescription && description) || undefined,
       icon:
-        leadingSlot === 'Icon' && icon
-          ? getIconName(iconName?.name)
-          : undefined,
+        leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       color: toLowerCase(color),
       variant: toLowerCase(variant),

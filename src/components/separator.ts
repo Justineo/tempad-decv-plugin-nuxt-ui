@@ -34,7 +34,7 @@ export function Separator(component: DesignComponent<SeparatorProperties>) {
     'USeparator',
     {
       label: (slot === 'Span' && span) || undefined,
-      icon: (slot === 'Icon' && getIconName(iconName?.name)) || undefined,
+      icon: (slot === 'Icon' && getIconName(iconName.name)) || undefined,
       avatar: avatarItem,
       color: toLowerCase(color),
       size,

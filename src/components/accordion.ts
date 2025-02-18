@@ -54,8 +54,8 @@ export function Accordion(component: DesignComponent<AccordionProperties>) {
       {
         label: label || LOREM_IPSUM_TITLE,
         content: description || LOREM_IPSUM_TEXT,
-        icon: iconLeading ? getIconName(iconLeadingName?.name) : undefined,
-        trailingIcon: getIconName(iconTrailingName?.name),
+        icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
+        trailingIcon: getIconName(iconTrailingName.name),
         disabled: state === 'Disable',
       },
       {

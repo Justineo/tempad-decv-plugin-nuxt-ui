@@ -42,14 +42,14 @@ export function renderDropdownMenuItem(
     {
       label,
       icon:
-        leadingSlot === 'Icon' ? getIconName(iconLeadingName?.name) : undefined,
+        leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       kbds: trailingSlot === 'Kbd' ? getKbdItems(item) : undefined,
       type:
-        trailingSlot === 'Icon' && iconTrailingName?.name === 'check'
+        trailingSlot === 'Icon' && iconTrailingName.name === 'check'
           ? 'checkbox'
           : 'link',
-      checked: trailingSlot === 'Icon' && iconTrailingName?.name === 'check',
+      checked: trailingSlot === 'Icon' && iconTrailingName.name === 'check',
       disabled: state === 'Disabled',
     },
     {
