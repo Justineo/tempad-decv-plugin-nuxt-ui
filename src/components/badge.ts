@@ -58,15 +58,21 @@ export function Badge(component: DesignComponent<BadgeProperties>, defaults: Par
 export function renderBadgeItem(
   badge: DesignComponent<BadgeProperties>,
   defaults: Partial<BadgeProps> = {},
-): Partial<BadgeProps> {
+): Partial<BadgeProps> | string | undefined {
   const { props, children } = Badge(badge, defaults)
 
+  const label =
+    children
+      .map((child) => (typeof child === 'string' ? child : undefined))
+      .filter(Boolean)
+      .join('') || undefined
+
+  if (Object.keys(props).length === 0) {
+    return label
+  }
+
   return {
-    label:
-      children
-        .map((child) => (typeof child === 'string' ? child : undefined))
-        .filter(Boolean)
-        .join('') || undefined,
+    label,
     ...props,
   }
 }

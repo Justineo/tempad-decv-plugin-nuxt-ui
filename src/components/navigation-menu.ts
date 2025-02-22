@@ -79,14 +79,8 @@ export function renderNavigationMenuItem(
     : undefined
 
   let badge: NavigationMenuItem['badge'] = badgeItem
-  if (badgeItem) {
-    if (Object.keys(badgeItem).length === 1 && badgeItem.label != null) {
-      if (String(Number(badgeItem.label)) === badgeItem.label) {
-        badge = Number(badgeItem.label)
-      } else {
-        badge = badgeItem.label
-      }
-    }
+  if (typeof badgeItem === 'string' && String(Number(badgeItem)) === badgeItem) {
+    badge = Number(badgeItem)
   }
 
   const children = iconTrailing
