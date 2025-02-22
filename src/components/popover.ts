@@ -1,15 +1,8 @@
-import type { PopoverProps } from '@nuxt/ui'
 import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
+import type { PopoverProps } from '../types'
 import type { ButtonProperties } from './button'
 import { findChild } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  LOREM_IPSUM_TEXT,
-  pick,
-  renderSlot,
-  toLowerCase,
-} from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, pick, renderSlot, toLowerCase } from '../utils'
 import { Button, BUTTON_NAMES } from './button'
 
 export type PopoverProperties = {
@@ -32,9 +25,7 @@ export function Popover(component: DesignComponent<PopoverProperties>) {
     },
   )
 
-  const children: DevComponent['children'] = [
-    renderSlot('content', [LOREM_IPSUM_TEXT]),
-  ]
+  const children: DevComponent['children'] = [renderSlot('content', [LOREM_IPSUM_TEXT])]
 
   const trigger = findChild<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',

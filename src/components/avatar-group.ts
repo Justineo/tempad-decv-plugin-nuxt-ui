@@ -1,5 +1,5 @@
-import type { AvatarProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { AvatarProps } from '../types'
 import type { AvatarProperties } from './avatar'
 import { findChildren } from '@tempad-dev/plugins'
 import { cleanPropNames, h } from '../utils'

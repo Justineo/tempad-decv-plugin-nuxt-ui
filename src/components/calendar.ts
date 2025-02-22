@@ -1,5 +1,5 @@
-import type { CalendarProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { CalendarProps } from '../types'
 import { findAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
@@ -8,23 +8,16 @@ export type CalendarItemProperties = {
   '👁️ Chip': boolean
   '🎨 Color': 'Primary' | 'Neutral' | 'Secondary'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  '◆ Variant':
-    | 'Data'
-    | 'Data-disabled'
-    | 'Data-unavailable'
-    | 'Data-today'
-    | 'Data-selected'
+  '◆ Variant': 'Data' | 'Data-disabled' | 'Data-unavailable' | 'Data-today' | 'Data-selected'
   '🚦 State': 'Default' | 'Highlighted'
 }
 
-export type CalendarItem = Pick<CalendarProps<boolean, boolean>, 'color'> & {
+export type CalendarItem = Pick<CalendarProps, 'color'> & {
   selected?: boolean
   date: number
 }
 
-export function renderCalendarItem(
-  item: DesignComponent<CalendarItemProperties>,
-): CalendarItem {
+export function renderCalendarItem(item: DesignComponent<CalendarItemProperties>): CalendarItem {
   const { color, variant, dateValue } = cleanPropNames(item.properties)
 
   const date = Number(dateValue)
@@ -45,8 +38,7 @@ export type CalendarProperties = {
 }
 
 export function Calendar(component: DesignComponent<CalendarProperties>) {
-  const { color, size, numberOfMonths, monthControls, yearControls } =
-    cleanPropNames(component.properties)
+  const { color, size, numberOfMonths, monthControls, yearControls } = cleanPropNames(component.properties)
 
   const months = Number(numberOfMonths)
 

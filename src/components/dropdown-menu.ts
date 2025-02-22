@@ -1,9 +1,6 @@
-import type { ButtonProps, DropdownMenuItem, DropdownMenuProps } from '@nuxt/ui'
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-} from '@tempad-dev/plugins'
+import type { DropdownMenuItem } from '@nuxt/ui'
+import type { DesignComponent, DevComponent, FrameNode } from '@tempad-dev/plugins'
+import type { ButtonProps, DropdownMenuProps } from '../types'
 import type { AvatarProperties } from './avatar'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
@@ -24,31 +21,18 @@ export type DropdownMenuItemProperties = {
   '◆ TrailingSlot': 'Icon' | 'Kbd' | 'None'
 }
 
-export function renderDropdownMenuItem(
-  item: DesignComponent<DropdownMenuItemProperties>,
-): DropdownMenuItem {
+export function renderDropdownMenuItem(item: DesignComponent<DropdownMenuItemProperties>): DropdownMenuItem {
   const { properties } = item
 
-  const {
-    state,
-    leadingSlot,
-    trailingSlot,
-    label,
-    iconLeadingName,
-    iconTrailingName,
-  } = cleanPropNames(properties)
+  const { state, leadingSlot, trailingSlot, label, iconLeadingName, iconTrailingName } = cleanPropNames(properties)
 
   return pick(
     {
       label,
-      icon:
-        leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
+      icon: leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       kbds: trailingSlot === 'Kbd' ? getKbdItems(item) : undefined,
-      type:
-        trailingSlot === 'Icon' && iconTrailingName.name === 'check'
-          ? 'checkbox'
-          : 'link',
+      type: trailingSlot === 'Icon' && iconTrailingName.name === 'check' ? 'checkbox' : 'link',
       checked: trailingSlot === 'Icon' && iconTrailingName.name === 'check',
       disabled: state === 'Disabled',
     },
@@ -82,11 +66,9 @@ export function DropdownMenu(
     button?: Partial<ButtonProps>
   } = {},
 ) {
-  const { size, variant, alignment, arrow } = cleanPropNames(
-    component.properties,
-  )
+  const { size, variant, alignment, arrow } = cleanPropNames(component.properties)
 
-  const content: DropdownMenuProps<DropdownMenuItem>['content'] = pick(
+  const content: DropdownMenuProps['content'] = pick(
     {
       side: SIDE_MAP[alignment],
     },
@@ -101,13 +83,10 @@ export function DropdownMenu(
   ])
 
   const items = containers.map((container) => {
-    const menuItems = findChildren<DesignComponent<DropdownMenuItemProperties>>(
-      container,
-      {
-        type: 'INSTANCE',
-        name: 'DropdownMenuItem',
-      },
-    )
+    const menuItems = findChildren<DesignComponent<DropdownMenuItemProperties>>(container, {
+      type: 'INSTANCE',
+      name: 'DropdownMenuItem',
+    })
 
     return menuItems.map(renderDropdownMenuItem)
   })

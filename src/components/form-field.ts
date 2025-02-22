@@ -23,19 +23,8 @@ export type FormFieldProperties = {
 }
 
 export function FormField(component: DesignComponent<FormFieldProperties>) {
-  const {
-    size,
-    input,
-    error,
-    label,
-    required,
-    hint,
-    hintSlot,
-    help,
-    helpSlot,
-    description,
-    descriptionSlot,
-  } = cleanPropNames(component.properties)
+  const { size, input, error, label, required, hint, hintSlot, help, helpSlot, description, descriptionSlot } =
+    cleanPropNames(component.properties)
 
   const children: DevComponent['children'] = []
 

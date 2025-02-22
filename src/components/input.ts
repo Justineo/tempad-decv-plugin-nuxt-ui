@@ -1,5 +1,5 @@
-import type { InputProps } from '@nuxt/ui'
 import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
+import type { InputProps } from '../types'
 import type { IconProperties } from './icon'
 import { cleanPropNames, h, renderSlot, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
@@ -32,10 +32,7 @@ export type InputProperties = {
   '◆ TrailingSlot': 'Icon' | 'None' | 'Span'
 }
 
-export function Input(
-  component: DesignComponent<InputProperties>,
-  defaults: Partial<InputProps> = {},
-) {
+export function Input(component: DesignComponent<InputProperties>, defaults: Partial<InputProps> = {}) {
   const variant = INPUT_VARIANT_MAP[component.name]
 
   const {
@@ -53,10 +50,8 @@ export function Input(
     span,
   } = cleanPropNames(component.properties)
 
-  const icon =
-    leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
-  const trailingIcon =
-    trailingSlot === 'Icon' ? getIconName(iconTrailingName.name) : undefined
+  const icon = leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
+  const trailingIcon = trailingSlot === 'Icon' ? getIconName(iconTrailingName.name) : undefined
 
   const avatar = leadingSlot === 'Avatar' ? getRandomAvatar() : undefined
 
@@ -71,10 +66,7 @@ export function Input(
   return h(
     'UInput',
     {
-      type:
-        completed && completedLabel && /^\*+$/.test(completedLabel)
-          ? 'password'
-          : 'text',
+      type: completed && completedLabel && /^\*+$/.test(completedLabel) ? 'password' : 'text',
       placeholder: placeholder ? placeholderLabel : undefined,
       color: toLowerCase(color),
       variant,

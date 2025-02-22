@@ -1,13 +1,7 @@
 import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
 import { queryAll } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  LOREM_IPSUM_TEXT,
-  renderSlot,
-  toLowerCase,
-} from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, renderSlot, toLowerCase } from '../utils'
 import { Button, BUTTON_NAMES } from './button'
 
 export type DrawerProperties = {
@@ -36,9 +30,7 @@ export function Drawer(component: DesignComponent<DrawerProperties>) {
     '👁️ Description': 'showDescription',
   })
 
-  const children: DevComponent['children'] = [
-    renderSlot('body', [LOREM_IPSUM_TEXT]),
-  ]
+  const children: DevComponent['children'] = [renderSlot('body', [LOREM_IPSUM_TEXT])]
 
   if (showButtons) {
     const buttons = queryAll<DesignComponent<ButtonProperties>>(component, [

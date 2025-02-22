@@ -13,8 +13,7 @@ export type TextareaProperties = {
 }
 
 export function Textarea(component: DesignComponent<TextareaProperties>) {
-  const { color, size, variant, state, placeholder, placeholderSlot } =
-    cleanPropNames(component.properties)
+  const { color, size, variant, state, placeholder, placeholderSlot } = cleanPropNames(component.properties)
 
   return h(
     'UTextarea',

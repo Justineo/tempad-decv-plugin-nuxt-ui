@@ -12,14 +12,7 @@ export type SwitchProperties = {
   '↳ ActiveIconName': DesignComponent<IconProperties>
   '👁️ DefaultIcon': boolean
   '↳ DefaultIconName': DesignComponent<IconProperties>
-  '🎨 Color':
-    | 'Error'
-    | 'Neutral'
-    | 'Primary'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
+  '🎨 Color': 'Error' | 'Neutral' | 'Primary' | 'Secondary' | 'Success' | 'Info' | 'Warning'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Active' | 'Default' | 'Disabled' | 'Focus'
 }

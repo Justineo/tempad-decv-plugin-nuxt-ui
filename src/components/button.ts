@@ -1,5 +1,5 @@
-import type { ButtonProps } from '@nuxt/ui'
 import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
+import type { ButtonProps } from '../types'
 import type { IconProperties } from './icon'
 import { findOne } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
@@ -36,10 +36,7 @@ export type ButtonProperties = {
   '👁️ Square': 'False' | 'True'
 }
 
-export function Button(
-  component: DesignComponent<ButtonProperties>,
-  defaults: Partial<ButtonProps> = {},
-) {
+export function Button(component: DesignComponent<ButtonProperties>, defaults: Partial<ButtonProps> = {}) {
   const {
     variant,
     size,
@@ -55,15 +52,9 @@ export function Button(
 
   const color = BUTTON_COLOR_MAP[component.name]
 
-  const icon =
-    slot === 'Icon' && iconLeading
-      ? getIconName(iconLeadingName.name)
-      : undefined
-  const trailingIcon = iconTrailing
-    ? getIconName(iconTrailingName.name)
-    : undefined
-  const avatar =
-    slot === 'Avatar' && avatarLeading ? getRandomAvatar() : undefined
+  const icon = slot === 'Icon' && iconLeading ? getIconName(iconLeadingName.name) : undefined
+  const trailingIcon = iconTrailing ? getIconName(iconTrailingName.name) : undefined
+  const avatar = slot === 'Avatar' && avatarLeading ? getRandomAvatar() : undefined
 
   const label = findOne<TextNode>(component, {
     type: 'TEXT',
@@ -115,5 +106,5 @@ export function renderButtonChild(button: DesignComponent<ButtonProperties>) {
     children,
   } = Button(button)
 
-  return h('UButton', rest, children)
+  return h('UButton', rest, {}, children)
 }

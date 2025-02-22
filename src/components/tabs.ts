@@ -3,14 +3,7 @@ import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
 import type { BadgeProperties } from './badge'
 import type { IconProperties } from './icon'
 import { findChild, findChildren } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  pick,
-  renderSlot,
-  toKebabCase,
-  toLowerCase,
-} from '../utils'
+import { cleanPropNames, h, pick, renderSlot, toKebabCase, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { Badge } from './badge'
 import { getIconName } from './icon'
@@ -28,20 +21,14 @@ export type TabsItemProperties = {
   '◆ LeadingSlot': 'Avatar' | 'Icon'
 }
 
-export function renderTabsItem(
-  item: DesignComponent<TabsItemProperties>,
-): TabsItem {
-  const { state, leadingSlot, avatar, icon, iconName, label } = cleanPropNames(
-    item.properties,
-  )
+export function renderTabsItem(item: DesignComponent<TabsItemProperties>): TabsItem {
+  const { state, leadingSlot, avatar, icon, iconName, label } = cleanPropNames(item.properties)
 
   return pick(
     {
       label,
-      icon:
-        leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
-      avatar:
-        leadingSlot === 'Avatar' && avatar ? getRandomAvatar() : undefined,
+      icon: leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
+      avatar: leadingSlot === 'Avatar' && avatar ? getRandomAvatar() : undefined,
       disabled: state === 'Disabled',
     },
     {

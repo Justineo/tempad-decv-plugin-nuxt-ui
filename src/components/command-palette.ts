@@ -4,7 +4,7 @@ import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import { findChild, findChildren, findOne, queryAll } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick } from '../utils'
+import { cleanPropNames, h, pick, toKebabCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
@@ -23,26 +23,15 @@ export type CommandPaletteItemProperties = {
   '◆ TrailingSlot': 'None' | 'Icon' | 'Kbd'
 }
 
-export function renderCommandPaletteItem(
-  item: DesignComponent<CommandPaletteItemProperties>,
-): CommandPaletteItem {
-  const {
-    state,
-    leadingSlot,
-    trailingSlot,
-    description,
-    label,
-    descriptionSlot,
-    iconLeadingName,
-    iconTrailingName,
-  } = cleanPropNames(item.properties)
+export function renderCommandPaletteItem(item: DesignComponent<CommandPaletteItemProperties>): CommandPaletteItem {
+  const { state, leadingSlot, trailingSlot, description, label, descriptionSlot, iconLeadingName, iconTrailingName } =
+    cleanPropNames(item.properties)
 
   return pick(
     {
       label,
       suffix: (description && descriptionSlot) || undefined,
-      icon:
-        leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
+      icon: leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       kbds: trailingSlot === 'Kbd' ? getKbdItems(item) : undefined,
       active: trailingSlot === 'Icon' && iconTrailingName.name === 'check',
@@ -59,9 +48,7 @@ export type CommandPaletteProperties = {
   '◆ Open': 'Drawer' | 'Modal' | 'Default'
 }
 
-export function CommandPalette(
-  component: DesignComponent<CommandPaletteProperties>,
-) {
+export function CommandPalette(component: DesignComponent<CommandPaletteProperties>) {
   const input = findOne<DesignComponent<InputProperties>>(component, {
     type: 'INSTANCE',
     name: INPUT_NAMES,
@@ -84,13 +71,10 @@ export function CommandPalette(
       name: 'Title',
     })?.characters
 
-    const items = findChildren<DesignComponent<CommandPaletteItemProperties>>(
-      container,
-      {
-        type: 'INSTANCE',
-        name: 'CommandPaletteItem',
-      },
-    ).map((item) => {
+    const items = findChildren<DesignComponent<CommandPaletteItemProperties>>(container, {
+      type: 'INSTANCE',
+      name: 'CommandPaletteItem',
+    }).map((item) => {
       const menuItem = renderCommandPaletteItem(item)
 
       if (menuItem.active) {
@@ -101,6 +85,7 @@ export function CommandPalette(
     })
 
     return {
+      id: toKebabCase(title || ''),
       label: title,
       items,
     }
@@ -126,11 +111,7 @@ export function CommandPalette(
     {
       icon,
       placeholder,
-      close: closeButton
-        ? Object.keys(props).length > 0
-          ? props
-          : true
-        : false,
+      close: closeButton ? (Object.keys(props).length > 0 ? props : true) : false,
       closeIcon,
       groups,
       multiple: activeCount > 1,

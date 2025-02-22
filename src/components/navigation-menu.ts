@@ -1,9 +1,6 @@
-import type {
-  NavigationMenuChildItem,
-  NavigationMenuItem,
-  NavigationMenuProps,
-} from '@nuxt/ui'
+import type { NavigationMenuChildItem, NavigationMenuItem } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { NavigationMenuProps } from '../types'
 import type { BadgeProperties } from './badge'
 import type { IconProperties } from './icon'
 import { omit } from '@s-libs/micro-dash'
@@ -24,8 +21,7 @@ export type NavigationMenuDropdownItemProperties = {
 export function renderNavigationMenuDropdownItem(
   item: DesignComponent<NavigationMenuDropdownItemProperties>,
 ): NavigationMenuChildItem {
-  const { icon, iconName, title, description, descriptionSlot } =
-    cleanPropNames(item.properties)
+  const { icon, iconName, title, description, descriptionSlot } = cleanPropNames(item.properties)
 
   return {
     label: title,
@@ -50,10 +46,7 @@ export type NavigationMenuItemProperties = {
   '👁️ External': 'False' | 'True'
 }
 
-type NavigationMenuItemExtra = Pick<
-  NavigationMenuProps<NavigationMenuItem>,
-  'color' | 'variant' | 'highlight'
->
+type NavigationMenuItemExtra = Pick<NavigationMenuProps, 'color' | 'variant' | 'highlight'>
 
 export function renderNavigationMenuItem(
   item: DesignComponent<NavigationMenuItemProperties>,
@@ -131,18 +124,13 @@ export type NavigationMenuProperties = {
   '👁️ Highlight': 'False' | 'True'
 }
 
-export function NavigationMenu(
-  component: DesignComponent<NavigationMenuProperties>,
-) {
+export function NavigationMenu(component: DesignComponent<NavigationMenuProperties>) {
   const { orientation, highlight } = cleanPropNames(component.properties)
 
-  const items = findChildren<DesignComponent<NavigationMenuItemProperties>>(
-    component,
-    {
-      type: 'INSTANCE',
-      name: 'NavigationMenuItem',
-    },
-  ).map(renderNavigationMenuItem)
+  const items = findChildren<DesignComponent<NavigationMenuItemProperties>>(component, {
+    type: 'INSTANCE',
+    name: 'NavigationMenuItem',
+  }).map(renderNavigationMenuItem)
 
   return h(
     'UNavigationMenu',

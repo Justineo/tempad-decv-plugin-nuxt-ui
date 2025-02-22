@@ -1,5 +1,5 @@
-import type { CarouselProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { CarouselProps } from '../types'
 import type { ButtonProperties } from './button'
 import { queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h } from '../utils'
@@ -17,14 +17,9 @@ export type CarouselProperties = {
 export function Carousel(component: DesignComponent<CarouselProperties>) {
   const { variant, pagination, prevNext } = cleanPropNames(component.properties)
 
-  let arrowProps: Pick<
-    CarouselProps<unknown>,
-    'prev' | 'prevIcon' | 'next' | 'nextIcon'
-  > = {}
+  let arrowProps: Pick<CarouselProps, 'prev' | 'prevIcon' | 'next' | 'nextIcon'> = {}
   if (prevNext) {
-    const [prevButton, nextButton] = queryAll<
-      DesignComponent<ButtonProperties>
-    >(component, [
+    const [prevButton, nextButton] = queryAll<DesignComponent<ButtonProperties>>(component, [
       { query: 'child', type: 'FRAME', name: 'Carousel + prev/next' },
       { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
     ])

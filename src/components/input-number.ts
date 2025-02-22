@@ -19,24 +19,14 @@ export type InputNumberProperties = {
 }
 
 export function InputNumber(component: DesignComponent<InputNumberProperties>) {
-  const {
-    color,
-    variant,
-    size,
-    orientation,
-    state,
-    highlight,
-    placeholder,
-    placeholderText,
-  } = cleanPropNames(component.properties)
+  const { color, variant, size, orientation, state, highlight, placeholder, placeholderText } = cleanPropNames(
+    component.properties,
+  )
 
-  const [dec, inc] = findChildren<DesignComponent<ButtonProperties>>(
-    component,
-    {
-      type: 'INSTANCE',
-      name: BUTTON_NAMES,
-    },
-  ).map((button) =>
+  const [dec, inc] = findChildren<DesignComponent<ButtonProperties>>(component, {
+    type: 'INSTANCE',
+    name: BUTTON_NAMES,
+  }).map((button) =>
     renderButtonItem(button, {
       variant: 'link',
       square: true,

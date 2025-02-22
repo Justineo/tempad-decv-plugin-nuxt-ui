@@ -14,26 +14,13 @@ export type BannerProperties = {
   '👁️ Action1': boolean
   '👁️ Close': boolean
   '↳ IconLeadingName': DesignComponent<IconProperties>
-  '🎨 Color':
-    | 'Neutral'
-    | 'Primary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
-    | 'Secondary'
+  '🎨 Color': 'Neutral' | 'Primary' | 'Success' | 'Info' | 'Warning' | 'Error' | 'Secondary'
   '🖥️ Device': 'Desktop' | 'Mobile'
   '🚦 State': 'Default' | 'Hover'
 }
 
 export function Banner(component: DesignComponent<BannerProperties>) {
-  const {
-    iconLeading,
-    iconLeadingName,
-    close: showClose,
-    title,
-    color,
-  } = cleanPropNames(component.properties)
+  const { iconLeading, iconLeadingName, close: showClose, title, color } = cleanPropNames(component.properties)
 
   const buttons = findChildren<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',

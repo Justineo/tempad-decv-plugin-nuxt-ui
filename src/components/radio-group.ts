@@ -1,5 +1,6 @@
-import type { RadioGroupItem, RadioGroupProps } from '@nuxt/ui'
+import type { RadioGroupItem } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { RadioGroupProps } from '../types'
 import { findAll } from '@tempad-dev/plugins'
 import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 
@@ -7,26 +8,15 @@ export type RadioProperties = {
   '𝐓 Label': string
   '👁️ Description': boolean
   '↳ DescriptionSlot': string
-  '🎨 Color':
-    | 'Neutral'
-    | 'Error'
-    | 'Primary'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
+  '🎨 Color': 'Neutral' | 'Error' | 'Primary' | 'Secondary' | 'Success' | 'Info' | 'Warning'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '🚦 State': 'Default' | 'Disabled' | 'Focus' | 'Selected'
 }
 
-type RadioGroupItemExtra = Pick<RadioGroupProps<RadioGroupItem>, 'color'>
+type RadioGroupItemExtra = Pick<RadioGroupProps, 'color'>
 
-export function renderRadioItem(
-  item: DesignComponent<RadioProperties>,
-): RadioGroupItem & RadioGroupItemExtra {
-  const { color, state, label, description, descriptionSlot } = cleanPropNames(
-    item.properties,
-  )
+export function renderRadioItem(item: DesignComponent<RadioProperties>): RadioGroupItem & RadioGroupItemExtra {
+  const { color, state, label, description, descriptionSlot } = cleanPropNames(item.properties)
 
   return pick(
     {

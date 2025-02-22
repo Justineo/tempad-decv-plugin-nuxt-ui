@@ -1,8 +1,4 @@
-import type {
-  DesignNode,
-  DevComponent,
-  TransformOptions,
-} from '@tempad-dev/plugins'
+import type { DesignNode, DevComponent, TransformOptions } from '@tempad-dev/plugins'
 
 import type { CleanPropName, ComponentPropsMap, RenderFn } from './types'
 
@@ -21,22 +17,13 @@ export function cleanPropNames<
       return mapped ?? key
     }
     const trimmedKey = (key as string).replace(/^[^ ]+ /, '')
-    const camelizedKey = trimmedKey.replace(/[ /]+(.)/g, (_, c) =>
-      c.toUpperCase(),
-    )
+    const camelizedKey = trimmedKey.replace(/[ /]+(.)/g, (_, c) => c.toUpperCase())
     return camelizedKey.charAt(0).toLowerCase() + camelizedKey.slice(1)
   }) as CleanPropName<T, M>
 }
 
-export function renderSlot(
-  name: string,
-  children: DevComponent['children'],
-): DevComponent
-export function renderSlot(
-  name: string,
-  props: string,
-  children: DevComponent['children'],
-): DevComponent
+export function renderSlot(name: string, children: DevComponent['children']): DevComponent
+export function renderSlot(name: string, props: string, children: DevComponent['children']): DevComponent
 export function renderSlot(
   name: string,
   propsOrChildren: string | DevComponent['children'],
@@ -83,10 +70,7 @@ export function toLowerCase<T extends string>(input: T): Lowercase<T> {
   return input.toLowerCase() as Lowercase<T>
 }
 
-export function pick<T extends object>(
-  obj: T,
-  defaults: Partial<T>,
-): Partial<T> {
+export function pick<T extends object>(obj: T, defaults: Partial<T>): Partial<T> {
   const result: Partial<T> = {}
 
   for (const key in obj) {
@@ -99,8 +83,7 @@ export function pick<T extends object>(
 }
 
 export const LOREM_IPSUM_TITLE = 'Lorem ipsum'
-export const LOREM_IPSUM_TEXT =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+export const LOREM_IPSUM_TEXT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 
 export function h<K extends keyof ComponentPropsMap>(
   name: K,
@@ -120,17 +103,11 @@ export function shuffle<T>(array: T[]): T[] {
   return array
 }
 
-export function getFirst<T extends object, K extends keyof T>(
-  items: T[],
-  key: K,
-): T[K] | undefined {
+export function getFirst<T extends object, K extends keyof T>(items: T[], key: K): T[K] | undefined {
   return items.find((item) => item[key] != null)?.[key]
 }
 
-export function mapComponentNames(
-  names: readonly string[],
-  component: RenderFn,
-) {
+export function mapComponentNames(names: readonly string[], component: RenderFn) {
   return names.reduce((acc, name) => ({ ...acc, [name]: component }), {})
 }
 

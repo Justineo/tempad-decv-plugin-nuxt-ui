@@ -11,15 +11,13 @@ export type SliderProperties = {
 }
 
 export function Slider(component: DesignComponent<SliderProperties>) {
-  const { color, size, orientation, state, indicatorPosition, indicator2 } =
-    cleanPropNames(component.properties)
+  const { color, size, orientation, state, indicatorPosition, indicator2 } = cleanPropNames(component.properties)
 
   const value = Number(indicatorPosition)
 
   return h(
     'USlider',
     {
-      // @ts-expect-error: TS2353 because modelValue is defined with `defineModel` thus not in the props
       modelValue: indicator2 ? [0, value] : value,
       color: toLowerCase(color),
       size,

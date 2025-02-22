@@ -1,10 +1,5 @@
 import type { SelectMenuItem } from '@nuxt/ui'
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-  TextNode,
-} from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import type { SelectProperties } from './select'
@@ -23,9 +18,7 @@ export type SelectMenuItemProperties = {
   '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None' | 'Span'
 }
 
-export function renderSelectMenuItem(
-  item: DesignComponent<SelectMenuItemProperties>,
-): SelectMenuItem {
+export function renderSelectMenuItem(item: DesignComponent<SelectMenuItemProperties>): SelectMenuItem {
   const { properties } = item
 
   const { state, leadingSlot, label, iconName } = cleanPropNames(properties)
@@ -66,12 +59,8 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
     ? findChildren<FrameNode | DesignComponent<SelectMenuItemProperties>>(
         container,
         (node) =>
-          (node.type === 'FRAME' &&
-            node.name === 'Title' &&
-            node.visible === true) ||
-          (node.type === 'INSTANCE' &&
-            node.name === 'SelectMenuItem' &&
-            node.visible === true),
+          (node.type === 'FRAME' && node.name === 'Title' && node.visible === true) ||
+          (node.type === 'INSTANCE' && node.name === 'SelectMenuItem' && node.visible === true),
       ).map((item) => {
         if (item.type === 'FRAME') {
           const text = findChild<TextNode>(item, {
@@ -110,9 +99,7 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
     : undefined
 
   const { content, ...selectProps } = select ? Select(select).props : {}
-  const inputProps = search
-    ? Input(search, { placeholder: 'Search...', variant: 'none' }).props
-    : {}
+  const inputProps = search ? Input(search, { placeholder: 'Search...', variant: 'none' }).props : {}
 
   return h(
     'USelectMenu',

@@ -1,5 +1,5 @@
-import type { KbdProps } from '@nuxt/ui'
 import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
+import type { KbdProps } from '../types'
 import { findChild, queryAll } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick, toLowerCase } from '../utils'
 
@@ -28,22 +28,7 @@ export const kbdGlyphsMap: Record<string, string> = {
 export type KbdProperties = {
   '📏 Size': 'sm' | 'md' | 'lg'
   '◆ Variant': 'Solid' | 'Subtle' | 'Outline'
-  '𝐓 Label':
-    | '←'
-    | '↑'
-    | '→'
-    | '↓'
-    | '↖'
-    | '↘'
-    | '⇧'
-    | '⇪'
-    | '⌃'
-    | '⌘'
-    | '⌥'
-    | '⌦'
-    | '⌫'
-    | '⎇'
-    | '⎋'
+  '𝐓 Label': '←' | '↑' | '→' | '↓' | '↖' | '↘' | '⇧' | '⇪' | '⌃' | '⌘' | '⌥' | '⌦' | '⌫' | '⎇' | '⎋'
 }
 
 export function Kbd(component: DesignComponent<KbdProperties>) {

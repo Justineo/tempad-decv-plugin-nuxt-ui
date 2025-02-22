@@ -17,8 +17,7 @@ export type SeparatorProperties = {
 }
 
 export function Separator(component: DesignComponent<SeparatorProperties>) {
-  const { color, size, orientation, separator, slot, iconName, span } =
-    cleanPropNames(component.properties)
+  const { color, size, orientation, separator, slot, iconName, span } = cleanPropNames(component.properties)
 
   const avatar =
     slot === 'Avatar'

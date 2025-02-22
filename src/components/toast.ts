@@ -12,14 +12,7 @@ export type ToastProperties = {
   '🙂 LeadingIconName': DesignComponent<IconProperties>
   '𝐓 Description': string
   '𝐓 Title': string
-  '🎨 Color':
-    | 'Primary'
-    | 'Neutral'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Primary' | 'Neutral' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None'
   '👁️ Description': 'False' | 'True'
   '👁️ Actions': 'False' | 'True'
@@ -27,28 +20,21 @@ export type ToastProperties = {
 }
 
 export function Toast(component: DesignComponent<ToastProperties>) {
-  const {
-    color,
-    leadingSlot,
-    description,
-    title,
-    showDescription,
-    leadingIconName,
-  } = cleanPropNames(component.properties, {
-    '👁️ Description': 'showDescription',
-  })
+  const { color, leadingSlot, description, title, showDescription, leadingIconName } = cleanPropNames(
+    component.properties,
+    {
+      '👁️ Description': 'showDescription',
+    },
+  )
 
   const content = findChild<FrameNode>(component, {
     type: 'FRAME',
     name: 'Content',
   })
-  const button = findChild<DesignComponent<ButtonProperties>>(
-    content || component,
-    {
-      type: 'INSTANCE',
-      name: BUTTON_NAMES,
-    },
-  )
+  const button = findChild<DesignComponent<ButtonProperties>>(content || component, {
+    type: 'INSTANCE',
+    name: BUTTON_NAMES,
+  })
   const close = button
     ? renderButtonItem(button, {
         size: 'md',
@@ -72,8 +58,7 @@ export function Toast(component: DesignComponent<ToastProperties>) {
     {
       title,
       description: (showDescription && description) || undefined,
-      icon:
-        leadingSlot === 'Icon' ? getIconName(leadingIconName.name) : undefined,
+      icon: leadingSlot === 'Icon' ? getIconName(leadingIconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       color: toLowerCase(color),
       close,

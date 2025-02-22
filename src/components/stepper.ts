@@ -8,26 +8,12 @@ export type StepperItemProperties = {
   '𝐓 Span': string
   '🙂 IconName': DesignComponent<IconProperties>
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
-  '🎨 Color':
-    | 'Primary'
-    | 'Neutral'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Primary' | 'Neutral' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '◆ Variant': 'Icon' | 'Span'
-  '🚦State':
-    | 'Active'
-    | 'Active + focus'
-    | 'Default'
-    | 'Default + focus'
-    | 'Disabled'
+  '🚦State': 'Active' | 'Active + focus' | 'Default' | 'Default + focus' | 'Disabled'
 }
 
-export function getStepperItem(
-  component: DesignComponent<StepperItemProperties>,
-) {
+export function getStepperItem(component: DesignComponent<StepperItemProperties>) {
   const { properties } = component
 
   const { variant, state, iconName } = cleanPropNames(properties, {
@@ -53,23 +39,14 @@ export type StepperProperties = {
   '↳ Description1': string
   '𝐓 Title2': string
   '𝐓 Title1': string
-  '🎨 Color':
-    | 'Primary'
-    | 'Neutral'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Primary' | 'Neutral' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '◆ Step': '1' | '2' | '3'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
 }
 
 export function Stepper(component: DesignComponent<StepperProperties>) {
-  const { color, size, step, orientation } = cleanPropNames(
-    component.properties,
-  )
+  const { color, size, step, orientation } = cleanPropNames(component.properties)
 
   const stepContainers = findChildren<FrameNode>(component, {
     type: 'FRAME',
@@ -78,13 +55,10 @@ export function Stepper(component: DesignComponent<StepperProperties>) {
 
   const items = stepContainers
     .map((stepContainer) => {
-      const step = findChild<DesignComponent<StepperItemProperties>>(
-        stepContainer,
-        {
-          type: 'INSTANCE',
-          name: 'Stepper_Item',
-        },
-      )
+      const step = findChild<DesignComponent<StepperItemProperties>>(stepContainer, {
+        type: 'INSTANCE',
+        name: 'Stepper_Item',
+      })
       const titleAndDesc = findChild<FrameNode>(stepContainer, {
         type: 'FRAME',
         name: 'Title + description',
@@ -110,7 +84,6 @@ export function Stepper(component: DesignComponent<StepperProperties>) {
   return h(
     'UStepper',
     {
-      // @ts-expect-error: TS2353 because modelValue is defined with `defineModel` thus not in the props
       modelValue: Number(step) - 1,
       items,
       color: toLowerCase(color),

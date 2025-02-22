@@ -1,5 +1,5 @@
-import type { BadgeProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { BadgeProps } from '../types'
 import type { IconProperties } from './icon'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getIconName } from './icon'
@@ -10,34 +10,15 @@ export type BadgeProperties = {
   '👁️ IconTrailing': boolean
   '↳ IconLeadingName': DesignComponent<IconProperties>
   '👁️ IconLeading': boolean
-  '🎨 Color':
-    | 'Neutral'
-    | 'Primary'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Neutral' | 'Primary' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '◆ Variant': 'Outline' | 'Soft' | 'Solid' | 'Subtle'
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   '👁️ RoundedFull': 'False' | 'True'
 }
 
-export function Badge(
-  component: DesignComponent<BadgeProperties>,
-  defaults: Partial<BadgeProps> = {},
-) {
-  const {
-    color,
-    variant,
-    size,
-    roundedFull,
-    label,
-    iconLeading,
-    iconLeadingName,
-    iconTrailing,
-    iconTrailingName,
-  } = cleanPropNames(component.properties)
+export function Badge(component: DesignComponent<BadgeProperties>, defaults: Partial<BadgeProps> = {}) {
+  const { color, variant, size, roundedFull, label, iconLeading, iconLeadingName, iconTrailing, iconTrailingName } =
+    cleanPropNames(component.properties)
 
   const iconProps: Partial<BadgeProps> =
     iconLeading && iconTrailing

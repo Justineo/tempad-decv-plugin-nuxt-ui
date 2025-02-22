@@ -1,10 +1,5 @@
 import type { BreadcrumbItem } from '@nuxt/ui'
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-  TextNode,
-} from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { DropdownMenuProperties } from './dropdown-menu'
 import type { IconProperties } from './icon'
 import { findChild, findChildren, queryOne } from '@tempad-dev/plugins'
@@ -26,12 +21,9 @@ export type BreadcrumbProperties = {
 }
 
 export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
-  const { leadingSlot, divider, separatorIconName, separatorSlot } =
-    cleanPropNames(component.properties)
+  const { leadingSlot, divider, separatorIconName, separatorSlot } = cleanPropNames(component.properties)
 
-  const itemNodes = findChildren<
-    TextNode | FrameNode | DesignComponent<DropdownMenuProperties>
-  >(component, {
+  const itemNodes = findChildren<TextNode | FrameNode | DesignComponent<DropdownMenuProperties>>(component, {
     name: /^Link|^DropdownMenu/,
   })
 
@@ -55,10 +47,7 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
           },
         ])?.characters || undefined
 
-      const icon =
-        leadingSlot === 'Icon' && isIcon(node.children[0]!)
-          ? getIconName(node.children[0]!.name)
-          : undefined
+      const icon = leadingSlot === 'Icon' && isIcon(node.children[0]!) ? getIconName(node.children[0]!.name) : undefined
 
       items.push({
         label,
@@ -90,12 +79,12 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
 
       const { items: menuItems, ...props } = menu.props
       menu.props = props
-      // @ts-expect-error `:items` is not a valid prop but we need to override it here
       menu.props[':items'] = 'item.children'
 
       items.push({
         icon: ui.icons.ellipsis,
         slot: 'dropdown',
+        // @ts-expect-error Extra field for slot
         children: menuItems,
       })
 
@@ -111,8 +100,7 @@ export function Breadcrumb(component: DesignComponent<BreadcrumbProperties>) {
     'UBreadcrumb',
     {
       items,
-      separatorIcon:
-        divider === 'Icon' ? getIconName(separatorIconName.name) : undefined,
+      separatorIcon: divider === 'Icon' ? getIconName(separatorIconName.name) : undefined,
     },
     {
       separatorIcon: ui.icons.chevronRight,

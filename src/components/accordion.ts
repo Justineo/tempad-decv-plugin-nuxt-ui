@@ -1,13 +1,7 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import { findChildren } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  LOREM_IPSUM_TEXT,
-  LOREM_IPSUM_TITLE,
-  pick,
-} from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, pick } from '../utils'
 import { ui } from './config'
 import { getIconName } from './icon'
 
@@ -24,27 +18,17 @@ export type CollapsiblePanelProperties = {
 }
 
 export function Accordion(component: DesignComponent<AccordionProperties>) {
-  const panels = findChildren<DesignComponent<CollapsiblePanelProperties>>(
-    component,
-    {
-      type: 'INSTANCE',
-      name: 'Collapsible_panel',
-    },
-  )
+  const panels = findChildren<DesignComponent<CollapsiblePanelProperties>>(component, {
+    type: 'INSTANCE',
+    name: 'Collapsible_panel',
+  })
 
   let openCount = 0
 
   const items = panels.map((panel) => {
     const { properties } = panel
 
-    const {
-      state,
-      label,
-      description,
-      iconLeading,
-      iconLeadingName,
-      iconTrailingName,
-    } = cleanPropNames(properties)
+    const { state, label, description, iconLeading, iconLeadingName, iconTrailingName } = cleanPropNames(properties)
 
     if (state === 'Open') {
       openCount++

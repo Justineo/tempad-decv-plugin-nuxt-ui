@@ -3,23 +3,14 @@ import { cleanPropNames, h, toLowerCase } from '../utils'
 
 export type ProgressProperties = {
   '👁️ Indicator': boolean
-  '🎨 Color':
-    | 'Neutral'
-    | 'Primary'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Neutral' | 'Primary' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '📏 Size': '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   '⇅ Orientation': 'Horizontal' | 'Vertical'
   '◆ Value': '0%' | '25%' | '50%' | '75%' | '100%'
 }
 
 export function Progress(component: DesignComponent<ProgressProperties>) {
-  const { color, size, orientation, value, indicator } = cleanPropNames(
-    component.properties,
-  )
+  const { color, size, orientation, value, indicator } = cleanPropNames(component.properties)
 
   return h(
     'UProgress',

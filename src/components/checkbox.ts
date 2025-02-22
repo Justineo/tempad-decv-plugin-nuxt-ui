@@ -16,16 +16,9 @@ export type CheckboxProperties = {
 }
 
 export function Checkbox(component: DesignComponent<CheckboxProperties>) {
-  const {
-    color,
-    size,
-    state,
-    label,
-    description,
-    descriptionSlot,
-    required,
-    icon,
-  } = cleanPropNames(component.properties)
+  const { color, size, state, label, description, descriptionSlot, required, icon } = cleanPropNames(
+    component.properties,
+  )
 
   return h(
     'UCheckbox',

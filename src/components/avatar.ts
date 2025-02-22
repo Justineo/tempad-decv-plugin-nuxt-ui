@@ -1,5 +1,5 @@
-import type { AvatarProps } from '@nuxt/ui'
 import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
+import type { AvatarProps } from '../types'
 import type { IconProperties } from './icon'
 import { findChild } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
@@ -9,21 +9,11 @@ export type AvatarProperties = {
   '🙂 IconName': DesignComponent<IconProperties>
   '📏 Size': '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl'
   '◆ Variant': 'Image' | 'Icon' | 'Alt'
-  '◆ ChipPosition':
-    | 'Bottom-left'
-    | 'Bottom-right'
-    | 'None'
-    | 'Top-left'
-    | 'Top-right'
+  '◆ ChipPosition': 'Bottom-left' | 'Bottom-right' | 'None' | 'Top-left' | 'Top-right'
 }
 
-export function Avatar(
-  component: DesignComponent<AvatarProperties>,
-  defaults: Partial<AvatarProps> = {},
-) {
-  const { variant, size, iconName, chipPosition } = cleanPropNames(
-    component.properties,
-  )
+export function Avatar(component: DesignComponent<AvatarProperties>, defaults: Partial<AvatarProps> = {}) {
+  const { variant, size, iconName, chipPosition } = cleanPropNames(component.properties)
 
   const altText = findChild<TextNode>(component, {
     type: 'TEXT',

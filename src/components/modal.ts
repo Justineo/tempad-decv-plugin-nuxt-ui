@@ -1,11 +1,5 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  LOREM_IPSUM_TEXT,
-  LOREM_IPSUM_TITLE,
-  renderSlot,
-} from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, renderSlot } from '../utils'
 
 export type ModalProperties = {
   '👁️ Footer': boolean

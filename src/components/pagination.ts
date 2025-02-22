@@ -1,5 +1,5 @@
-import type { ButtonProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { ButtonProps } from '../types'
 import type { ButtonProperties } from './button'
 import { findChildren } from '@tempad-dev/plugins'
 import { cleanPropNames, h, isInteger } from '../utils'
@@ -10,18 +10,14 @@ export type PaginationProperties = {
   '📏 Size': 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
-function parseKey(
-  key?: string,
-): [ButtonProps['color'], ButtonProps['variant']] {
+function parseKey(key?: string): [ButtonProps['color'], ButtonProps['variant']] {
   if (!key) {
     return [undefined, undefined]
   }
   const [colorStr, variantStr] = key.split('-')
   return [
     colorStr === 'undefined' ? undefined : (colorStr as ButtonProps['color']),
-    variantStr === 'undefined'
-      ? undefined
-      : (variantStr as ButtonProps['variant']),
+    variantStr === 'undefined' ? undefined : (variantStr as ButtonProps['variant']),
   ]
 }
 
@@ -37,9 +33,7 @@ export function Pagination(component: DesignComponent<PaginationProperties>) {
   if (items.length >= 5) {
     controls = [...items]
     controls.splice(2, items.length - 4)
-    controls = controls.every((control) => !isInteger(control.label || ''))
-      ? controls
-      : []
+    controls = controls.every((control) => !isInteger(control.label || '')) ? controls : []
   }
 
   const showControls = controls.length === 4
@@ -47,9 +41,7 @@ export function Pagination(component: DesignComponent<PaginationProperties>) {
 
   const pages = showControls ? items.splice(2, items.length - 4) : items
 
-  const ellipsis = pages.find(
-    ({ icon, label }) => icon && !/^\d+$/.test(label || ''),
-  )
+  const ellipsis = pages.find(({ icon, label }) => icon && !/^\d+$/.test(label || ''))
   const pageGroups = pages.reduce(
     (acc, page) => {
       const key = `${page.color}-${page.variant}`

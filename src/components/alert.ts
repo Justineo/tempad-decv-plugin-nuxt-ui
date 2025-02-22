@@ -14,14 +14,7 @@ export type AlertProperties = {
   '↳ IconName': DesignComponent<IconProperties>
   '𝐓 Description': string
   '👁️ CloseButton': boolean
-  '🎨 Color':
-    | 'Neutral'
-    | 'Primary'
-    | 'Secondary'
-    | 'Success'
-    | 'Info'
-    | 'Warning'
-    | 'Error'
+  '🎨 Color': 'Neutral' | 'Primary' | 'Secondary' | 'Success' | 'Info' | 'Warning' | 'Error'
   '◆ Variant': 'Solid' | 'Outline' | 'Soft' | 'Subtle'
   '◆ LeadingSlot': 'Avatar' | 'Icon'
   '👁️ Description': 'True' | 'False'
@@ -29,20 +22,10 @@ export type AlertProperties = {
 }
 
 export function Alert(component: DesignComponent<AlertProperties>) {
-  const {
-    color,
-    variant,
-    leadingSlot,
-    showDescription,
-    action,
-    title,
-    description,
-    closeButton,
-    icon,
-    iconName,
-  } = cleanPropNames(component.properties, {
-    '👁️ Description': 'showDescription',
-  })
+  const { color, variant, leadingSlot, showDescription, action, title, description, closeButton, icon, iconName } =
+    cleanPropNames(component.properties, {
+      '👁️ Description': 'showDescription',
+    })
 
   const button = findChild<DesignComponent<ButtonProperties>>(component, {
     type: 'INSTANCE',
@@ -75,8 +58,7 @@ export function Alert(component: DesignComponent<AlertProperties>) {
     {
       title,
       description: (showDescription && description) || undefined,
-      icon:
-        leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
+      icon: leadingSlot === 'Icon' && icon ? getIconName(iconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       color: toLowerCase(color),
       variant: toLowerCase(variant),

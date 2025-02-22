@@ -1,12 +1,12 @@
-import type { SelectItem, SelectProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { SelectProps } from '../types'
 import type { IconProperties } from './icon'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { ui } from './config'
 import { getIconName } from './icon'
 
-const SELECT_VARIANT_MAP: Record<string, SelectProps<SelectItem>['variant']> = {
+const SELECT_VARIANT_MAP: Record<string, SelectProps['variant']> = {
   SelectOutline: 'outline',
   SelectSoft: 'soft',
   SelectNone: 'none',
@@ -31,25 +31,13 @@ export type SelectProperties = {
   '◆ LeadingSlot': 'Icon' | 'Avatar' | 'None' | 'Span'
 }
 
-export function Select(
-  component: DesignComponent<SelectProperties>,
-  defaults: Partial<SelectProps<SelectItem>> = {},
-) {
+export function Select(component: DesignComponent<SelectProperties>, defaults: Partial<SelectProps> = {}) {
   const variant = SELECT_VARIANT_MAP[component.name]
 
-  const {
-    color,
-    size,
-    state,
-    leadingSlot,
-    placeholder,
-    placeholderLabel,
-    iconLeadingName,
-    iconTrailingName,
-  } = cleanPropNames(component.properties)
+  const { color, size, state, leadingSlot, placeholder, placeholderLabel, iconLeadingName, iconTrailingName } =
+    cleanPropNames(component.properties)
 
-  const icon =
-    leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
+  const icon = leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined
   const trailingIcon = getIconName(iconTrailingName.name)
 
   const avatar = leadingSlot === 'Avatar' ? getRandomAvatar() : undefined

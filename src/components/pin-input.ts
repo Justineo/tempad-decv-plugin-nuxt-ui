@@ -1,5 +1,5 @@
-import type { PinInputProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { PinInputProps } from '../types'
 import { findChildren } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
@@ -18,32 +18,14 @@ export type PinInputItemProperties = {
 
 type PinInputItem = Pick<
   PinInputProps,
-  | 'color'
-  | 'variant'
-  | 'size'
-  | 'highlight'
-  | 'type'
-  | 'disabled'
-  | 'placeholder'
-  | 'mask'
+  'color' | 'variant' | 'size' | 'highlight' | 'type' | 'disabled' | 'placeholder' | 'mask'
 > & { value?: string }
 
-export function renderPinInputItem(
-  item: DesignComponent<PinInputItemProperties>,
-): PinInputItem {
-  const {
-    color,
-    variant,
-    state,
-    highlight,
-    placeholder,
-    placeholderText,
-    completed,
-    completedText,
-    mask,
-  } = cleanPropNames(item.properties, {
-    '🚦State': 'state',
-  })
+export function renderPinInputItem(item: DesignComponent<PinInputItemProperties>): PinInputItem {
+  const { color, variant, state, highlight, placeholder, placeholderText, completed, completedText, mask } =
+    cleanPropNames(item.properties, {
+      '🚦State': 'state',
+    })
 
   return {
     color: toLowerCase(color),
@@ -61,22 +43,14 @@ export type PinInputProperties = {
 }
 
 export function PinInput(component: DesignComponent<PinInputProperties>) {
-  const items: PinInputItem[] = findChildren<
-    DesignComponent<PinInputItemProperties>
-  >(component, {
+  const items: PinInputItem[] = findChildren<DesignComponent<PinInputItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'PinInputItem',
   }).map(renderPinInputItem)
 
-  const type: PinInputProps['type'] = items.some(
-    (item) => item.value && !/^\d$/.test(item.value),
-  )
-    ? 'text'
-    : 'number'
+  const type: PinInputProps['type'] = items.some((item) => item.value && !/^\d$/.test(item.value)) ? 'text' : 'number'
 
-  const placeholder: PinInputProps['placeholder'] = items.find(
-    (item) => !!item.placeholder,
-  )?.placeholder
+  const placeholder: PinInputProps['placeholder'] = items.find((item) => !!item.placeholder)?.placeholder
   const mask: PinInputProps['mask'] = items.some((item) => item.mask)
 
   const { size } = cleanPropNames(component.properties)

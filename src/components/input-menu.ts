@@ -1,10 +1,5 @@
 import type { InputMenuItem } from '@nuxt/ui'
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-  TextNode,
-} from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import { findChild, findChildren } from '@tempad-dev/plugins'
@@ -21,12 +16,8 @@ export type InputMenuItemProperties = {
   '◆ LeadingSlot': 'Avatar' | 'Dot' | 'Icon' | 'None'
 }
 
-export function renderInputMenuItem(
-  item: DesignComponent<InputMenuItemProperties>,
-): InputMenuItem {
-  const { state, leadingSlot, label, iconName } = cleanPropNames(
-    item.properties,
-  )
+export function renderInputMenuItem(item: DesignComponent<InputMenuItemProperties>): InputMenuItem {
+  const { state, leadingSlot, label, iconName } = cleanPropNames(item.properties)
 
   return pick(
     {
@@ -62,9 +53,7 @@ export function InputMenu(component: DesignComponent<InputMenuProperties>) {
         container,
         (node) =>
           (node.type === 'TEXT' && node.name === 'Title') ||
-          (node.type === 'INSTANCE' &&
-            node.name === 'InputMenuItem' &&
-            node.visible === true),
+          (node.type === 'INSTANCE' && node.name === 'InputMenuItem' && node.visible === true),
       ).map((item) => {
         if (item.type === 'TEXT') {
           return {

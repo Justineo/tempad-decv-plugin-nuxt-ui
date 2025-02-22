@@ -93,5 +93,4 @@ export const COMPONENT_MAP: Record<string, RenderFn> = {
   Tooltip,
 }
 
-export const transformComponent: TransformOptions['transformComponent'] =
-  createTransformComponent(COMPONENT_MAP)
+export const transformComponent: TransformOptions['transformComponent'] = createTransformComponent(COMPONENT_MAP)

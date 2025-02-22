@@ -1,19 +1,7 @@
-import type {
-  DesignComponent,
-  DevComponent,
-  FrameNode,
-  TextNode,
-} from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
 import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
-import {
-  cleanPropNames,
-  h,
-  LOREM_IPSUM_TEXT,
-  LOREM_IPSUM_TITLE,
-  renderSlot,
-  toLowerCase,
-} from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, renderSlot, toLowerCase } from '../utils'
 import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
 
@@ -86,11 +74,7 @@ export function Slideover(component: DesignComponent<SlideoverProperties>) {
       description: desc?.characters,
       overlay: overlay === 'True',
       side: toLowerCase(variant),
-      close: closeProps
-        ? Object.keys(close).length > 0
-          ? close
-          : true
-        : false,
+      close: closeProps ? (Object.keys(close).length > 0 ? close : true) : false,
       closeIcon,
     },
     {
