@@ -8,7 +8,7 @@ export type BlogPostsProperties = {
   Orientation: 'Horizontal' | 'Vertical'
 }
 
-export function BlogPost(component: DesignComponent<BlogPostsProperties>) {
+export function BlogPosts(component: DesignComponent<BlogPostsProperties>) {
   const { orientation } = cleanPropNames(component.properties)
 
   const posts = findAll<DesignComponent<BlogPostProperties>>(component, {
