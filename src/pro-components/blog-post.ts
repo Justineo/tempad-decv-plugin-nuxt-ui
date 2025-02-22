@@ -43,7 +43,7 @@ export function BlogPost(component: DesignComponent<BlogPostProperties>) {
     { query: 'one', type: 'INSTANCE', name: 'Badge' },
   ])
 
-  const badge = showBadge && badgeNode ? renderBadgeItem(badgeNode) : undefined
+  const badge = showBadge && badgeNode ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'subtle' }) : undefined
 
   return h(
     'UBlogPost',
