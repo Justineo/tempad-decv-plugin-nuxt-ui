@@ -1,5 +1,6 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { BadgeProperties } from '../components/badge'
+import type { BlogPostProps } from '../types'
 import { queryOne } from '@tempad-dev/plugins'
 import { renderBadgeItem } from '../components/badge'
 import { cleanPropNames, h, toLowerCase } from '../utils'
@@ -62,4 +63,12 @@ export function BlogPost(component: DesignComponent<BlogPostProperties>) {
       variant: 'outline',
     },
   )
+}
+
+export function renderBlogPostItem(post: DesignComponent<BlogPostProperties>): Partial<BlogPostProps> {
+  const {
+    props: { orientation, ...rest },
+  } = BlogPost(post)
+
+  return rest
 }
