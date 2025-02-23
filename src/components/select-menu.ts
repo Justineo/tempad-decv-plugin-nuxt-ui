@@ -1,5 +1,5 @@
 import type { SelectMenuItem } from '@nuxt/ui'
-import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
+import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import type { SelectProperties } from './select'
@@ -76,8 +76,6 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
       })
     : []
 
-  const children: DevComponent['children'] = []
-
   const select = findChild<DesignComponent<SelectProperties>>(component, {
     type: 'INSTANCE',
     name: SELECT_NAMES,
@@ -109,6 +107,5 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
       searchInput: inputProps,
     },
     {},
-    children,
   )
 }

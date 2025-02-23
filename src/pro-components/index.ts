@@ -5,6 +5,7 @@ import { createTransformComponent } from '../utils'
 import { Banner } from './banner'
 import { BlogPost } from './blog-post'
 import { BlogPosts } from './blog-posts'
+import { ColorModeSelect } from './color-mode-select'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -12,6 +13,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   Banner,
   BlogPost,
   BlogPosts,
+  ColorModeSelect,
   User,
 }
 
