@@ -1,5 +1,5 @@
 import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
-import type { AvatarProps } from '../types'
+import type { AvatarProps, ChipProps } from '../types'
 import type { IconProperties } from './icon'
 import { findChild } from '@tempad-dev/plugins'
 import { cleanPropNames, h, toLowerCase } from '../utils'
@@ -83,12 +83,15 @@ export function getRandomAvatar(): AvatarItem {
 export function renderAvatarItem(
   avatar: DesignComponent<AvatarProperties>,
   defaults: Partial<AvatarProps> = {},
-): Partial<AvatarProps> {
+): Partial<AvatarProps & { chip?: ChipProps }> {
   const { props, children } = Avatar(avatar, defaults)
 
   const child = children[0]
   if (child && typeof child !== 'string' && child.name === 'UAvatar') {
-    return child.props
+    return {
+      ...child.props,
+      chip: props,
+    }
   }
 
   return props as AvatarProps

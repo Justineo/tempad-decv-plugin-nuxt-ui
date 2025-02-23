@@ -1,9 +1,13 @@
-import type { DesignComponent } from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
+import type { AvatarGroupProperties } from '../components/avatar-group'
 import type { BadgeProperties } from '../components/badge'
-import type { BlogPostProps } from '../types'
+import type { AvatarProps, BlogPostProps, UserProps } from '../types'
+import type { UserProperties } from './user'
 import { queryOne } from '@tempad-dev/plugins'
+import { AvatarGroup } from '../components/avatar-group'
 import { renderBadgeItem } from '../components/badge'
 import { cleanPropNames, h, toLowerCase } from '../utils'
+import { renderUserItem } from './user'
 
 export type BlogPostProperties = {
   '👁️ Image': boolean
@@ -46,6 +50,40 @@ export function BlogPost(component: DesignComponent<BlogPostProperties>) {
 
   const badge = showBadge && badgeNode ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'subtle' }) : undefined
 
+  const authorItems: Partial<UserProps>[] = []
+
+  if (authors) {
+    if (author === 'One') {
+      const authorNode = queryOne<DesignComponent<UserProperties>>(component, [
+        { query: 'child', type: 'FRAME', name: 'Content' },
+        { query: 'child', type: 'INSTANCE', name: 'User' },
+      ])
+
+      if (authorNode) {
+        authorItems.push(renderUserItem(authorNode))
+      }
+    } else if (author === 'Multiple') {
+      const authorsNode = queryOne<DesignComponent<AvatarGroupProperties>>(component, [
+        { query: 'child', type: 'FRAME', name: 'Content' },
+        { query: 'child', type: 'INSTANCE', name: 'AvatarGroup' },
+      ])
+
+      if (authorsNode) {
+        const avatarGroup = AvatarGroup(authorsNode)
+        if (avatarGroup) {
+          authorItems.push(
+            ...avatarGroup.children.map((child) => {
+              const { props } = child as DevComponent<AvatarProps>
+              return {
+                avatar: props,
+              }
+            }),
+          )
+        }
+      }
+    }
+  }
+
   return h(
     'UBlogPost',
     {
@@ -53,7 +91,7 @@ export function BlogPost(component: DesignComponent<BlogPostProperties>) {
       description: showDescription ? description : undefined,
       date: showDate ? date : undefined,
       badge,
-      authors: authors && author === 'Multiple' ? [] : undefined, // TODO: Implement User
+      authors: authorItems,
       image: image ? 'https://picsum.photos/540/360' : undefined,
       orientation: toLowerCase(orientation),
       variant: toLowerCase(variant),

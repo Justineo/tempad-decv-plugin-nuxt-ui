@@ -27,14 +27,14 @@ export function Separator(component: DesignComponent<SeparatorProperties>) {
         })
       : undefined
 
-  const avatarItem = avatar ? renderAvatarItem(avatar) : undefined
+  const { chip, ...avatarItem } = avatar ? renderAvatarItem(avatar) : {}
 
   return h(
     'USeparator',
     {
       label: (slot === 'Span' && span) || undefined,
       icon: (slot === 'Icon' && getIconName(iconName.name)) || undefined,
-      avatar: avatarItem,
+      avatar: Object.keys(avatarItem).length > 0 ? avatarItem : undefined,
       color: toLowerCase(color),
       size,
       type: toLowerCase(separator),
