@@ -58,7 +58,7 @@ export function Badge(component: DesignComponent<BadgeProperties>, defaults: Par
 export function renderBadgeItem(
   badge: DesignComponent<BadgeProperties>,
   defaults: Partial<BadgeProps> = {},
-): Partial<BadgeProps> | string | undefined {
+): Partial<BadgeProps> | string | number | undefined {
   const { props, children } = Badge(badge, defaults)
 
   const label =
@@ -68,6 +68,9 @@ export function renderBadgeItem(
       .join('') || undefined
 
   if (Object.keys(props).length === 0) {
+    if (String(Number(label)) === label) {
+      return Number(label)
+    }
     return label
   }
 

@@ -70,18 +70,13 @@ export function renderNavigationMenuItem(
       ])
     : undefined
 
-  const badgeItem = badgeNode
+  const badge = badgeNode
     ? renderBadgeItem(badgeNode, {
         size: 'sm',
         color: 'neutral',
         variant: 'outline',
       })
     : undefined
-
-  let badge: NavigationMenuItem['badge'] = badgeItem
-  if (typeof badgeItem === 'string' && String(Number(badgeItem)) === badgeItem) {
-    badge = Number(badgeItem)
-  }
 
   const children = iconTrailing
     ? findAll<DesignComponent<NavigationMenuDropdownItemProperties>>(item, {

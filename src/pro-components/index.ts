@@ -6,6 +6,8 @@ import { Banner } from './banner'
 import { BlogPost } from './blog-post'
 import { BlogPosts } from './blog-posts'
 import { ColorModeSelect } from './color-mode-select'
+import { ColorModeSwitch } from './color-mode-switch'
+import { ContentNavigation } from './content-navigation'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -14,6 +16,8 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   BlogPost,
   BlogPosts,
   ColorModeSelect,
+  ColorModeSwitch,
+  ContentNavigation,
   User,
 }
 

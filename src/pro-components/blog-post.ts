@@ -90,7 +90,7 @@ export function BlogPost(component: DesignComponent<BlogPostProperties>) {
       title,
       description: showDescription ? description : undefined,
       date: showDate ? date : undefined,
-      badge,
+      badge: typeof badge === 'number' ? String(badge) : badge,
       authors: authorItems,
       image: image ? 'https://picsum.photos/540/360' : undefined,
       orientation: toLowerCase(orientation),
