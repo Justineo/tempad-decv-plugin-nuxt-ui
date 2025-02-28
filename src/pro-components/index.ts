@@ -9,6 +9,7 @@ import { ColorModeSelect } from './color-mode-select'
 import { ColorModeSwitch } from './color-mode-switch'
 import { ContentNavigation } from './content-navigation'
 import { ContentSearch } from './content-search'
+import { ContentSearchButton } from './content-search-button'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -20,6 +21,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   ColorModeSwitch,
   ContentNavigation,
   ContentSearch,
+  ContentSearchButton,
   User,
 }
 

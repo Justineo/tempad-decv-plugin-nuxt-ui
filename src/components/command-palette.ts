@@ -3,7 +3,7 @@ import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
-import { findChild, findChildren, findOne, queryAll } from '@tempad-dev/plugins'
+import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
 import { cleanPropNames, h, pick, toKebabCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
@@ -49,19 +49,33 @@ export type CommandPaletteProperties = {
 }
 
 export function CommandPalette(component: DesignComponent<CommandPaletteProperties>) {
-  const input = findOne<DesignComponent<InputProperties>>(component, {
-    type: 'INSTANCE',
-    name: INPUT_NAMES,
-  })
+  const { open } = cleanPropNames(component.properties)
+
+  const palette =
+    open === 'Default'
+      ? component
+      : findChild<DesignComponent<CommandPaletteProperties>>(component, {
+          type: 'FRAME',
+          name: 'CommandPalette',
+        })
+
+  const input = palette
+    ? findChild<DesignComponent<InputProperties>>(palette, {
+        type: 'INSTANCE',
+        name: INPUT_NAMES,
+      })
+    : undefined
 
   const inputComponent = input ? Input(input) : undefined
 
   const { icon, placeholder, disabled } = inputComponent?.props || {}
 
-  const containers = queryAll<FrameNode>(component, [
-    { query: 'child', type: 'FRAME', name: 'CommandPalette' },
-    { query: 'children', type: 'FRAME', name: /^Container/ },
-  ])
+  const containers = palette
+    ? findChildren<FrameNode>(palette, {
+        type: 'FRAME',
+        name: /^Container/,
+      })
+    : []
 
   let activeCount = 0
 
