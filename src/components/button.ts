@@ -2,7 +2,7 @@ import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
 import type { ButtonProps } from '../types'
 import type { IconProperties } from './icon'
 import { findOne } from '@tempad-dev/plugins'
-import { cleanPropNames, h, toLowerCase } from '../utils'
+import { cleanPropNames, h, pick, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
 
@@ -88,16 +88,19 @@ export function renderButtonItem(
   button: DesignComponent<ButtonProperties>,
   defaults: Partial<ButtonProps> = {},
 ): Partial<ButtonProps> {
-  const { props, children } = Button(button, defaults)
+  const { props, children } = Button(button)
   const label = children
     .map((child) => (typeof child === 'string' ? child : undefined))
     .filter(Boolean)
     .join('')
 
-  return {
-    ...(label ? { label } : {}),
-    ...props,
-  }
+  return pick(
+    {
+      ...(label ? { label } : {}),
+      ...props,
+    },
+    defaults,
+  )
 }
 
 export function renderButtonChild(button: DesignComponent<ButtonProperties>) {
