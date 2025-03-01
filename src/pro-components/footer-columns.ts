@@ -83,9 +83,11 @@ export function FooterColumns(component: DesignComponent<FooterColumnsProperties
         ) as DevComponent | undefined
 
         if (inputComponent) {
-          inputComponent.children.push(renderSlot('right', [buttonComponent]))
+          inputComponent.children.push(renderSlot('trailing', [buttonComponent]))
         }
       }
+
+      children.push(renderSlot('right', [formField]))
     }
   }
 
