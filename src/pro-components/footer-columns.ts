@@ -1,9 +1,13 @@
 import type { FooterColumn, FooterColumnLink } from '@nuxt/ui-pro/runtime/components/FooterColumns.vue'
-import type { DesignComponent, FrameNode } from '@tempad-dev/plugins'
-import { findChildren, queryAll } from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode } from '@tempad-dev/plugins'
+import type { ButtonProperties } from '../components/button'
+import type { FormFieldProperties } from '../components/form-field'
+import { findChildren, queryAll, queryOne } from '@tempad-dev/plugins'
+import { Button, BUTTON_NAMES } from '../components/button'
+import { FormField } from '../components/form-field'
 import { getIconName } from '../components/icon'
 import { getLinkTo } from '../components/link'
-import { cleanPropNames, h } from '../utils'
+import { cleanPropNames, h, renderSlot } from '../utils'
 
 export type FooterColumnLinkProperties = {
   '𝐓 Label': string
@@ -56,11 +60,41 @@ export function FooterColumns(component: DesignComponent<FooterColumnsProperties
     }
   })
 
+  const children: DevComponent['children'] = []
+
+  if (props.newsletter) {
+    const field = queryOne<DesignComponent<FormFieldProperties>>(component, [
+      { query: 'child', type: 'FRAME', name: 'Newsletter' },
+      { query: 'child', type: 'INSTANCE', name: 'FormField' },
+    ])
+
+    const button = queryOne<DesignComponent<ButtonProperties>>(component, [
+      { query: 'child', type: 'FRAME', name: 'Newsletter' },
+      { query: 'child', type: 'INSTANCE', name: BUTTON_NAMES },
+    ])
+
+    if (field) {
+      const formField = FormField(field)
+
+      if (button) {
+        const buttonComponent = Button(button)
+        const inputComponent = formField.children.find(
+          (child) => typeof child !== 'string' && child.name === 'UInput',
+        ) as DevComponent | undefined
+
+        if (inputComponent) {
+          inputComponent.children.push(renderSlot('right', [buttonComponent]))
+        }
+      }
+    }
+  }
+
   return h(
     'UFooterColumns',
     {
       columns,
     },
     {},
+    children,
   )
 }
