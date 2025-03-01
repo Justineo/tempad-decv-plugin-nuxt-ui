@@ -4,7 +4,8 @@ import type { IconProperties } from '../components/icon'
 import { findChildren, queryOne } from '@tempad-dev/plugins'
 import { ui } from '../components/config'
 import { getIconName } from '../components/icon'
-import { cleanPropNames, h, toKebabCase } from '../utils'
+import { getLinkTo } from '../components/link'
+import { cleanPropNames, h } from '../utils'
 
 export type ContentSurroundItemProperties = {
   '𝐓 Description': string
@@ -28,7 +29,7 @@ export function renderContentSurroundLink(
   return {
     title,
     description,
-    path: `#${toKebabCase(title)}`,
+    path: getLinkTo(title, 'hash'),
     icon,
   }
 }

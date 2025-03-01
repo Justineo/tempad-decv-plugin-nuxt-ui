@@ -8,6 +8,7 @@ import { findAll, findChildren, queryOne } from '@tempad-dev/plugins'
 import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 import { renderBadgeItem } from './badge'
 import { getIconName } from './icon'
+import { getLinkTo } from './link'
 
 export type NavigationMenuDropdownItemProperties = {
   '👁️ Description': boolean
@@ -62,7 +63,7 @@ export function renderNavigationMenuItem(
     iconTrailing,
     badge: showBadge,
     label,
-    external,
+    external: externalVariant,
   } = cleanPropNames(item.properties)
   const badgeNode = showBadge
     ? queryOne<DesignComponent<BadgeProperties>>(item, [
@@ -86,13 +87,16 @@ export function renderNavigationMenuItem(
       }).map(renderNavigationMenuDropdownItem)
     : undefined
 
+  const external = externalVariant === 'True'
+
   return pick(
     {
       label,
       icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
+      to: getLinkTo(label, external ? 'external' : 'path'),
       badge,
-      external: external === 'True',
-      children: external === 'True' ? undefined : children,
+      external,
+      children: external ? undefined : children,
       active: active === 'True',
       disabled: state === 'Disabled',
       // These should be omitted in final `items`

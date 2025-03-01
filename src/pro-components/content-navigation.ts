@@ -8,7 +8,8 @@ import { findAll, findChild, findChildren } from '@tempad-dev/plugins'
 import { renderBadgeItem } from '../components/badge'
 import { ui } from '../components/config'
 import { getIconName } from '../components/icon'
-import { cleanPropNames, getFirst, h, pick, toKebabCase, toLowerCase } from '../utils'
+import { getLinkTo } from '../components/link'
+import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 
 type ContentNavigationItemExtra = Pick<
   ContentNavigationProps,
@@ -55,7 +56,7 @@ export function renderContentNavigationLink(
 
   return {
     title: label,
-    path: `#${toKebabCase(label)}`,
+    path: getLinkTo(label, 'hash'),
     ...pick(
       {
         icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
@@ -118,7 +119,7 @@ export function renderContentNavigationItem(
 
   return {
     title: label,
-    path: `#${toKebabCase(label)}`,
+    path: getLinkTo(label, 'hash'),
     ...pick(
       {
         icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,

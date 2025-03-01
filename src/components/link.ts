@@ -1,5 +1,5 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
-import { cleanPropNames, h, toLowerCase } from '../utils'
+import { cleanPropNames, h, toKebabCase, toLowerCase } from '../utils'
 
 export type LinkProperties = {
   '𝐓 Label': string
@@ -22,4 +22,17 @@ export function Link(component: DesignComponent<LinkProperties>) {
     },
     [label],
   )
+}
+
+export function getLinkTo(label: string, type: 'path' | 'external' | 'hash' = 'path') {
+  const path = toKebabCase(label)
+
+  switch (type) {
+    case 'external':
+      return `https://example.com/${path}`
+    case 'hash':
+      return `#${path}`
+    default:
+      return `/${path}`
+  }
 }
