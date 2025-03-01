@@ -62,6 +62,7 @@ export function renderNavigationMenuItem(
     iconTrailing,
     badge: showBadge,
     label,
+    external,
   } = cleanPropNames(item.properties)
   const badgeNode = showBadge
     ? queryOne<DesignComponent<BadgeProperties>>(item, [
@@ -90,7 +91,8 @@ export function renderNavigationMenuItem(
       label,
       icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
       badge,
-      children,
+      external: external === 'True',
+      children: external === 'True' ? undefined : children,
       active: active === 'True',
       disabled: state === 'Disabled',
       // These should be omitted in final `items`
@@ -99,6 +101,7 @@ export function renderNavigationMenuItem(
       highlight: highlight === 'True',
     },
     {
+      external: false,
       active: false,
       disabled: false,
       variant: 'pill',
