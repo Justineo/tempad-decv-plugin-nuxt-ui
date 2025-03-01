@@ -104,6 +104,7 @@ export function ContentToc(component: DesignComponent<ContentTocProperties>) {
       highlightColor,
     },
     {
+      title: 'On this page',
       color: 'primary',
       highlightColor: 'primary',
     },

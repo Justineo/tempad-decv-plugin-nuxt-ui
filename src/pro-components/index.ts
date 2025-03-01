@@ -12,6 +12,7 @@ import { ContentSearch } from './content-search'
 import { ContentSearchButton } from './content-search-button'
 import { ContentSurround } from './content-surround'
 import { ContentToc } from './content-toc'
+import { Error } from './error'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -26,6 +27,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   ContentSearchButton,
   ContentSurround,
   ContentToc,
+  Error,
   User,
 }
 
