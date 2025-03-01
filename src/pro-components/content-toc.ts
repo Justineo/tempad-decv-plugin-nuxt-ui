@@ -14,9 +14,7 @@ export type ContentTocLinkProperties = {
 export function renderContentTocLink(
   item: DesignComponent<ContentTocLinkProperties>,
 ): ContentTocLink & Pick<ContentTocProps, 'highlightColor'> {
-  const { label, highlightColor } = cleanPropNames(item.properties, {
-    '🚦State': 'state',
-  })
+  const { label, highlightColor } = cleanPropNames(item.properties)
 
   return {
     id: toKebabCase(label),

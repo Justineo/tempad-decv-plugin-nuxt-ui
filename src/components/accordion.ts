@@ -26,9 +26,9 @@ export function Accordion(component: DesignComponent<AccordionProperties>) {
   let openCount = 0
 
   const items = panels.map((panel) => {
-    const { properties } = panel
-
-    const { state, label, description, iconLeading, iconLeadingName, iconTrailingName } = cleanPropNames(properties)
+    const { state, label, description, iconLeading, iconLeadingName, iconTrailingName } = cleanPropNames(
+      panel.properties,
+    )
 
     if (state === 'Open') {
       openCount++

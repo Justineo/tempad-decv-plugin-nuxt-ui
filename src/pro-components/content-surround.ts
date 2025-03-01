@@ -16,9 +16,7 @@ export type ContentSurroundItemProperties = {
 export function renderContentSurroundLink(
   component: DesignComponent<ContentSurroundItemProperties>,
 ): ContentSurroundLink {
-  const { title, description } = cleanPropNames(component.properties, {
-    '🚦State': 'state',
-  })
+  const { title, description } = cleanPropNames(component.properties)
 
   const iconNode = queryOne<DesignComponent<IconProperties>>(component, [
     { query: 'child', type: 'FRAME', name: 'Icon' },

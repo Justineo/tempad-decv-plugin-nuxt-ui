@@ -102,9 +102,7 @@ export function renderContentNavigationItem(
     active,
     highlightColor,
     variant,
-  } = cleanPropNames(item.properties, {
-    '🚦State': 'state',
-  })
+  } = cleanPropNames(item.properties)
 
   const badgeNode = showBadge
     ? findChild<DesignComponent<BadgeProperties>>(item, {

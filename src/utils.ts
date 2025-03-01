@@ -6,17 +6,16 @@ import { mapKeys } from '@s-libs/micro-dash'
 import { h as createComponent } from '@tempad-dev/plugins'
 import { Icon } from './components/icon'
 
-export function cleanPropNames<
-  T extends Record<string, unknown>,
-  // eslint-disable-next-line ts/no-empty-object-type
-  M extends Partial<Record<keyof T, string>> = {},
->(props: T, mapping?: M): CleanPropName<T, M> {
+export function cleanPropNames<T extends Record<string, unknown>, M extends Partial<Record<keyof T, string>> = object>(
+  props: T,
+  mapping?: M,
+): CleanPropName<T, M> {
   return mapKeys(props, (_, key) => {
     if (mapping && key in mapping) {
       const mapped = mapping[key as keyof T]
       return mapped ?? key
     }
-    const trimmedKey = (key as string).replace(/^[^ ]+ /, '')
+    const trimmedKey = (key as string).trim().replace(/^[^0-9A-Z]+/i, '')
     const camelizedKey = trimmedKey.replace(/[ /]+(.)/g, (_, c) => c.toUpperCase())
     return camelizedKey.charAt(0).toLowerCase() + camelizedKey.slice(1)
   }) as CleanPropName<T, M>

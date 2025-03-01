@@ -101,7 +101,17 @@ import type { VNodeProps } from 'vue'
 
 import type { ComponentProps as CP } from 'vue-component-type-helpers'
 
-type TrimEmoji<S extends string> = S extends `${infer _Emoji} ${infer Name}` ? Name : S
+type TrimLeft<S extends string> = S extends ` ${infer Rest}` ? TrimLeft<Rest> : S
+type TrimRight<S extends string> = S extends `${infer Rest} ` ? TrimRight<Rest> : S
+type Trim<S extends string> = TrimLeft<TrimRight<S>>
+
+// prettier-ignore
+type RemovePrefix<S extends string> = S extends `${infer First}${infer Rest}`
+  ? First extends
+    '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
+    ? S
+    : RemovePrefix<Rest>
+  : S
 
 type Camelize<S extends string> = S extends `${infer Head}${' ' | '/'}${infer Rest}`
   ? `${Head}${Camelize<Capitalize<Rest>>}`
@@ -109,12 +119,10 @@ type Camelize<S extends string> = S extends `${infer Head}${' ' | '/'}${infer Re
 
 type LowerFirst<T extends string> = T extends `${infer First}${infer Rest}` ? `${Lowercase<First>}${Rest}` : T
 
-export type CleanPropName<
-  T,
-  // eslint-disable-next-line ts/no-empty-object-type
-  M extends Partial<Record<keyof T, string>> = {},
-> = {
-  [K in keyof T as K extends keyof M ? Extract<M[K], string> : LowerFirst<Camelize<TrimEmoji<K & string>>>]: T[K]
+export type CleanPropName<T, M extends Partial<Record<keyof T, string>> = object> = {
+  [K in keyof T as K extends keyof M
+    ? Extract<M[K], string>
+    : LowerFirst<Camelize<RemovePrefix<Trim<K & string>>>>]: T[K]
 }
 
 type MapComponentProps<T> = T & {

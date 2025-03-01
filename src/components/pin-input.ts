@@ -23,9 +23,7 @@ type PinInputItem = Pick<
 
 export function renderPinInputItem(item: DesignComponent<PinInputItemProperties>): PinInputItem {
   const { color, variant, state, highlight, placeholder, placeholderText, completed, completedText, mask } =
-    cleanPropNames(item.properties, {
-      '🚦State': 'state',
-    })
+    cleanPropNames(item.properties)
 
   return {
     color: toLowerCase(color),
