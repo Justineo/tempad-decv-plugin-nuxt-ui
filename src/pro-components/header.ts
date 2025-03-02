@@ -5,7 +5,7 @@ import type { ModalProperties } from '../components/modal'
 import type { NavigationMenuProperties } from '../components/navigation-menu'
 import type { SlideoverProperties } from '../components/slideover'
 import type { HeaderProps } from '../types'
-import { h as createElement, findChild, queryAll, queryOne } from '@tempad-dev/plugins'
+import { h as createElement, findChild, findOne, queryAll } from '@tempad-dev/plugins'
 import { Button, BUTTON_NAMES } from '../components/button'
 import { Drawer } from '../components/drawer'
 import { Modal } from '../components/modal'
@@ -46,10 +46,10 @@ export function Header(component: DesignComponent<HeaderProperties>) {
     { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
   ]).map((button) => Button(button))
 
-  const navMenu = queryOne<DesignComponent<NavigationMenuProperties>>(container, [
-    { query: 'child', type: 'FRAME', name: 'Default' },
-    { query: 'child', type: 'INSTANCE', name: 'NavigationMenu' },
-  ])
+  const navMenu = findOne<DesignComponent<NavigationMenuProperties>>(component, {
+    type: 'INSTANCE',
+    name: 'NavigationMenu',
+  })
 
   let menu
   if (isSupportedMode(mode)) {
