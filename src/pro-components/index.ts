@@ -35,6 +35,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   Footer,
   FooterColumns,
   Header,
+  LocalSelect: LocaleSelect,
   LocaleSelect,
   User,
 }
