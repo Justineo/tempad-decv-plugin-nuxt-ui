@@ -20,7 +20,7 @@ export type CollapsiblePanelProperties = {
 export function Accordion(component: DesignComponent<AccordionProperties>) {
   const panels = findChildren<DesignComponent<CollapsiblePanelProperties>>(component, {
     type: 'INSTANCE',
-    name: 'Collapsible_panel',
+    name: ['Collapsible_panel', 'PageAccordionItem'],
   })
 
   let openCount = 0
