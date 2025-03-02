@@ -20,6 +20,7 @@ import { LocaleSelect } from './locale-select'
 import { PageAccordion } from './page-accordion'
 import { PageAnchors } from './page-anchors'
 import { PageAside } from './page-aside'
+import { PageCard } from './page-card'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -43,6 +44,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   PageAccordion,
   PageAnchors,
   PageAside,
+  PageCard,
   User,
 }
 

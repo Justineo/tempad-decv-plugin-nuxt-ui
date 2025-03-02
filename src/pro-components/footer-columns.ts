@@ -2,6 +2,7 @@ import type { FooterColumn, FooterColumnLink } from '@nuxt/ui-pro/runtime/compon
 import type { DesignComponent, DevComponent, FrameNode } from '@tempad-dev/plugins'
 import type { ButtonProperties } from '../components/button'
 import type { FormFieldProperties } from '../components/form-field'
+import type { IconProperties } from '../components/icon'
 import { findChildren, queryAll, queryOne } from '@tempad-dev/plugins'
 import { Button, BUTTON_NAMES } from '../components/button'
 import { FormField } from '../components/form-field'
@@ -11,7 +12,7 @@ import { cleanPropNames, h, renderSlot } from '../utils'
 
 export type FooterColumnLinkProperties = {
   '𝐓 Label': string
-  '↳ IconLeadingName': DesignComponent
+  '↳ IconLeadingName': DesignComponent<IconProperties>
   '🙂 IconLeading': boolean
   '👁️ External': boolean
   '🚦State': 'Default' | 'Hover' | 'Active'

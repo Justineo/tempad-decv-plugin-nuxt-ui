@@ -1,5 +1,6 @@
 import type { PageAnchor } from '@nuxt/ui-pro/runtime/components/PageAnchors.vue'
 import type { DesignComponent } from '@tempad-dev/plugins'
+import type { IconProperties } from '../components/icon'
 import { findChildren } from '@tempad-dev/plugins'
 import { getIconName } from '../components/icon'
 import { getLinkTo } from '../components/link'
@@ -8,7 +9,7 @@ import { cleanPropNames, h } from '../utils'
 export type PageAnchorsItemProperties = {
   '𝐓 Label': string
   '👁️ External': boolean
-  '🙂 IconLeadingName': DesignComponent
+  '🙂 IconLeadingName': DesignComponent<IconProperties>
   '🚦 State': 'Default' | 'Hover' | 'Active'
 }
 
