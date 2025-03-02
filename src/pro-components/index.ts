@@ -18,6 +18,7 @@ import { FooterColumns } from './footer-columns'
 import { Header } from './header'
 import { LocaleSelect } from './locale-select'
 import { PageAccordion } from './page-accordion'
+import { PageAnchors } from './page-anchors'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -39,6 +40,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   LocalSelect: LocaleSelect,
   LocaleSelect,
   PageAccordion,
+  PageAnchors,
   User,
 }
 
