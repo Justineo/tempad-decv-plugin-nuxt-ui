@@ -16,6 +16,7 @@ import { Error } from './error'
 import { Footer } from './footer'
 import { FooterColumns } from './footer-columns'
 import { Header } from './header'
+import { LocaleSelect } from './locale-select'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -34,6 +35,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   Footer,
   FooterColumns,
   Header,
+  LocaleSelect,
   User,
 }
 

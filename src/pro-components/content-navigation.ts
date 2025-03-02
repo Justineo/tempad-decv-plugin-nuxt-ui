@@ -9,7 +9,7 @@ import { renderBadgeItem } from '../components/badge'
 import { ui } from '../components/config'
 import { getIconName } from '../components/icon'
 import { getLinkTo } from '../components/link'
-import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, getFirst, h, pickOverrides, toLowerCase } from '../utils'
 
 type ContentNavigationItemExtra = Pick<
   ContentNavigationProps,
@@ -57,7 +57,7 @@ export function renderContentNavigationLink(
   return {
     title: label,
     path: getLinkTo(label, 'hash'),
-    ...pick(
+    ...pickOverrides(
       {
         icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
         badge,
@@ -120,7 +120,7 @@ export function renderContentNavigationItem(
   return {
     title: label,
     path: getLinkTo(label, 'hash'),
-    ...pick(
+    ...pickOverrides(
       {
         icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,
         badge,

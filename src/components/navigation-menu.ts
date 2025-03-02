@@ -6,7 +6,7 @@ import type { CollapsibleProperties } from './collapsible'
 import type { IconProperties } from './icon'
 import { omit } from '@s-libs/micro-dash'
 import { findAll, findChild, findChildren, queryAll, queryOne } from '@tempad-dev/plugins'
-import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, getFirst, h, pickOverrides, toLowerCase } from '../utils'
 import { renderBadgeItem } from './badge'
 import { getIconName } from './icon'
 import { getLinkTo } from './link'
@@ -92,7 +92,7 @@ export function renderNavigationMenuItem(
 
   const external = externalVariant === 'True'
 
-  return pick(
+  return pickOverrides(
     {
       label,
       icon: iconLeading ? getIconName(iconLeadingName.name) : undefined,

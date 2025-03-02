@@ -69,7 +69,7 @@ export function toLowerCase<T extends string>(input: T): Lowercase<T> {
   return input.toLowerCase() as Lowercase<T>
 }
 
-export function pick<T extends object>(obj: T, defaults: Partial<T>): Partial<T> {
+export function pickOverrides<T extends object>(obj: T, defaults: Partial<T>): Partial<T> {
   const result: Partial<T> = {}
 
   for (const key in obj) {
@@ -90,7 +90,7 @@ export function h<K extends keyof ComponentPropsMap>(
   defaultProps: Partial<ComponentPropsMap[K]>,
   children?: (DevComponent | string)[],
 ): DevComponent<Partial<ComponentPropsMap[K]>> {
-  return createComponent(name, pick(props, defaultProps), children)
+  return createComponent(name, pickOverrides(props, defaultProps), children)
 }
 
 // Fisher–Yates shuffle

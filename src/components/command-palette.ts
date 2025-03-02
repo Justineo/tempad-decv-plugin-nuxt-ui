@@ -4,7 +4,7 @@ import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import { findChild, findChildren, findOne } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick, toKebabCase } from '../utils'
+import { cleanPropNames, h, pickOverrides, toKebabCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { BUTTON_NAMES, renderButtonItem } from './button'
 import { ui } from './config'
@@ -27,7 +27,7 @@ export function renderCommandPaletteItem(item: DesignComponent<CommandPaletteIte
   const { state, leadingSlot, trailingSlot, description, label, descriptionSlot, iconLeadingName, iconTrailingName } =
     cleanPropNames(item.properties)
 
-  return pick(
+  return pickOverrides(
     {
       label,
       suffix: (description && descriptionSlot) || undefined,

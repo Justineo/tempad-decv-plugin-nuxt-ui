@@ -1,7 +1,7 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import { findChildren } from '@tempad-dev/plugins'
-import { cleanPropNames, h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, pick } from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, LOREM_IPSUM_TITLE, pickOverrides } from '../utils'
 import { ui } from './config'
 import { getIconName } from './icon'
 
@@ -34,7 +34,7 @@ export function Accordion(component: DesignComponent<AccordionProperties>) {
       openCount++
     }
 
-    return pick(
+    return pickOverrides(
       {
         label: label || LOREM_IPSUM_TITLE,
         content: description || LOREM_IPSUM_TEXT,

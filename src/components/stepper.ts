@@ -1,7 +1,7 @@
 import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { IconProperties } from './icon'
 import { findChild, findChildren } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, h, pickOverrides, toLowerCase } from '../utils'
 import { getIconName } from './icon'
 
 export type StepperItemProperties = {
@@ -20,7 +20,7 @@ export function getStepperItem(component: DesignComponent<StepperItemProperties>
     '🚦State': 'state',
   })
 
-  return pick(
+  return pickOverrides(
     {
       icon: variant === 'Icon' ? getIconName(iconName.name) : undefined,
       disabled: state === 'Disabled',

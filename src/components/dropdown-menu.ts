@@ -5,7 +5,7 @@ import type { AvatarProperties } from './avatar'
 import type { ButtonProperties } from './button'
 import type { IconProperties } from './icon'
 import { findChild, findChildren, queryAll } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick } from '../utils'
+import { cleanPropNames, h, pickOverrides } from '../utils'
 import { Avatar, getRandomAvatar } from './avatar'
 import { Button, BUTTON_NAMES } from './button'
 import { getIconName } from './icon'
@@ -26,7 +26,7 @@ export function renderDropdownMenuItem(item: DesignComponent<DropdownMenuItemPro
 
   const { state, leadingSlot, trailingSlot, label, iconLeadingName, iconTrailingName } = cleanPropNames(properties)
 
-  return pick(
+  return pickOverrides(
     {
       label,
       icon: leadingSlot === 'Icon' ? getIconName(iconLeadingName.name) : undefined,
@@ -68,7 +68,7 @@ export function DropdownMenu(
 ) {
   const { size, variant, alignment, arrow } = cleanPropNames(component.properties)
 
-  const content: DropdownMenuProps['content'] = pick(
+  const content: DropdownMenuProps['content'] = pickOverrides(
     {
       side: SIDE_MAP[alignment],
     },

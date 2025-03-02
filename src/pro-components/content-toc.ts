@@ -3,7 +3,7 @@ import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ContentTocProps } from '../types'
 import { omit } from '@s-libs/micro-dash'
 import { findAll, findChild, queryAll } from '@tempad-dev/plugins'
-import { cleanPropNames, getFirst, h, pick, toKebabCase, toLowerCase } from '../utils'
+import { cleanPropNames, getFirst, h, pickOverrides, toKebabCase, toLowerCase } from '../utils'
 
 export type ContentTocLinkProperties = {
   '𝐓 Label ': string
@@ -20,7 +20,7 @@ export function renderContentTocLink(
     id: toKebabCase(label),
     text: label,
     depth: 3,
-    ...pick(
+    ...pickOverrides(
       {
         // These should be omitted in final `links`
         highlightColor: toLowerCase(highlightColor),
@@ -62,7 +62,7 @@ export function renderContentTocItem(
     depth: 2,
     children: children.map((child) => omit(child, 'highlightColor')),
     // These should be omitted in final `links`
-    ...pick(
+    ...pickOverrides(
       {
         color: toLowerCase(color),
         highlightColor: linkHighlightColor || highlightColor,

@@ -3,7 +3,7 @@ import type { DesignComponent, DevComponent, FrameNode, TextNode } from '@tempad
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import { findChild, findChildren } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick } from '../utils'
+import { cleanPropNames, h, pickOverrides } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
 import { Input, INPUT_NAMES } from './input'
@@ -19,7 +19,7 @@ export type InputMenuItemProperties = {
 export function renderInputMenuItem(item: DesignComponent<InputMenuItemProperties>): InputMenuItem {
   const { state, leadingSlot, label, iconName } = cleanPropNames(item.properties)
 
-  return pick(
+  return pickOverrides(
     {
       label,
       icon: leadingSlot === 'Icon' ? getIconName(iconName.name) : undefined,

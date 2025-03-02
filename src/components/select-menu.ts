@@ -1,11 +1,14 @@
 import type { SelectMenuItem } from '@nuxt/ui'
 import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
+import type { SelectMenuProps } from '../types'
 import type { IconProperties } from './icon'
 import type { InputProperties } from './input'
 import type { SelectProperties } from './select'
+import { omit } from '@s-libs/micro-dash'
 import { findChild, findChildren, queryOne } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick } from '../utils'
+import { cleanPropNames, getFirst, h, pickOverrides } from '../utils'
 import { getRandomAvatar } from './avatar'
+import { ui } from './config'
 import { getIconName } from './icon'
 import { Input, INPUT_NAMES } from './input'
 import { Select, SELECT_NAMES } from './select'
@@ -18,21 +21,33 @@ export type SelectMenuItemProperties = {
   '◆ LeadingSlot': 'Avatar' | 'Icon' | 'None' | 'Span'
 }
 
-export function renderSelectMenuItem(item: DesignComponent<SelectMenuItemProperties>): SelectMenuItem {
+export type SelectMenuItemExtra = {
+  selected?: boolean
+} & Pick<SelectMenuProps, 'trailingIcon'>
+
+export function renderSelectMenuItem(
+  item: DesignComponent<SelectMenuItemProperties>,
+): SelectMenuItem & SelectMenuItemExtra {
   const { properties } = item
 
   const { state, leadingSlot, label, iconName } = cleanPropNames(properties)
 
-  return pick(
+  const trailingIcon =
+    state === 'Selected' ? findChild<DesignComponent<IconProperties>>(item, { type: 'INSTANCE' }) : undefined
+
+  return pickOverrides(
     {
       label,
       icon: leadingSlot === 'Icon' ? getIconName(iconName.name) : undefined,
       avatar: leadingSlot === 'Avatar' ? getRandomAvatar() : undefined,
       disabled: state === 'Disabled',
+      // These should be omitted in final `items`
       selected: state === 'Selected',
+      trailingIcon: trailingIcon ? getIconName(trailingIcon.name) : undefined,
     },
     {
       disabled: false,
+      selected: false,
     },
   )
 }
@@ -55,12 +70,12 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
       })
     : undefined
 
-  const items: SelectMenuItem[] = container
+  const items: (SelectMenuItem & SelectMenuItemExtra)[] = container
     ? findChildren<FrameNode | DesignComponent<SelectMenuItemProperties>>(
         container,
         (node) =>
-          (node.type === 'FRAME' && node.name === 'Title' && node.visible === true) ||
-          (node.type === 'INSTANCE' && node.name === 'SelectMenuItem' && node.visible === true),
+          (node.type === 'FRAME' && node.name === 'Title') ||
+          (node.type === 'INSTANCE' && node.name === 'SelectMenuItem'),
       ).map((item) => {
         if (item.type === 'FRAME') {
           const text = findChild<TextNode>(item, {
@@ -75,6 +90,8 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
         return renderSelectMenuItem(item)
       })
     : []
+
+  const selectedIcon = getFirst(items, 'trailingIcon')
 
   const select = findChild<DesignComponent<SelectProperties>>(component, {
     type: 'INSTANCE',
@@ -103,9 +120,12 @@ export function SelectMenu(component: DesignComponent<SelectMenuProperties>) {
     'USelectMenu',
     {
       ...selectProps,
-      items,
+      items: items.map((item) => omit(item, 'selected', 'trailingIcon')),
+      selectedIcon,
       searchInput: inputProps,
     },
-    {},
+    {
+      selectedIcon: ui.icons.check,
+    },
   )
 }

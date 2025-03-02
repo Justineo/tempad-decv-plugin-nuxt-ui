@@ -1,7 +1,7 @@
 import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
 import type { KbdProps } from '../types'
 import { findChild, queryAll } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, h, pickOverrides, toLowerCase } from '../utils'
 
 export const kbdGlyphsMap: Record<string, string> = {
   '⌘': 'meta',
@@ -58,7 +58,7 @@ export function renderKbdItem(
 ): Partial<KbdProps> {
   const { props } = Kbd(kbd)
 
-  return pick(props, defaults)
+  return pickOverrides(props, defaults)
 }
 
 export function getKbdItems(

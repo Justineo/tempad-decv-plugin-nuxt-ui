@@ -1,6 +1,6 @@
 import type { TooltipProps } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, h, pickOverrides, toLowerCase } from '../utils'
 import { getKbdItems } from './kbd'
 
 const SIDE_MAP = {
@@ -21,7 +21,7 @@ export function Tooltip(component: DesignComponent<TooltipProperties>) {
 
   const { arrowPlacement, label } = cleanPropNames(properties)
 
-  const content: TooltipProps['content'] = pick(
+  const content: TooltipProps['content'] = pickOverrides(
     {
       side: SIDE_MAP[toLowerCase(arrowPlacement)],
     },

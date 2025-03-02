@@ -2,7 +2,7 @@ import type { DesignComponent, DevComponent } from '@tempad-dev/plugins'
 import type { PopoverProps } from '../types'
 import type { ButtonProperties } from './button'
 import { findChild } from '@tempad-dev/plugins'
-import { cleanPropNames, h, LOREM_IPSUM_TEXT, pick, renderSlot, toLowerCase } from '../utils'
+import { cleanPropNames, h, LOREM_IPSUM_TEXT, pickOverrides, renderSlot, toLowerCase } from '../utils'
 import { Button, BUTTON_NAMES } from './button'
 
 export type PopoverProperties = {
@@ -16,7 +16,7 @@ export type PopoverProperties = {
 export function Popover(component: DesignComponent<PopoverProperties>) {
   const { position, arrow } = cleanPropNames(component.properties)
 
-  const content: PopoverProps['content'] = pick(
+  const content: PopoverProps['content'] = pickOverrides(
     {
       side: toLowerCase(position),
     },

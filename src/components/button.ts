@@ -2,7 +2,7 @@ import type { DesignComponent, TextNode } from '@tempad-dev/plugins'
 import type { ButtonProps } from '../types'
 import type { IconProperties } from './icon'
 import { findOne } from '@tempad-dev/plugins'
-import { cleanPropNames, h, pick, toLowerCase } from '../utils'
+import { cleanPropNames, h, pickOverrides, toLowerCase } from '../utils'
 import { getRandomAvatar } from './avatar'
 import { getIconName } from './icon'
 
@@ -94,7 +94,7 @@ export function renderButtonItem(
     .filter(Boolean)
     .join('')
 
-  return pick(
+  return pickOverrides(
     {
       ...(label ? { label } : {}),
       ...props,
