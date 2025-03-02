@@ -2,9 +2,10 @@ import type { NavigationMenuChildItem, NavigationMenuItem } from '@nuxt/ui'
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { NavigationMenuProps } from '../types'
 import type { BadgeProperties } from './badge'
+import type { CollapsibleProperties } from './collapsible'
 import type { IconProperties } from './icon'
 import { omit } from '@s-libs/micro-dash'
-import { findAll, findChildren, queryOne } from '@tempad-dev/plugins'
+import { findAll, findChild, findChildren, queryAll, queryOne } from '@tempad-dev/plugins'
 import { cleanPropNames, getFirst, h, pick, toLowerCase } from '../utils'
 import { renderBadgeItem } from './badge'
 import { getIconName } from './icon'
@@ -64,6 +65,7 @@ export function renderNavigationMenuItem(
     badge: showBadge,
     label,
     external: externalVariant,
+    children: showChildren,
   } = cleanPropNames(item.properties)
   const badgeNode = showBadge
     ? queryOne<DesignComponent<BadgeProperties>>(item, [
@@ -80,12 +82,13 @@ export function renderNavigationMenuItem(
       })
     : undefined
 
-  const children = iconTrailing
-    ? findAll<DesignComponent<NavigationMenuDropdownItemProperties>>(item, {
-        type: 'INSTANCE',
-        name: 'NavigationMenu(DropdownItem)',
-      }).map(renderNavigationMenuDropdownItem)
-    : undefined
+  const children =
+    iconTrailing && showChildren
+      ? findAll<DesignComponent<NavigationMenuDropdownItemProperties>>(item, {
+          type: 'INSTANCE',
+          name: 'NavigationMenu(DropdownItem)',
+        }).map(renderNavigationMenuDropdownItem)
+      : undefined
 
   const external = externalVariant === 'True'
 
@@ -123,10 +126,48 @@ export type NavigationMenuProperties = {
 export function NavigationMenu(component: DesignComponent<NavigationMenuProperties>) {
   const { orientation, highlight } = cleanPropNames(component.properties)
 
-  const items = findChildren<DesignComponent<NavigationMenuItemProperties>>(component, {
-    type: 'INSTANCE',
-    name: 'NavigationMenuItem',
-  }).map(renderNavigationMenuItem)
+  const items: (NavigationMenuItem & NavigationMenuItemExtra)[] = []
+
+  if (orientation === 'Horizontal') {
+    items.push(
+      ...findChildren<DesignComponent<NavigationMenuItemProperties>>(component, {
+        type: 'INSTANCE',
+        name: 'NavigationMenuItem',
+      }).map(renderNavigationMenuItem),
+    )
+  } else {
+    items.push(
+      ...findChildren<DesignComponent<CollapsibleProperties>>(component, {
+        type: 'INSTANCE',
+        name: 'Collapsible',
+      }).map((panel) => {
+        const item = renderNavigationMenuItem(
+          findChild<DesignComponent<NavigationMenuItemProperties>>(panel, {
+            type: 'INSTANCE',
+            name: 'NavigationMenuItem',
+          })!,
+        )
+        const children = queryAll<DesignComponent<NavigationMenuItemProperties>>(panel, [
+          { query: 'child', type: 'INSTANCE', name: 'NavigationMenu(ChildList)' },
+          { query: 'children', type: 'INSTANCE', name: 'NavigationMenuItem' },
+        ]).map(renderNavigationMenuItem)
+
+        const variant = getFirst(children, 'variant')
+        const color = getFirst(children, 'color')
+        const highlight = getFirst(children, 'highlight')
+
+        return {
+          ...item,
+          children: item.external ? undefined : children,
+
+          // These should be omitted in final `items`
+          variant: variant || item.variant,
+          color: color || item.color,
+          highlight: highlight || item.highlight,
+        }
+      }),
+    )
+  }
 
   return h(
     'UNavigationMenu',
