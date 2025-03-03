@@ -31,7 +31,7 @@ export function PageAnchors(component: DesignComponent<PageAnchorsProperties>) {
   const links = findChildren<DesignComponent<PageAnchorsItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'PageAnchorsItem',
-  }).map(renderPageAnchorsItem)
+  }).map((item) => renderPageAnchorsItem(item))
 
   return h(
     'UPageAnchors',

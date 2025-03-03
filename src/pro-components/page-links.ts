@@ -37,7 +37,7 @@ export function PageLinks(component: DesignComponent<PageLinksProperties>) {
   const links = queryAll<DesignComponent<PageLinksItemProperties>>(component, [
     { query: 'one', type: 'FRAME', name: 'Links' },
     { query: 'children', type: 'INSTANCE', name: 'PageLinksItem' },
-  ]).map(renderPageLinksItem)
+  ]).map((item) => renderPageLinksItem(item))
 
   return h(
     'UPageLinks',

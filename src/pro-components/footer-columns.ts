@@ -53,7 +53,7 @@ export function FooterColumns(component: DesignComponent<FooterColumnsProperties
     const children = queryAll<DesignComponent<FooterColumnLinkProperties>>(column, [
       { query: 'child', type: 'FRAME', name: 'Links' },
       { query: 'children', type: 'INSTANCE', name: 'FooterColumnsLink' },
-    ]).map(renderFooterColumnLink)
+    ]).map((item) => renderFooterColumnLink(item))
 
     return {
       label,

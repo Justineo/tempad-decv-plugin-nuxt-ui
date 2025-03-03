@@ -91,7 +91,7 @@ export function renderNavigationMenuItem(
       ? findAll<DesignComponent<NavigationMenuDropdownItemProperties>>(item, {
           type: 'INSTANCE',
           name: 'NavigationMenu(DropdownItem)',
-        }).map(renderNavigationMenuDropdownItem)
+        }).map((item) => renderNavigationMenuDropdownItem(item))
       : undefined
 
   const external = externalVariant === 'True'
@@ -137,7 +137,7 @@ export function NavigationMenu(component: DesignComponent<NavigationMenuProperti
       ...findChildren<DesignComponent<NavigationMenuItemProperties>>(component, {
         type: 'INSTANCE',
         name: 'NavigationMenuItem',
-      }).map(renderNavigationMenuItem),
+      }).map((item) => renderNavigationMenuItem(item)),
     )
   } else {
     items.push(
@@ -154,7 +154,7 @@ export function NavigationMenu(component: DesignComponent<NavigationMenuProperti
         const children = queryAll<DesignComponent<NavigationMenuItemProperties>>(panel, [
           { query: 'child', type: 'INSTANCE', name: 'NavigationMenu(ChildList)' },
           { query: 'children', type: 'INSTANCE', name: 'NavigationMenuItem' },
-        ]).map(renderNavigationMenuItem)
+        ]).map((item) => renderNavigationMenuItem(item))
 
         const variant = getFirst(children, 'variant')
         const color = getFirst(children, 'color')

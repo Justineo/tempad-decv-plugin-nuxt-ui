@@ -44,7 +44,7 @@ export function PinInput(component: DesignComponent<PinInputProperties>) {
   const items: PinInputItem[] = findChildren<DesignComponent<PinInputItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'PinInputItem',
-  }).map(renderPinInputItem)
+  }).map((item) => renderPinInputItem(item))
 
   const type: PinInputProps['type'] = items.some((item) => item.value && !/^\d$/.test(item.value)) ? 'text' : 'number'
 

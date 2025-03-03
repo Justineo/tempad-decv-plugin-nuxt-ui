@@ -88,7 +88,7 @@ export function DropdownMenu(
       name: 'DropdownMenuItem',
     })
 
-    return menuItems.map(renderDropdownMenuItem)
+    return menuItems.map((item) => renderDropdownMenuItem(item))
   })
 
   const children: DevComponent['children'] = []

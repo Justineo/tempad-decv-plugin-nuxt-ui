@@ -1,6 +1,7 @@
 import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { BadgeProperties } from '../components/badge'
 import type { ButtonProperties } from '../components/button'
+import type { PricingPlanProps } from '../types'
 import { findChild, queryAll, queryOne } from '@tempad-dev/plugins'
 import { renderBadgeItem } from '../components/badge'
 import { BUTTON_NAMES, renderButtonItem } from '../components/button'
@@ -129,4 +130,8 @@ export function PricingPlan(component: DesignComponent<PricingPlanProperties>) {
       highlight: false,
     },
   )
+}
+
+export function renderPricingPlanItem(plan: DesignComponent<PricingPlanProperties>): PricingPlanProps {
+  return PricingPlan(plan).props
 }

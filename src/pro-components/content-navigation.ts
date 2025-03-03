@@ -162,7 +162,7 @@ export function renderContentNavigationItems(
   const children = findAll<DesignComponent<ContentNavigationLinkProperties>>(items, {
     type: 'INSTANCE',
     name: 'ContentNavigationLink',
-  }).map(renderContentNavigationLink)
+  }).map((item) => renderContentNavigationLink(item))
 
   const color = getFirst(children, 'color')
   const variant = getFirst(children, 'variant') || item.variant
@@ -187,7 +187,7 @@ export function ContentNavigation(component: DesignComponent<ContentNavigationPr
   const navigationItems = findChildren<DesignComponent<ContentNavigationItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'ContentNavigationItems',
-  }).map(renderContentNavigationItems)
+  }).map((item) => renderContentNavigationItems(item))
 
   return h(
     'UContentNavigation',

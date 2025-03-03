@@ -46,7 +46,7 @@ export function RadioGroup(component: DesignComponent<RadioGroupProperties>) {
   const items = findAll<DesignComponent<RadioProperties>>(component, {
     type: 'INSTANCE',
     name: 'Radio',
-  }).map(renderRadioItem)
+  }).map((item) => renderRadioItem(item))
 
   const color = getFirst(items, 'color')
 

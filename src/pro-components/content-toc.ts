@@ -56,7 +56,7 @@ export function renderContentTocItem(
   const children = queryAll<DesignComponent<ContentTocLinkProperties>>(item, [
     { query: 'child', type: 'FRAME', name: 'ContentTocList' },
     { query: 'children', type: 'INSTANCE', name: 'ContentTocLink' },
-  ]).map(renderContentTocLink)
+  ]).map((item) => renderContentTocLink(item))
 
   const linkHighlightColor = getFirst(children, 'highlightColor')
 
@@ -90,7 +90,7 @@ export function ContentToc(component: DesignComponent<ContentTocProperties>) {
   const links = findAll<DesignComponent<ContentTocItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'ContentTocItem',
-  }).map(renderContentTocItem)
+  }).map((item) => renderContentTocItem(item))
 
   const color = getFirst(links, 'color')
   const highlightColor = getFirst(links, 'highlightColor')

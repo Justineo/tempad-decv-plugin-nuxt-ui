@@ -41,7 +41,7 @@ export function ContentSurround(component: DesignComponent<ContentSurroundProper
   const links = findChildren<DesignComponent<ContentSurroundItemProperties>>(component, {
     type: 'INSTANCE',
     name: 'ContentSurroundItem',
-  }).map(renderContentSurroundLink)
+  }).map((item) => renderContentSurroundLink(item))
 
   const { icon: prevIcon, ...prev } = links[0]!
   const { icon: nextIcon, ...next } = links[1]!

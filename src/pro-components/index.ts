@@ -30,6 +30,8 @@ import { PageHero } from './page-hero'
 import { PageLinks } from './page-links'
 import { PageLogos } from './page-logos'
 import { PageSection } from './page-section'
+import { PricingPlan } from './pricing-plan'
+import { PricingPlans } from './pricing-plans'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -63,6 +65,8 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   PageLinks,
   PageLogos,
   PageSection,
+  PricingPlan,
+  PricingPlans,
   User,
 }
 

@@ -14,7 +14,7 @@ export function BlogPosts(component: DesignComponent<BlogPostsProperties>) {
   const posts = findAll<DesignComponent<BlogPostProperties>>(component, {
     type: 'INSTANCE',
     name: 'BlogPost',
-  }).map(renderBlogPostItem)
+  }).map((item) => renderBlogPostItem(item))
 
   return h(
     'UBlogPosts',

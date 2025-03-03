@@ -1,5 +1,6 @@
 import type { DesignComponent } from '@tempad-dev/plugins'
 import type { IconProperties } from '../components/icon'
+import type { PageFeatureProps } from '../types'
 import { getIconName } from '../components/icon'
 import { cleanPropNames, h, toLowerCase } from '../utils'
 
@@ -31,6 +32,6 @@ export function PageFeature(component: DesignComponent<PageFeatureProperties>) {
   )
 }
 
-export function renderPageFeatureItem(feature: DesignComponent<PageFeatureProperties>) {
+export function renderPageFeatureItem(feature: DesignComponent<PageFeatureProperties>): PageFeatureProps {
   return PageFeature(feature).props
 }

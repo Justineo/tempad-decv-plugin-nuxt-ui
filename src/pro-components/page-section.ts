@@ -59,7 +59,7 @@ export function PageSection(component: DesignComponent<PageSectionProperties>) {
     ? queryAll<DesignComponent<PageFeatureProperties>>(component, [
         { query: 'one', type: 'FRAME', name: 'Features' },
         { query: 'all', type: 'INSTANCE', name: 'PageFeature' },
-      ]).map(renderPageFeatureItem)
+      ]).map((item) => renderPageFeatureItem(item))
     : undefined
 
   return h(
