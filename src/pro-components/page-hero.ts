@@ -34,7 +34,7 @@ export function PageHero(component: DesignComponent<PageHeroProperties>) {
   })
 
   const links = queryAll<DesignComponent<ButtonProperties>>(component, [
-    { query: 'all', type: 'FRAME', name: 'Links' },
+    { query: 'one', type: 'FRAME', name: 'Links' },
     { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
   ])
     .map((button) => renderButtonItem(button, { size: 'xl' }))

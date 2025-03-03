@@ -30,3 +30,7 @@ export function PageFeature(component: DesignComponent<PageFeatureProperties>) {
     },
   )
 }
+
+export function renderPageFeatureItem(feature: DesignComponent<PageFeatureProperties>) {
+  return PageFeature(feature).props
+}
