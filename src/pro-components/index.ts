@@ -25,6 +25,7 @@ import { PageColumns } from './page-columns'
 import { PageCTA } from './page-cta'
 import { PageFeature } from './page-feature'
 import { PageGrid } from './page-grid'
+import { PageHeader } from './page-header'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -53,6 +54,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   PageCTA,
   PageFeature,
   PageGrid,
+  PageHeader,
   User,
 }
 

@@ -20,7 +20,7 @@ export function renderPageAnchorsItem(item: DesignComponent<PageAnchorsItemPrope
     label,
     icon: iconLeadingName ? getIconName(iconLeadingName.name) : undefined,
     external,
-    to: getLinkTo(label, external ? 'external' : 'path'),
+    to: getLinkTo(label, external ? 'external' : 'hash'),
   }
 }
 

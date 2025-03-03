@@ -2,6 +2,7 @@ import type { DesignComponent } from '@tempad-dev/plugins'
 import type { ButtonProperties } from '../components/button'
 import { queryAll } from '@tempad-dev/plugins'
 import { BUTTON_NAMES, renderButtonItem } from '../components/button'
+import { getLinkTo } from '../components/link'
 import { cleanPropNames, h, LOREM_IPSUM_TEXT, toLowerCase } from '../utils'
 
 export type PageCTAProperties = {
@@ -36,7 +37,12 @@ export function PageCTA(component: DesignComponent<PageCTAProperties>) {
     ? queryAll<DesignComponent<ButtonProperties>>(component, [
         { query: 'one', type: 'FRAME', name: 'Links' },
         { query: 'children', type: 'INSTANCE', name: BUTTON_NAMES },
-      ]).map((button) => renderButtonItem(button, { size: 'lg' }))
+      ])
+        .map((button) => renderButtonItem(button, { size: 'lg' }))
+        .map((link) => ({
+          ...link,
+          to: getLinkTo(link.label || ''),
+        }))
     : []
 
   return h(
