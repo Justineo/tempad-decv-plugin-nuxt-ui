@@ -23,6 +23,7 @@ import { PageAside } from './page-aside'
 import { PageCard } from './page-card'
 import { PageColumns } from './page-columns'
 import { PageCTA } from './page-cta'
+import { PageFeature } from './page-feature'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -49,6 +50,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   PageCard,
   PageColumns,
   PageCTA,
+  PageFeature,
   User,
 }
 
