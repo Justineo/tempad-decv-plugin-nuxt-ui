@@ -1,6 +1,7 @@
 import type { DesignComponent, FrameNode, TextNode } from '@tempad-dev/plugins'
 import type { BadgeProperties } from '../components/badge'
 import type { ButtonProperties } from '../components/button'
+import type { IconProperties } from '../components/icon'
 import type { PricingPlanProps } from '../types'
 import { findChild, queryAll, queryOne } from '@tempad-dev/plugins'
 import { renderBadgeItem } from '../components/badge'
@@ -91,7 +92,7 @@ export function PricingPlan(component: DesignComponent<PricingPlanProperties>) {
     { query: 'children', type: 'FRAME', name: /^Feature / },
   ]).map((feature) => {
     const title = findChild<TextNode>(feature, { type: 'TEXT' })?.characters
-    const iconNode = findChild<FrameNode>(feature, { type: 'INSTANCE' })
+    const iconNode = findChild<DesignComponent<IconProperties>>(feature, { type: 'INSTANCE' })
     const icon = iconNode ? getIconName(iconNode.name) : undefined
 
     return pickOverrides({ title: title || '', icon }, { icon: ui.icons.success }) as PricingPlanFeature

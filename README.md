@@ -16,7 +16,13 @@ This plugin allows you to view component code, specifically tailored for Nuxt UI
 
 1. Install [TemPad Dev](https://chromewebstore.google.com/detail/tempad-dev/lgoeakbaikpkihoiphamaeopmliaimpc) from Chrome Web Store.
 
-2. Install `@nuxt` in TemPad Dev's plugins section.
+2. Install `@nuxt` or `@nuxt/pro` in TemPad Dev's plugins section.
+
+> [!Note]
+>
+> `@nuxt/pro` contains all components in `@nuxt`, and 31 more components for Nuxt UI Pro.
+>
+> If you are using the free version of Nuxt UI, you can install `@nuxt` for smaller plugin size.
 
 ## Features
 
