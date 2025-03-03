@@ -69,14 +69,14 @@ const USERNAMES = [
 
 export type AvatarItem = Pick<AvatarProps, 'src' | 'alt'>
 
-export function getAvatar(username: (typeof USERNAMES)[number]): AvatarItem {
+export function getAvatar(username: (typeof USERNAMES)[number]): Required<AvatarItem> {
   return {
     src: `https://github.com/${username}.png`,
     alt: `@${username}`,
   }
 }
 
-export function getRandomAvatar(): AvatarItem {
+export function getRandomAvatar(): Required<AvatarItem> {
   return getAvatar(USERNAMES[Math.floor(Math.random() * USERNAMES.length)]!)
 }
 
