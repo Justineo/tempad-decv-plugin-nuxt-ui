@@ -6,7 +6,7 @@ import type { PageLinksProperties } from './page-links'
 import { omit } from '@s-libs/micro-dash'
 import { findAll, findChild, queryAll } from '@tempad-dev/plugins'
 import { Separator } from '../components/separator'
-import { cleanPropNames, getFirst, h, pickOverrides, toKebabCase, toLowerCase } from '../utils'
+import { cleanPropNames, getFirst, h, pickOverrides, renderSlot, toKebabCase, toLowerCase } from '../utils'
 import { PageLinks } from './page-links'
 
 export type ContentTocLinkProperties = {
@@ -112,7 +112,7 @@ export function ContentToc(component: DesignComponent<ContentTocProperties>) {
     })
     if (sep || links) {
       const content = [...(sep ? [Separator(sep)] : []), ...(links ? [PageLinks(links)] : [])]
-      children.push(...content)
+      children.push(renderSlot('bottom', content))
     }
   }
 
