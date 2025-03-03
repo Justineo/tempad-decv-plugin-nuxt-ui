@@ -1,9 +1,13 @@
 import type { ContentTocLink } from '@nuxt/ui-pro/runtime/components/content/ContentToc.vue'
-import type { DesignComponent } from '@tempad-dev/plugins'
+import type { DesignComponent, DevComponent, FrameNode } from '@tempad-dev/plugins'
+import type { SeparatorProperties } from '../components/separator'
 import type { ContentTocProps } from '../types'
+import type { PageLinksProperties } from './page-links'
 import { omit } from '@s-libs/micro-dash'
 import { findAll, findChild, queryAll } from '@tempad-dev/plugins'
+import { Separator } from '../components/separator'
 import { cleanPropNames, getFirst, h, pickOverrides, toKebabCase, toLowerCase } from '../utils'
+import { PageLinks } from './page-links'
 
 export type ContentTocLinkProperties = {
   '𝐓 Label ': string
@@ -91,7 +95,26 @@ export function ContentToc(component: DesignComponent<ContentTocProperties>) {
   const color = getFirst(links, 'color')
   const highlightColor = getFirst(links, 'highlightColor')
 
-  // TODO: PageLinks in the `bottom` slot are not supported yet.
+  const children: DevComponent['children'] = []
+
+  const bottom = findChild<FrameNode>(component, {
+    type: 'FRAME',
+    name: 'Bottom',
+  })
+  if (bottom) {
+    const sep = findChild<DesignComponent<SeparatorProperties>>(bottom, {
+      type: 'INSTANCE',
+      name: 'Separator',
+    })
+    const links = findChild<DesignComponent<PageLinksProperties>>(bottom, {
+      type: 'INSTANCE',
+      name: 'PageLinks',
+    })
+    if (sep || links) {
+      const content = [...(sep ? [Separator(sep)] : []), ...(links ? [PageLinks(links)] : [])]
+      children.push(...content)
+    }
+  }
 
   // `highlightColor` is calculated from children but is not used here as
   // the Figma component does not have a `Highlight` property yet.
@@ -108,5 +131,6 @@ export function ContentToc(component: DesignComponent<ContentTocProperties>) {
       color: 'primary',
       highlightColor: 'primary',
     },
+    children,
   )
 }

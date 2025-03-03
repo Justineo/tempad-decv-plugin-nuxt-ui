@@ -27,6 +27,7 @@ import { PageFeature } from './page-feature'
 import { PageGrid } from './page-grid'
 import { PageHeader } from './page-header'
 import { PageHero } from './page-hero'
+import { PageLinks } from './page-links'
 import { User } from './user'
 
 export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
@@ -57,6 +58,7 @@ export const PRO_COMPONENT_MAP: Record<string, RenderFn> = {
   PageGrid,
   PageHeader,
   PageHero,
+  PageLinks,
   User,
 }
 
