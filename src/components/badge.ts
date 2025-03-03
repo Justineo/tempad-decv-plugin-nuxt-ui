@@ -57,7 +57,18 @@ export function Badge(component: DesignComponent<BadgeProperties>, defaults: Par
 
 export function renderBadgeItem(
   badge: DesignComponent<BadgeProperties>,
+  defaults: Partial<BadgeProps>,
+  parseNumber: true,
+): Partial<BadgeProps> | string | number | undefined
+export function renderBadgeItem(
+  badge: DesignComponent<BadgeProperties>,
+  defaults: Partial<BadgeProps>,
+  parseNumber?: false,
+): Partial<BadgeProps> | string | undefined
+export function renderBadgeItem(
+  badge: DesignComponent<BadgeProperties>,
   defaults: Partial<BadgeProps> = {},
+  parseNumber = false,
 ): Partial<BadgeProps> | string | number | undefined {
   const { props, children } = Badge(badge, defaults)
 
@@ -68,7 +79,7 @@ export function renderBadgeItem(
       .join('') || undefined
 
   if (Object.keys(props).length === 0) {
-    if (String(Number(label)) === label) {
+    if (parseNumber && String(Number(label)) === label) {
       return Number(label)
     }
     return label

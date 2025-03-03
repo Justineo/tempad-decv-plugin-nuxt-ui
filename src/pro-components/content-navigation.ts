@@ -52,7 +52,9 @@ export function renderContentNavigationLink(
       })
     : undefined
 
-  const badge = badgeNode ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'outline', size: 'sm' }) : undefined
+  const badge = badgeNode
+    ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'outline', size: 'sm' }, true)
+    : undefined
 
   return {
     title: label,
@@ -112,7 +114,9 @@ export function renderContentNavigationItem(
       })
     : undefined
 
-  const badge = badgeNode ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'outline', size: 'sm' }) : undefined
+  const badge = badgeNode
+    ? renderBadgeItem(badgeNode, { color: 'neutral', variant: 'outline', size: 'sm' }, true)
+    : undefined
 
   const trailingIconNode = item.children[item.children.length - 1] as DesignComponent<IconProperties>
   const trailingIcon = iconTrailing ? getIconName(trailingIconNode.name) : undefined

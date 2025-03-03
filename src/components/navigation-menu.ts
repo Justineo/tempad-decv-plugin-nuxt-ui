@@ -75,11 +75,15 @@ export function renderNavigationMenuItem(
     : undefined
 
   const badge = badgeNode
-    ? renderBadgeItem(badgeNode, {
-        size: 'sm',
-        color: 'neutral',
-        variant: 'outline',
-      })
+    ? renderBadgeItem(
+        badgeNode,
+        {
+          size: 'sm',
+          color: 'neutral',
+          variant: 'outline',
+        },
+        true,
+      )
     : undefined
 
   const children =

@@ -13,5 +13,6 @@ export const ui = {
     minus: 'i-lucide-minus',
     plus: 'i-lucide-plus',
     search: 'i-lucide-search',
+    success: 'i-lucide-circle-check',
   },
 } as const
